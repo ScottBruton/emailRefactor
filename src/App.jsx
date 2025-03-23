@@ -306,6 +306,48 @@ function App() {
         >
           {isLoading ? 'Refactoring...' : 'Refactor Email'}
         </button>
+        
+        <div className="active-settings-summary">
+          <h4>Active Settings:</h4>
+          <ul>
+            {enabledCategories.contentStyle && (
+              <li>
+                <span className="setting-category">Content Style:</span> 
+                Tone: {styles.tone}, Complexity: {styles.languageComplexity}, 
+                Grammar: {styles.grammarSpelling}, Conciseness: {styles.conciseness}, 
+                Structure: {styles.structure}, Formatting: {styles.formatting}, 
+                Length: {styles.emailLength}, Clarity: {styles.clarity}
+              </li>
+            )}
+            {enabledCategories.purpose && (
+              <li>
+                <span className="setting-category">Purpose:</span> {styles.purpose}
+              </li>
+            )}
+            {enabledCategories.formality && (
+              <li>
+                <span className="setting-category">Formality:</span> {styles.formality}
+              </li>
+            )}
+            {enabledCategories.personalization && (
+              <li>
+                <span className="setting-category">Personalization:</span> 
+                Greeting: {styles.greeting}, Sign-off: {styles.signoff}, 
+                Details: {styles.includeDetails}, Content: {styles.dynamicContent}
+              </li>
+            )}
+            {enabledCategories.emotion && (
+              <li>
+                <span className="setting-category">Emotion:</span> {styles.emotion}
+              </li>
+            )}
+            {isResponseEmail && (
+              <li>
+                <span className="setting-category">Mode:</span> Response Email
+              </li>
+            )}
+          </ul>
+        </div>
       </div>
     </div>
   );
