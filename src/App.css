@@ -32,6 +32,7 @@
   width: 350px;
   transform: translateX(0);
   transition: transform 0.3s ease;
+  padding: 20px;
 }
 
 .sidebar-container.hidden {
@@ -322,7 +323,7 @@ select:focus {
 .sidebar-toggle {
   position: absolute;
   right: -40px;
-  top: 20px;
+  top: 19px;
   width: 40px;
   height: 40px;
   background: white;
@@ -338,14 +339,14 @@ select:focus {
 }
 
 .sidebar-toggle svg {
-  width: 20px;
-  height: 20px;
+  width: 100%;
+  height: 100%;
   transition: transform 0.3s ease;
-  transform: rotate(0deg);
+  transform: rotate(0deg) scale(1.5);
 }
 
 .sidebar-container.hidden .sidebar-toggle svg {
-  transform: rotate(180deg);
+  transform: rotate(180deg) scale(1.5);
 }
 
 @media (prefers-color-scheme: dark) {
