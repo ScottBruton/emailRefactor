@@ -9,6 +9,8 @@ function App() {
   const [error, setError] = useState(null);
   const [expandedCategory, setExpandedCategory] = useState(null);
   const [sidebarHidden, setSidebarHidden] = useState(false);
+  const [isResponseEmail, setIsResponseEmail] = useState(false);
+  const [originalEmail, setOriginalEmail] = useState('');
   
   const styleControlsRef = useRef(null);
   
@@ -139,11 +141,18 @@ function App() {
       return;
     }
 
+    if (isResponseEmail && !originalEmail.trim()) {
+      setError('Cannot generate a response to an empty email. Please paste the original email you are responding to.');
+      return;
+    }
+
     setIsLoading(true);
     setError(null);
     try {
       const result = await invoke('refactor_email', { 
         text: inputText,
+        originalEmail: isResponseEmail ? originalEmail : '',
+        isResponse: isResponseEmail,
         styles: {
           ...styles,
           enabledCategories
@@ -240,6 +249,31 @@ function App() {
       {renderStyleControls()}
       <div className={`main-content ${sidebarHidden ? 'sidebar-hidden' : ''}`}>
         {error && <div className="error-message">{error}</div>}
+        
+        <div className="response-toggle-container">
+          <label className="response-toggle-label">
+            <span>Response Email</span>
+            <div className="toggle">
+              <input
+                type="checkbox"
+                checked={isResponseEmail}
+                onChange={() => setIsResponseEmail(!isResponseEmail)}
+              />
+            </div>
+          </label>
+        </div>
+        
+        {isResponseEmail && (
+          <div className="original-email-container">
+            <textarea
+              value={originalEmail}
+              onChange={(e) => setOriginalEmail(e.target.value)}
+              placeholder="Paste the original email you're responding to here..."
+              className="original-email-input"
+            />
+          </div>
+        )}
+        
         <div className="panels">
           <textarea
             value={inputText}

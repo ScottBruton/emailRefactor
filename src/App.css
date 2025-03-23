@@ -349,6 +349,50 @@ select:focus {
   transform: rotate(180deg) scale(1.5);
 }
 
+.response-toggle-container {
+  margin-bottom: 15px;
+  background: #f8f9fa;
+  padding: 12px 15px;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+}
+
+.response-toggle-label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  user-select: none;
+}
+
+.response-toggle-label span {
+  font-weight: 600;
+  font-size: 1em;
+  color: #333;
+}
+
+.original-email-container {
+  margin-bottom: 20px;
+}
+
+.original-email-input {
+  width: 100%;
+  min-height: 120px;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  resize: vertical;
+  font-family: inherit;
+  background-color: white;
+  transition: border-color 0.2s;
+}
+
+.original-email-input:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+}
+
 @media (prefers-color-scheme: dark) {
   :root {
     color: #f6f6f6;
@@ -372,6 +416,21 @@ select:focus {
     color: #aaa;
   }
 
+  .response-toggle-container {
+    background: #2f2f2f;
+    border-color: #333;
+  }
+
+  .response-toggle-label span {
+    color: #f6f6f6;
+  }
+
+  .original-email-input {
+    background-color: #1f1f1f;
+    color: #f6f6f6;
+    border-color: #444;
+  }
+
   select {
     background-color: #1f1f1f;
     color: #f6f6f6;
@@ -380,12 +439,6 @@ select:focus {
 
   select option {
     background-color: #1f1f1f;
-  }
-
-  .input-panel, .output-panel {
-    background-color: #1f1f1f;
-    color: #f6f6f6;
-    border-color: #444;
   }
 
   .error-message {
@@ -409,5 +462,11 @@ select:focus {
 
   .sidebar-toggle svg {
     fill: #f6f6f6;
+  }
+
+  .input-panel, .output-panel {
+    background-color: #1f1f1f;
+    color: #f6f6f6;
+    border-color: #444;
   }
 }

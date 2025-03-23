@@ -86,27 +86,7 @@ fn log_error(error: &str) {
     }
 }
 
-#[tauri::command]
-async fn refactor_email(text: String, styles: EmailStyles) -> Result<String, String> {
-    dotenv().ok();
-    
-    // Check for API key
-    let api_key = match env::var("OPENAI_API_KEY") {
-        Ok(key) => key,
-        Err(e) => {
-            let error_msg = format!("OpenAI API key not found: {}", e);
-            log_error(&error_msg);
-            return Err(error_msg);
-        }
-    };
-
-    // Validate API key format
-    if !api_key.starts_with("sk-") {
-        let error_msg = "Invalid OpenAI API key format".to_string();
-        log_error(&error_msg);
-        return Err(error_msg);
-    }
-
+fn construct_system_prompt(styles: &EmailStyles) -> String {
     let mut prompt_parts = Vec::new();
     prompt_parts.push("Please refactor this email with the following styles:".to_string());
 
@@ -137,6 +117,76 @@ async fn refactor_email(text: String, styles: EmailStyles) -> Result<String, Str
         prompt_parts.push(format!("Emotional Tone: {}", styles.emotion));
     }
 
+    prompt_parts.join("\n\n")
+}
+
+fn construct_response_system_prompt(styles: &EmailStyles, original_email: &str) -> String {
+    let mut prompt_parts = Vec::new();
+    prompt_parts.push("Please refactor this email as a RESPONSE to the original email, with the following styles:".to_string());
+
+    if styles.enabledCategories.contentStyle {
+        prompt_parts.push(format!(
+            "Content Style:\n- Tone: {}\n- Language Complexity: {}\n- Grammar & Spelling: {}\n- Conciseness: {}\n- Structure: {}\n- Formatting: {}\n- Email Length: {}\n- Clarity: {}",
+            styles.tone, styles.languageComplexity, styles.grammarSpelling, styles.conciseness,
+            styles.structure, styles.formatting, styles.emailLength, styles.clarity
+        ));
+    }
+
+    if styles.enabledCategories.purpose {
+        prompt_parts.push(format!("Purpose: {}", styles.purpose));
+    }
+
+    if styles.enabledCategories.formality {
+        prompt_parts.push(format!("Formality Level: {}", styles.formality));
+    }
+
+    if styles.enabledCategories.personalization {
+        prompt_parts.push(format!(
+            "Personalization:\n- Greeting Style: {}\n- Sign-off Style: {}\n- Detail Level: {}\n- Content Adaptation: {}",
+            styles.greeting, styles.signoff, styles.includeDetails, styles.dynamicContent
+        ));
+    }
+
+    if styles.enabledCategories.emotion {
+        prompt_parts.push(format!("Emotional Tone: {}", styles.emotion));
+    }
+
+    prompt_parts.push(format!("\nOriginal email that you are responding to:\n{}", original_email));
+    prompt_parts.push("Make sure to craft a response that directly addresses the points in the original email.".to_string());
+
+    prompt_parts.join("\n\n")
+}
+
+#[tauri::command]
+async fn refactor_email(text: String, original_email: String, is_response: bool, styles: EmailStyles) -> Result<String, String> {
+    dotenv().ok();
+    
+    // Check for API key
+    let api_key = match env::var("OPENAI_API_KEY") {
+        Ok(key) => key,
+        Err(e) => {
+            let error_msg = format!("OpenAI API key not found: {}", e);
+            log_error(&error_msg);
+            return Err(error_msg);
+        }
+    };
+    
+    // Construct system prompt based on styles
+    let system_prompt = if is_response {
+        construct_response_system_prompt(&styles, &original_email)
+    } else {
+        construct_system_prompt(&styles)
+    };
+
+    // Validate API key format
+    if !api_key.starts_with("sk-") {
+        let error_msg = "Invalid OpenAI API key format".to_string();
+        log_error(&error_msg);
+        return Err(error_msg);
+    }
+
+    let mut prompt_parts = Vec::new();
+    prompt_parts.push(system_prompt);
     prompt_parts.push(format!("\nOriginal email:\n{}", text));
 
     let prompt = prompt_parts.join("\n\n");
