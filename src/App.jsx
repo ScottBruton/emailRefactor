@@ -8,6 +8,7 @@ function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const [expandedCategory, setExpandedCategory] = useState(null);
+  const [sidebarHidden, setSidebarHidden] = useState(false);
   
   const styleControlsRef = useRef(null);
   
@@ -166,50 +167,68 @@ function App() {
     }
   };
 
+  const toggleSidebar = () => {
+    setSidebarHidden(!sidebarHidden);
+  };
+
   const renderStyleControls = () => {
     return (
-      <div className="style-controls" ref={styleControlsRef}>
-        {Object.entries(categories).map(([categoryKey, category]) => (
-          <div key={categoryKey} className="style-category">
-            <div 
-              className="category-header"
-              onClick={(e) => handleCategoryClick(categoryKey, e)}
-            >
-              <span className="category-title">{category.title}</span>
-              <div className="toggle" onClick={(e) => e.stopPropagation()}>
-                <input
-                  type="checkbox"
-                  checked={enabledCategories[categoryKey]}
-                  onChange={(e) => handleToggleClick(categoryKey, e)}
-                />
+      <div className={`sidebar-container ${sidebarHidden ? 'hidden' : ''}`}>
+        <div className="style-controls">
+          {Object.entries(categories).map(([categoryKey, category]) => (
+            <div key={categoryKey} className="style-category">
+              <div 
+                className="category-header"
+                onClick={(e) => handleCategoryClick(categoryKey, e)}
+              >
+                <span className="category-title">{category.title}</span>
+                <div className="toggle" onClick={(e) => e.stopPropagation()}>
+                  <input
+                    type="checkbox"
+                    checked={enabledCategories[categoryKey]}
+                    onChange={(e) => handleToggleClick(categoryKey, e)}
+                  />
+                </div>
+              </div>
+              <div 
+                className={`category-controls ${
+                  expandedCategory === categoryKey && enabledCategories[categoryKey] ? 'expanded' : ''
+                } ${!enabledCategories[categoryKey] ? 'disabled' : ''}`}
+              >
+                {Object.entries(category.options).map(([optionKey, values]) => (
+                  <div key={optionKey} className="control-group">
+                    <label className="control-label">
+                      {optionKey.replace(/([A-Z])/g, ' $1').toLowerCase().replace(/^./, str => str.toUpperCase())}
+                    </label>
+                    <select
+                      value={styles[optionKey]}
+                      onChange={(e) => setStyles({...styles, [optionKey]: e.target.value})}
+                      disabled={!enabledCategories[categoryKey]}
+                    >
+                      {values.map(value => (
+                        <option key={value} value={value}>
+                          {value.replace(/-/g, ' ').replace(/^./, str => str.toUpperCase())}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                ))}
               </div>
             </div>
-            <div 
-              className={`category-controls ${
-                expandedCategory === categoryKey && enabledCategories[categoryKey] ? 'expanded' : ''
-              } ${!enabledCategories[categoryKey] ? 'disabled' : ''}`}
-            >
-              {Object.entries(category.options).map(([optionKey, values]) => (
-                <div key={optionKey} className="control-group">
-                  <label className="control-label">
-                    {optionKey.replace(/([A-Z])/g, ' $1').toLowerCase().replace(/^./, str => str.toUpperCase())}
-                  </label>
-                  <select
-                    value={styles[optionKey]}
-                    onChange={(e) => setStyles({...styles, [optionKey]: e.target.value})}
-                    disabled={!enabledCategories[categoryKey]}
-                  >
-                    {values.map(value => (
-                      <option key={value} value={value}>
-                        {value.replace(/-/g, ' ').replace(/^./, str => str.toUpperCase())}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              ))}
-            </div>
-          </div>
-        ))}
+          ))}
+        </div>
+        <button 
+          className="sidebar-toggle"
+          onClick={toggleSidebar}
+          aria-label={sidebarHidden ? 'Show sidebar' : 'Hide sidebar'}
+        >
+          <svg 
+            viewBox="0 0 24 24" 
+            fill="currentColor"
+          >
+            <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
+          </svg>
+        </button>
       </div>
     );
   };
@@ -217,7 +236,7 @@ function App() {
   return (
     <div className="container">
       {renderStyleControls()}
-      <div className="main-content">
+      <div className={`main-content ${sidebarHidden ? 'sidebar-hidden' : ''}`}>
         {error && <div className="error-message">{error}</div>}
         <div className="panels">
           <textarea

@@ -16,16 +16,31 @@
 }
 
 .container {
-  display: grid;
-  grid-template-columns: 350px 1fr;
-  gap: 20px;
+  position: relative;
+  display: flex;
   height: 100vh;
   padding: 0;
   margin: 0;
   max-width: none;
+  overflow: hidden;
+}
+
+.sidebar-container {
+  position: relative;
+  height: 100vh;
+  flex-shrink: 0;
+  width: 350px;
+  transform: translateX(0);
+  transition: transform 0.3s ease;
+}
+
+.sidebar-container.hidden {
+  transform: translateX(-350px);
 }
 
 .style-controls {
+  position: relative;
+  width: 350px;
   margin: 0;
   padding: 20px;
   display: flex;
@@ -33,14 +48,26 @@
   gap: 10px;
   background: white;
   height: 100vh;
-  overflow-y: auto;
   border-right: 1px solid #ddd;
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
 }
 
+.style-controls.hidden {
+  transform: translateX(-350px);
+}
+
 .main-content {
+  flex: 1;
   padding: 20px;
+  padding-left: 40px;
   overflow-y: auto;
+  transition: all 0.3s ease;
+  margin-left: 0;
+}
+
+.main-content.sidebar-hidden {
+  margin-left: -310px;
+  padding-left: 20px;
 }
 
 .style-category {
@@ -92,14 +119,11 @@
 }
 
 .category-controls.expanded {
-  max-height: 300px;
+  max-height: none;
   opacity: 1;
   visibility: visible;
   padding: 15px;
   border-top: 1px solid #eee;
-  overflow-y: auto;
-  /* Smoother scrolling on touch devices */
-  -webkit-overflow-scrolling: touch;
 }
 
 /* Hide scrollbar for Chrome, Safari and Opera */
@@ -295,6 +319,35 @@ select:focus {
   transform: none;
 }
 
+.sidebar-toggle {
+  position: absolute;
+  right: -40px;
+  top: 20px;
+  width: 40px;
+  height: 40px;
+  background: white;
+  border: 1px solid #ddd;
+  border-left: none;
+  border-radius: 0 4px 4px 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+}
+
+.sidebar-toggle svg {
+  width: 20px;
+  height: 20px;
+  transition: transform 0.3s ease;
+  transform: rotate(0deg);
+}
+
+.sidebar-container.hidden .sidebar-toggle svg {
+  transform: rotate(180deg);
+}
+
 @media (prefers-color-scheme: dark) {
   :root {
     color: #f6f6f6;
@@ -346,5 +399,14 @@ select:focus {
 
   .category-title {
     color: #f6f6f6;
+  }
+
+  .sidebar-toggle {
+    background: #1a1a1a;
+    border-color: #333;
+  }
+
+  .sidebar-toggle svg {
+    fill: #f6f6f6;
   }
 }
