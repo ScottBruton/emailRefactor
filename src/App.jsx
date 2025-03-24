@@ -6,6 +6,8 @@ import { invoke } from "@tauri-apps/api/core";
 import "./App.css";
 import darkIcon from '../assets/dark.svg';
 import lightIcon from '../assets/light.svg';
+import addPresetIcon from '../assets/addPreset.svg';
+import deleteIcon from '../assets/delete.svg';
 
 function App() {
   const [inputText, setInputText] = useState('');
@@ -21,6 +23,11 @@ function App() {
   const [selectedPreset, setSelectedPreset] = useState('none');
   const [lastSavedSettings, setLastSavedSettings] = useState(null);
   const [isDarkMode, setIsDarkMode] = useState(false);
+  const [isAddPresetModalOpen, setIsAddPresetModalOpen] = useState(false);
+  const [newPresetName, setNewPresetName] = useState('');
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [presetToDelete, setPresetToDelete] = useState(null);
+  const [customPresets, setCustomPresets] = useState({});
   
   const styleControlsRef = useRef(null);
   
@@ -76,12 +83,79 @@ function App() {
   // Preset definitions
   const presets = {
     none: { label: "None" },
-    formal: { 
-      label: "Formal Business", 
+    management: {
+      label: "Management",
       settings: {
         enabledCategories: {
           contentStyle: true,
-          purpose: false,
+          purpose: true,
+          formality: true,
+          personalization: true,
+          emotion: false,
+          audience: true,
+          industry: true,
+          timeSensitivity: true,
+          relationship: true,
+          communicationGoal: true
+        },
+        styles: {
+          tone: 'authoritative',
+          languageComplexity: 'professional',
+          grammarSpelling: 'strict',
+          conciseness: 'brief',
+          structure: 'paragraph',
+          purpose: 'inform',
+          formality: 'formal',
+          greeting: 'dear',
+          signoff: 'regards',
+          audienceExpertise: 'mixed',
+          hierarchicalContext: 'speaking-to-subordinates',
+          industryContext: 'business',
+          urgency: 'time-bound',
+          relationshipType: 'professional-only',
+          goal: 'inform'
+        }
+      }
+    },
+    teamUpdate: {
+      label: "Team Update",
+      settings: {
+        enabledCategories: {
+          contentStyle: true,
+          purpose: true,
+          formality: true,
+          personalization: true,
+          emotion: true,
+          audience: true,
+          industry: false,
+          timeSensitivity: false,
+          relationship: true,
+          communicationGoal: true
+        },
+        styles: {
+          tone: 'friendly',
+          languageComplexity: 'professional',
+          grammarSpelling: 'strict',
+          conciseness: 'detailed',
+          structure: 'bullet-points',
+          purpose: 'inform',
+          formality: 'semiformal',
+          greeting: 'hi',
+          signoff: 'best',
+          emotion: 'positive',
+          audienceExpertise: 'mixed',
+          hierarchicalContext: 'speaking-to-equals',
+          relationshipType: 'established',
+          goal: 'inform'
+        }
+      }
+    },
+    professional: {
+      label: "Professional",
+      settings: {
+        enabledCategories: {
+          contentStyle: true,
+          purpose: true,
           formality: true,
           personalization: true,
           emotion: false,
@@ -93,77 +167,129 @@ function App() {
         },
         styles: {
           tone: 'formal',
+          languageComplexity: 'professional',
+          grammarSpelling: 'strict',
+          conciseness: 'detailed',
+          structure: 'paragraph',
+          purpose: 'inform',
           formality: 'formal',
           greeting: 'dear',
           signoff: 'sincerely',
-          audienceExpertise: 'non-technical',
-          hierarchicalContext: 'speaking-to-equals',
+          audienceExpertise: 'professional',
           industryContext: 'business',
           relationshipType: 'professional-only',
           goal: 'inform'
         }
       }
     },
-    casual: {
-      label: "Casual Team",
+    clientUpdate: {
+      label: "Client Update",
       settings: {
         enabledCategories: {
           contentStyle: true,
-          purpose: false,
+          purpose: true,
           formality: true,
           personalization: true,
           emotion: true,
-          audience: false,
-          industry: false,
-          timeSensitivity: false,
-          relationship: true,
-          communicationGoal: false
-        },
-        styles: {
-          tone: 'friendly',
-          formality: 'casual',
-          greeting: 'hi',
-          signoff: 'cheers',
-          emotion: 'positive',
-          relationshipType: 'established'
-        }
-      }
-    },
-    urgent: {
-      label: "Urgent Request",
-      settings: {
-        enabledCategories: {
-          contentStyle: true,
-          purpose: true,
-          formality: true,
-          personalization: false,
-          emotion: true,
-          audience: false,
-          industry: false,
+          audience: true,
+          industry: true,
           timeSensitivity: true,
-          relationship: false,
+          relationship: true,
           communicationGoal: true
         },
         styles: {
-          tone: 'authoritative',
-          conciseness: 'brief',
-          clarity: 'direct',
-          purpose: 'request',
-          formality: 'semiformal',
-          emotion: 'urgent',
-          urgency: 'immediate-action',
-          goal: 'request-action'
+          tone: 'professional',
+          languageComplexity: 'professional',
+          grammarSpelling: 'strict',
+          conciseness: 'detailed',
+          structure: 'paragraph',
+          purpose: 'inform',
+          formality: 'formal',
+          greeting: 'dear',
+          signoff: 'best regards',
+          emotion: 'positive',
+          audienceExpertise: 'non-technical',
+          industryContext: 'business',
+          urgency: 'time-bound',
+          relationshipType: 'established',
+          goal: 'inform'
         }
       }
     },
-    technical: {
-      label: "Technical Report",
+    projectUpdate: {
+      label: "Project Update",
       settings: {
         enabledCategories: {
           contentStyle: true,
           purpose: true,
           formality: true,
-          personalization: false,
+          personalization: true,
+          emotion: false,
+          audience: true,
+          industry: true,
+          timeSensitivity: true,
+          relationship: true,
+          communicationGoal: true
+        },
+        styles: {
+          tone: 'professional',
+          languageComplexity: 'professional',
+          grammarSpelling: 'strict',
+          conciseness: 'detailed',
+          structure: 'bullet-points',
+          purpose: 'inform',
+          formality: 'semiformal',
+          greeting: 'hi',
+          signoff: 'best',
+          audienceExpertise: 'mixed',
+          industryContext: 'business',
+          urgency: 'time-bound',
+          relationshipType: 'established',
+          goal: 'inform'
+        }
+      }
+    },
+    media: {
+      label: "Media",
+      settings: {
+        enabledCategories: {
+          contentStyle: true,
+          purpose: true,
+          formality: true,
+          personalization: true,
+          emotion: true,
+          audience: true,
+          industry: true,
+          timeSensitivity: false,
+          relationship: true,
+          communicationGoal: true
+        },
+        styles: {
+          tone: 'enthusiastic',
+          languageComplexity: 'professional',
+          grammarSpelling: 'strict',
+          conciseness: 'detailed',
+          structure: 'paragraph',
+          purpose: 'inform',
+          formality: 'semiformal',
+          greeting: 'hi',
+          signoff: 'best',
+          emotion: 'positive',
+          audienceExpertise: 'non-technical',
+          industryContext: 'creative',
+          relationshipType: 'professional-only',
+          goal: 'persuade'
+        }
+      }
+    },
+    knowledgeSharing: {
+      label: "Knowledge Sharing",
+      settings: {
+        enabledCategories: {
+          contentStyle: true,
+          purpose: true,
+          formality: true,
+          personalization: true,
           emotion: false,
           audience: true,
           industry: true,
@@ -172,14 +298,115 @@ function App() {
           communicationGoal: true
         },
         styles: {
-          tone: 'formal',
+          tone: 'professional',
           languageComplexity: 'professional',
+          grammarSpelling: 'strict',
           conciseness: 'detailed',
-          structure: 'paragraph',
+          structure: 'bullet-points',
           purpose: 'inform',
-          formality: 'formal',
-          audienceExpertise: 'technical',
+          formality: 'semiformal',
+          greeting: 'hi',
+          signoff: 'best',
+          audienceExpertise: 'mixed',
           industryContext: 'technical',
+          goal: 'inform'
+        }
+      }
+    },
+    urgentRequest: {
+      label: "Urgent Request",
+      settings: {
+        enabledCategories: {
+          contentStyle: true,
+          purpose: true,
+          formality: true,
+          personalization: true,
+          emotion: true,
+          audience: true,
+          industry: false,
+          timeSensitivity: true,
+          relationship: true,
+          communicationGoal: true
+        },
+        styles: {
+          tone: 'authoritative',
+          languageComplexity: 'professional',
+          grammarSpelling: 'strict',
+          conciseness: 'brief',
+          structure: 'paragraph',
+          purpose: 'request',
+          formality: 'formal',
+          greeting: 'dear',
+          signoff: 'regards',
+          emotion: 'urgent',
+          audienceExpertise: 'mixed',
+          urgency: 'immediate-action',
+          relationshipType: 'professional-only',
+          goal: 'request-action'
+        }
+      }
+    },
+    statusCheckIn: {
+      label: "Status Check-In",
+      settings: {
+        enabledCategories: {
+          contentStyle: true,
+          purpose: true,
+          formality: true,
+          personalization: true,
+          emotion: false,
+          audience: true,
+          industry: false,
+          timeSensitivity: true,
+          relationship: true,
+          communicationGoal: true
+        },
+        styles: {
+          tone: 'professional',
+          languageComplexity: 'professional',
+          grammarSpelling: 'strict',
+          conciseness: 'brief',
+          structure: 'paragraph',
+          purpose: 'inquiry',
+          formality: 'semiformal',
+          greeting: 'hi',
+          signoff: 'best',
+          audienceExpertise: 'mixed',
+          urgency: 'time-bound',
+          relationshipType: 'established',
+          goal: 'request-action'
+        }
+      }
+    },
+    meetingFollowUp: {
+      label: "Meeting Follow-Up",
+      settings: {
+        enabledCategories: {
+          contentStyle: true,
+          purpose: true,
+          formality: true,
+          personalization: true,
+          emotion: true,
+          audience: true,
+          industry: false,
+          timeSensitivity: true,
+          relationship: true,
+          communicationGoal: true
+        },
+        styles: {
+          tone: 'professional',
+          languageComplexity: 'professional',
+          grammarSpelling: 'strict',
+          conciseness: 'detailed',
+          structure: 'bullet-points',
+          purpose: 'follow-up',
+          formality: 'semiformal',
+          greeting: 'hi',
+          signoff: 'best',
+          emotion: 'positive',
+          audienceExpertise: 'mixed',
+          urgency: 'time-bound',
+          relationshipType: 'established',
           goal: 'inform'
         }
       }
@@ -193,21 +420,57 @@ function App() {
           formality: true,
           personalization: true,
           emotion: true,
-          audience: false,
+          audience: true,
           industry: false,
-          timeSensitivity: false,
+          timeSensitivity: true,
           relationship: true,
           communicationGoal: true
         },
         styles: {
           tone: 'apologetic',
+          languageComplexity: 'professional',
+          grammarSpelling: 'strict',
+          conciseness: 'detailed',
+          structure: 'paragraph',
           purpose: 'apology',
           formality: 'formal',
           greeting: 'dear',
           signoff: 'sincerely',
           emotion: 'concerned',
+          audienceExpertise: 'mixed',
+          urgency: 'immediate-action',
           relationshipType: 'established',
           goal: 'build-relationship'
+        }
+      }
+    },
+    casual: {
+      label: "Casual",
+      settings: {
+        enabledCategories: {
+          contentStyle: true,
+          purpose: true,
+          formality: true,
+          personalization: true,
+          emotion: true,
+          audience: false,
+          industry: false,
+          timeSensitivity: false,
+          relationship: true,
+          communicationGoal: false
+        },
+        styles: {
+          tone: 'friendly',
+          languageComplexity: 'casual',
+          grammarSpelling: 'relaxed',
+          conciseness: 'brief',
+          structure: 'paragraph',
+          purpose: 'inform',
+          formality: 'casual',
+          greeting: 'hi',
+          signoff: 'cheers',
+          emotion: 'positive',
+          relationshipType: 'close'
         }
       }
     }
@@ -311,8 +574,15 @@ function App() {
   }, [enabledCategories, expandedCategory]);
 
   useEffect(() => {
-    // Load saved settings when the app starts
+    // Load saved settings and custom presets when the app starts
     loadSettings();
+    loadCustomPresets();
+    
+    // Load the last used theme preference
+    const savedTheme = localStorage.getItem('isDarkMode');
+    if (savedTheme !== null) {
+      setIsDarkMode(JSON.parse(savedTheme));
+    }
   }, []);
 
   useEffect(() => {
@@ -356,21 +626,15 @@ function App() {
     setSelectedPreset(selectedValue);
     
     if (selectedValue !== 'none') {
-      const preset = presets[selectedValue];
-      if (preset && preset.settings) {
+      const selectedPresetData = presets[selectedValue] || customPresets[selectedValue];
+      if (selectedPresetData?.settings) {
         // Apply preset settings
-        if (preset.settings.enabledCategories) {
-          setEnabledCategories({
-            ...enabledCategories,
-            ...preset.settings.enabledCategories
-          });
+        if (selectedPresetData.settings.enabledCategories) {
+          setEnabledCategories(selectedPresetData.settings.enabledCategories);
         }
         
-        if (preset.settings.styles) {
-          setStyles({
-            ...styles,
-            ...preset.settings.styles
-          });
+        if (selectedPresetData.settings.styles) {
+          setStyles(selectedPresetData.settings.styles);
         }
       }
     }
@@ -533,9 +797,11 @@ function App() {
       const settingsData = {
         enabledCategories,
         styles,
-        isResponseEmail
+        isResponseEmail,
+        selectedPreset  // Save the currently selected preset
       };
       
+      // Save settings to localStorage
       localStorage.setItem('emailRefactorSettings', JSON.stringify(settingsData));
       
       // Store the saved settings for revert functionality
@@ -583,6 +849,10 @@ function App() {
       if (settingsData.isResponseEmail !== undefined) {
         setIsResponseEmail(settingsData.isResponseEmail);
       }
+
+      if (settingsData.selectedPreset !== undefined) {
+        setSelectedPreset(settingsData.selectedPreset);
+      }
       
       // Store the loaded settings for revert functionality
       setLastSavedSettings(settingsData);
@@ -594,24 +864,112 @@ function App() {
     }
   };
 
+  const loadCustomPresets = () => {
+    try {
+      const savedPresets = localStorage.getItem('customPresets');
+      if (savedPresets) {
+        setCustomPresets(JSON.parse(savedPresets));
+      }
+    } catch (error) {
+      console.error('Error loading custom presets:', error);
+      setError('Failed to load custom presets.');
+    }
+  };
+
+  const handleAddPreset = () => {
+    if (newPresetName.trim()) {
+      const presetKey = newPresetName.toLowerCase().replace(/\s+/g, '');
+      const newPreset = {
+        label: newPresetName.trim(),
+        settings: {
+          enabledCategories: {...enabledCategories},
+          styles: {...styles}
+        }
+      };
+      
+      // Update state with new preset
+      const updatedPresets = {
+        ...customPresets,
+        [presetKey]: newPreset
+      };
+      
+      // Save to state and localStorage
+      setCustomPresets(updatedPresets);
+      localStorage.setItem('customPresets', JSON.stringify(updatedPresets));
+      
+      // Reset and close modal
+      setNewPresetName('');
+      setIsAddPresetModalOpen(false);
+    }
+  };
+
+  const handleDeletePreset = (presetKey, e) => {
+    e.stopPropagation();
+    setPresetToDelete(presetKey);
+    setIsDeleteModalOpen(true);
+  };
+
+  const confirmDeletePreset = () => {
+    if (presetToDelete) {
+      const updatedCustomPresets = { ...customPresets };
+      delete updatedCustomPresets[presetToDelete];
+      
+      // Update state and localStorage
+      setCustomPresets(updatedCustomPresets);
+      localStorage.setItem('customPresets', JSON.stringify(updatedCustomPresets));
+      
+      if (selectedPreset === presetToDelete) {
+        setSelectedPreset('none');
+      }
+    }
+    setIsDeleteModalOpen(false);
+    setPresetToDelete(null);
+  };
+
   const renderStyleControls = () => {
     return (
       <div className={`sidebar-container ${sidebarHidden ? 'hidden' : ''}`}>
         <div className="style-controls">
           <div className="sidebar-header">
             <div className="settings-controls">
-              <div className="preset-label">Presets</div>
-              <select 
-                className="preset-dropdown"
-                value={selectedPreset}
-                onChange={handlePresetChange}
-                title="Select a preset for different email types"
-              >
-                {Object.entries(presets).map(([key, preset]) => (
-                  <option key={key} value={key}>{preset.label}</option>
-                ))}
-              </select>
-              
+              <div className="preset-controls">
+                <div className="preset-header">
+                  <button 
+                    className="add-preset-button"
+                    onClick={() => setIsAddPresetModalOpen(true)}
+                    title="Add new preset"
+                  >
+                    <img src={addPresetIcon} alt="Add preset" />
+                  </button>
+                  <span className="preset-label">Presets</span>
+                </div>
+                <div className="preset-selection">
+                  <select 
+                    className="preset-dropdown"
+                    value={selectedPreset}
+                    onChange={handlePresetChange}
+                    title="Select a preset for different email types"
+                  >
+                    {Object.entries(presets).map(([key, preset]) => (
+                      <option key={key} value={key}>{preset.label}</option>
+                    ))}
+                    {Object.entries(customPresets).map(([key, preset]) => (
+                      <option key={key} value={key} className="custom-preset-option">
+                        {preset.label}
+                      </option>
+                    ))}
+                  </select>
+                  {selectedPreset !== 'none' && customPresets[selectedPreset] && (
+                    <button
+                      className="delete-preset-button"
+                      onClick={(e) => handleDeletePreset(selectedPreset, e)}
+                      title="Delete preset"
+                    >
+                      <img src={deleteIcon} alt="Delete" />
+                    </button>
+                  )}
+                </div>
+              </div>
               <button 
                 className="save-settings-button" 
                 onClick={saveSettings}
@@ -786,6 +1144,11 @@ function App() {
     setIsDarkMode(!isDarkMode);
   };
 
+  // Add effect to save theme preference
+  useEffect(() => {
+    localStorage.setItem('isDarkMode', JSON.stringify(isDarkMode));
+  }, [isDarkMode]);
+
   return (
     <div className="container">
       {renderStyleControls()}
@@ -942,6 +1305,46 @@ function App() {
           />
         </div>
       </div>
+
+      {/* Add Preset Modal */}
+      {isAddPresetModalOpen && (
+        <div className="modal-overlay visible" onClick={() => setIsAddPresetModalOpen(false)}>
+          <div className="modal-content" onClick={e => e.stopPropagation()}>
+            <div className="modal-header">
+              <div className="modal-title">Add New Preset</div>
+              <button className="modal-close" onClick={() => setIsAddPresetModalOpen(false)}>&times;</button>
+            </div>
+            <input
+              type="text"
+              className="preset-name-input"
+              value={newPresetName}
+              onChange={(e) => setNewPresetName(e.target.value)}
+              placeholder="Enter preset name..."
+            />
+            <div className="modal-buttons">
+              <button className="modal-button cancel" onClick={() => setIsAddPresetModalOpen(false)}>Cancel</button>
+              <button className="modal-button ok" onClick={handleAddPreset}>OK</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Delete Confirmation Modal */}
+      {isDeleteModalOpen && (
+        <div className="modal-overlay visible" onClick={() => setIsDeleteModalOpen(false)}>
+          <div className="modal-content" onClick={e => e.stopPropagation()}>
+            <div className="modal-header">
+              <div className="modal-title">Delete Preset</div>
+              <button className="modal-close" onClick={() => setIsDeleteModalOpen(false)}>&times;</button>
+            </div>
+            <p className="modal-message">Are you sure you want to delete this preset?</p>
+            <div className="modal-buttons">
+              <button className="modal-button cancel" onClick={() => setIsDeleteModalOpen(false)}>Cancel</button>
+              <button className="modal-button delete" onClick={confirmDeletePreset}>Delete</button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

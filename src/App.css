@@ -1175,3 +1175,247 @@ select:focus {
 .dark-theme .response-email-preview:disabled {
   background-color: #2f2f2f;
 }
+
+.preset-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.add-preset-button {
+  background: none;
+  border: none;
+  padding: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.add-preset-button:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.add-preset-button img {
+  width: 16px;
+  height: 16px;
+}
+
+.preset-name-input {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  margin: 10px 0;
+}
+
+.preset-name-input:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.1);
+}
+
+.modal-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.modal-button {
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.modal-button.cancel {
+  background: none;
+  border: 1px solid #ddd;
+}
+
+.modal-button.cancel:hover {
+  background-color: #f5f5f5;
+}
+
+.modal-button.ok {
+  background-color: #007bff;
+  color: white;
+  border: none;
+}
+
+.modal-button.ok:hover {
+  background-color: #0056b3;
+}
+
+/* Dark theme styles */
+.dark-theme .add-preset-button:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.dark-theme .add-preset-button img {
+  filter: invert(1);
+}
+
+.dark-theme .preset-name-input {
+  background-color: #2f2f2f;
+  border-color: #444;
+  color: #f6f6f6;
+}
+
+.dark-theme .preset-name-input:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.2);
+}
+
+.dark-theme .modal-button.cancel {
+  background: none;
+  border-color: #444;
+  color: #f6f6f6;
+}
+
+.dark-theme .modal-button.cancel:hover {
+  background-color: #2f2f2f;
+}
+
+/* Add these new styles */
+.custom-preset-option {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-right: 24px;
+}
+
+.delete-preset-button {
+  position: absolute;
+  right: 4px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  padding: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+  opacity: 0;
+}
+
+.custom-preset-option:hover .delete-preset-button {
+  opacity: 1;
+}
+
+.delete-preset-button img {
+  width: 14px;
+  height: 14px;
+  opacity: 0.6;
+  transition: opacity 0.2s ease;
+}
+
+.delete-preset-button:hover img {
+  opacity: 1;
+}
+
+.modal-message {
+  margin: 0;
+  color: #666;
+  font-size: 14px;
+}
+
+.modal-button.delete {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+}
+
+.modal-button.delete:hover {
+  background-color: #c82333;
+}
+
+/* Dark theme styles */
+.dark-theme .delete-preset-button img {
+  filter: invert(1);
+}
+
+.dark-theme .modal-message {
+  color: #aaa;
+}
+
+.dark-theme .modal-button.delete {
+  background-color: #dc3545;
+}
+
+.dark-theme .modal-button.delete:hover {
+  background-color: #c82333;
+}
+
+/* Style adjustments for the preset dropdown */
+.preset-dropdown {
+  position: relative;
+  padding-right: 24px; /* Make room for delete button */
+}
+
+.preset-dropdown option {
+  padding: 8px 24px 8px 8px;
+}
+
+.preset-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
+.preset-selection {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+}
+
+.preset-selection .preset-dropdown {
+  flex-grow: 1;
+}
+
+.preset-selection .delete-preset-button {
+  background: none;
+  border: none;
+  padding: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.preset-selection .delete-preset-button:hover {
+  background-color: rgba(220, 53, 69, 0.1);
+}
+
+.preset-selection .delete-preset-button img {
+  width: 16px;
+  height: 16px;
+  opacity: 0.6;
+  transition: opacity 0.2s ease;
+}
+
+.preset-selection .delete-preset-button:hover img {
+  opacity: 1;
+}
+
+/* Dark theme styles */
+.dark-theme .preset-selection .delete-preset-button:hover {
+  background-color: rgba(220, 53, 69, 0.2);
+}
+
+.dark-theme .preset-selection .delete-preset-button img {
+  filter: invert(1);
+}
