@@ -15,11 +15,11 @@ function App() {
   const styleControlsRef = useRef(null);
   
   const [enabledCategories, setEnabledCategories] = useState({
-    contentStyle: true,
-    purpose: true,
-    formality: true,
-    personalization: true,
-    emotion: true,
+    contentStyle: false,
+    purpose: false,
+    formality: false,
+    personalization: false,
+    emotion: false,
     audience: false,
     industry: false,
     timeSensitivity: false,
@@ -197,6 +197,13 @@ function App() {
       return;
     }
 
+    // Check if at least one category is enabled
+    const hasEnabledCategory = Object.values(enabledCategories).some(value => value === true);
+    if (!hasEnabledCategory) {
+      setError('Please enable at least one refactoring setting category.');
+      return;
+    }
+
     setIsLoading(true);
     setError(null);
     try {
@@ -353,7 +360,7 @@ function App() {
         <button 
           onClick={handleRefactor} 
           className="refactor-button"
-          disabled={isLoading || !inputText.trim()}
+          disabled={isLoading || !inputText.trim() || !Object.values(enabledCategories).some(value => value === true)}
         >
           {isLoading ? 'Refactoring...' : 'Refactor Email'}
         </button>
@@ -361,39 +368,45 @@ function App() {
         <div className="active-settings-summary">
           <div className="settings-header">Active Settings</div>
           <div className="settings-content">
-            {enabledCategories.contentStyle && 
-              <div><span className="setting-category">Content:</span> {styles.tone}, {styles.languageComplexity}, {styles.grammarSpelling}, {styles.conciseness}, {styles.structure}, {styles.formatting}, {styles.emailLength}, {styles.clarity}</div>
-            }
-            {enabledCategories.purpose && 
-              <div><span className="setting-category">Purpose:</span> {styles.purpose}</div>
-            }
-            {enabledCategories.formality && 
-              <div><span className="setting-category">Formality:</span> {styles.formality}</div>
-            }
-            {enabledCategories.personalization && 
-              <div><span className="setting-category">Personalization:</span> {styles.greeting}, {styles.signoff}, {styles.includeDetails}, {styles.dynamicContent}</div>
-            }
-            {enabledCategories.emotion && 
-              <div><span className="setting-category">Emotion:</span> {styles.emotion}</div>
-            }
-            {enabledCategories.audience && 
-              <div><span className="setting-category">Audience:</span> {styles.audienceExpertise}, {styles.hierarchicalContext}, {styles.ageAppropriate}, {styles.culturalSensitivity}</div>
-            }
-            {enabledCategories.industry && 
-              <div><span className="setting-category">Industry:</span> {styles.industryContext}</div>
-            }
-            {enabledCategories.timeSensitivity && 
-              <div><span className="setting-category">Time Sensitivity:</span> {styles.urgency}</div>
-            }
-            {enabledCategories.relationship && 
-              <div><span className="setting-category">Relationship:</span> {styles.relationshipType}</div>
-            }
-            {enabledCategories.communicationGoal && 
-              <div><span className="setting-category">Goal:</span> {styles.goal}</div>
-            }
-            {isResponseEmail && 
-              <div><span className="setting-category">Mode:</span> Response Email</div>
-            }
+            {!Object.values(enabledCategories).some(value => value === true) ? (
+              <div className="no-settings">No refactor settings selected</div>
+            ) : (
+              <>
+                {enabledCategories.contentStyle && 
+                  <div><span className="setting-category">Content:</span> {styles.tone}, {styles.languageComplexity}, {styles.grammarSpelling}, {styles.conciseness}, {styles.structure}, {styles.formatting}, {styles.emailLength}, {styles.clarity}</div>
+                }
+                {enabledCategories.purpose && 
+                  <div><span className="setting-category">Purpose:</span> {styles.purpose}</div>
+                }
+                {enabledCategories.formality && 
+                  <div><span className="setting-category">Formality:</span> {styles.formality}</div>
+                }
+                {enabledCategories.personalization && 
+                  <div><span className="setting-category">Personalization:</span> {styles.greeting}, {styles.signoff}, {styles.includeDetails}, {styles.dynamicContent}</div>
+                }
+                {enabledCategories.emotion && 
+                  <div><span className="setting-category">Emotion:</span> {styles.emotion}</div>
+                }
+                {enabledCategories.audience && 
+                  <div><span className="setting-category">Audience:</span> {styles.audienceExpertise}, {styles.hierarchicalContext}, {styles.ageAppropriate}, {styles.culturalSensitivity}</div>
+                }
+                {enabledCategories.industry && 
+                  <div><span className="setting-category">Industry:</span> {styles.industryContext}</div>
+                }
+                {enabledCategories.timeSensitivity && 
+                  <div><span className="setting-category">Time Sensitivity:</span> {styles.urgency}</div>
+                }
+                {enabledCategories.relationship && 
+                  <div><span className="setting-category">Relationship:</span> {styles.relationshipType}</div>
+                }
+                {enabledCategories.communicationGoal && 
+                  <div><span className="setting-category">Goal:</span> {styles.goal}</div>
+                }
+                {isResponseEmail && 
+                  <div><span className="setting-category">Mode:</span> Response Email</div>
+                }
+              </>
+            )}
           </div>
         </div>
       </div>

@@ -132,6 +132,7 @@ body, html {
   transition: all 0.3s ease;
   padding: 0 15px;
   overflow: hidden;
+  overflow-y: auto;
 }
 
 .category-controls.expanded {
@@ -342,6 +343,11 @@ select:focus {
 
 .settings-content div {
   flex: 0 1 auto;
+}
+
+.no-settings {
+  color: #FF8C00;
+  font-style: italic;
 }
 
 .setting-category {
