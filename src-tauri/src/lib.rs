@@ -14,6 +14,11 @@ pub struct EnabledCategories {
     formality: bool,
     personalization: bool,
     emotion: bool,
+    audience: bool,
+    industry: bool,
+    timeSensitivity: bool,
+    relationship: bool,
+    communicationGoal: bool,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -38,6 +43,19 @@ pub struct EmailStyles {
     dynamicContent: String,
     // Emotion & Sentiment
     emotion: String,
+    // Audience Adaptation
+    audienceExpertise: String,
+    hierarchicalContext: String,
+    ageAppropriate: String,
+    culturalSensitivity: String,
+    // Industry-Specific Language
+    industryContext: String,
+    // Time Sensitivity
+    urgency: String,
+    // Relationship Context
+    relationshipType: String,
+    // Communication Goal
+    goal: String,
     // Enabled Categories
     enabledCategories: EnabledCategories,
 }
@@ -116,6 +134,29 @@ fn construct_system_prompt(styles: &EmailStyles) -> String {
     if styles.enabledCategories.emotion {
         prompt_parts.push(format!("Emotional Tone: {}", styles.emotion));
     }
+    
+    if styles.enabledCategories.audience {
+        prompt_parts.push(format!(
+            "Audience Adaptation:\n- Audience Expertise: {}\n- Hierarchical Context: {}\n- Age Appropriateness: {}\n- Cultural Sensitivity: {}",
+            styles.audienceExpertise, styles.hierarchicalContext, styles.ageAppropriate, styles.culturalSensitivity
+        ));
+    }
+    
+    if styles.enabledCategories.industry {
+        prompt_parts.push(format!("Industry-Specific Language: {}", styles.industryContext));
+    }
+    
+    if styles.enabledCategories.timeSensitivity {
+        prompt_parts.push(format!("Time Sensitivity/Urgency: {}", styles.urgency));
+    }
+    
+    if styles.enabledCategories.relationship {
+        prompt_parts.push(format!("Relationship Context: {}", styles.relationshipType));
+    }
+    
+    if styles.enabledCategories.communicationGoal {
+        prompt_parts.push(format!("Communication Goal: {}", styles.goal));
+    }
 
     prompt_parts.join("\n\n")
 }
@@ -149,6 +190,29 @@ fn construct_response_system_prompt(styles: &EmailStyles, original_email: &str) 
 
     if styles.enabledCategories.emotion {
         prompt_parts.push(format!("Emotional Tone: {}", styles.emotion));
+    }
+    
+    if styles.enabledCategories.audience {
+        prompt_parts.push(format!(
+            "Audience Adaptation:\n- Audience Expertise: {}\n- Hierarchical Context: {}\n- Age Appropriateness: {}\n- Cultural Sensitivity: {}",
+            styles.audienceExpertise, styles.hierarchicalContext, styles.ageAppropriate, styles.culturalSensitivity
+        ));
+    }
+    
+    if styles.enabledCategories.industry {
+        prompt_parts.push(format!("Industry-Specific Language: {}", styles.industryContext));
+    }
+    
+    if styles.enabledCategories.timeSensitivity {
+        prompt_parts.push(format!("Time Sensitivity/Urgency: {}", styles.urgency));
+    }
+    
+    if styles.enabledCategories.relationship {
+        prompt_parts.push(format!("Relationship Context: {}", styles.relationshipType));
+    }
+    
+    if styles.enabledCategories.communicationGoal {
+        prompt_parts.push(format!("Communication Goal: {}", styles.goal));
     }
 
     prompt_parts.push(format!("\nOriginal email that you are responding to:\n{}", original_email));

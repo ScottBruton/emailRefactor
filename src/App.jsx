@@ -19,7 +19,12 @@ function App() {
     purpose: true,
     formality: true,
     personalization: true,
-    emotion: true
+    emotion: true,
+    audience: false,
+    industry: false,
+    timeSensitivity: false,
+    relationship: false,
+    communicationGoal: false
   });
 
   const [styles, setStyles] = useState({
@@ -42,14 +47,27 @@ function App() {
     includeDetails: 'basic',
     dynamicContent: 'standard',
     // Emotion & Sentiment
-    emotion: 'neutral'
+    emotion: 'neutral',
+    // Audience Adaptation
+    audienceExpertise: 'non-technical',
+    hierarchicalContext: 'speaking-to-equals',
+    ageAppropriate: 'adult',
+    culturalSensitivity: 'universal',
+    // Industry-Specific Language
+    industryContext: 'general',
+    // Time Sensitivity
+    urgency: 'no-urgency',
+    // Relationship Context
+    relationshipType: 'established',
+    // Communication Goal
+    goal: 'inform'
   });
 
   const categories = {
     contentStyle: {
       title: "Content Style & Formatting",
       options: {
-        tone: ["formal", "informal", "friendly", "authoritative", "apologetic", "persuasive"],
+        tone: ["formal", "informal", "friendly", "authoritative", "apologetic", "persuasive", "humorous", "sarcastic", "inspirational", "diplomatic", "enthusiastic", "respectful", "sympathetic", "assertive", "curious"],
         languageComplexity: ["simple", "professional", "academic", "casual"],
         grammarSpelling: ["strict", "relaxed", "conversational"],
         conciseness: ["brief", "detailed"],
@@ -83,7 +101,40 @@ function App() {
     emotion: {
       title: "Emotion & Sentiment",
       options: {
-        emotion: ["neutral", "positive", "urgent", "empathetic", "encouraging", "critical"]
+        emotion: ["neutral", "positive", "urgent", "empathetic", "encouraging", "critical", "excited", "disappointed", "hopeful", "surprised", "grateful", "concerned", "confident"]
+      }
+    },
+    audience: {
+      title: "Audience Adaptation",
+      options: {
+        audienceExpertise: ["technical", "non-technical", "mixed"],
+        hierarchicalContext: ["speaking-to-superiors", "speaking-to-equals", "speaking-to-subordinates"],
+        ageAppropriate: ["youth", "adult", "senior", "all-ages"],
+        culturalSensitivity: ["regional", "international", "universal"]
+      }
+    },
+    industry: {
+      title: "Industry-Specific Language",
+      options: {
+        industryContext: ["general", "business", "academic", "legal", "medical", "technical", "creative", "marketing"]
+      }
+    },
+    timeSensitivity: {
+      title: "Time Sensitivity",
+      options: {
+        urgency: ["immediate-action", "time-bound", "no-urgency"]
+      }
+    },
+    relationship: {
+      title: "Relationship Context",
+      options: {
+        relationshipType: ["first-contact", "established", "close", "professional-only"]
+      }
+    },
+    communicationGoal: {
+      title: "Communication Goal",
+      options: {
+        goal: ["inform", "persuade", "build-relationship", "collaborate", "request-action", "problem-solve"]
       }
     }
   };
@@ -324,6 +375,21 @@ function App() {
             }
             {enabledCategories.emotion && 
               <div><span className="setting-category">Emotion:</span> {styles.emotion}</div>
+            }
+            {enabledCategories.audience && 
+              <div><span className="setting-category">Audience:</span> {styles.audienceExpertise}, {styles.hierarchicalContext}, {styles.ageAppropriate}, {styles.culturalSensitivity}</div>
+            }
+            {enabledCategories.industry && 
+              <div><span className="setting-category">Industry:</span> {styles.industryContext}</div>
+            }
+            {enabledCategories.timeSensitivity && 
+              <div><span className="setting-category">Time Sensitivity:</span> {styles.urgency}</div>
+            }
+            {enabledCategories.relationship && 
+              <div><span className="setting-category">Relationship:</span> {styles.relationshipType}</div>
+            }
+            {enabledCategories.communicationGoal && 
+              <div><span className="setting-category">Goal:</span> {styles.goal}</div>
             }
             {isResponseEmail && 
               <div><span className="setting-category">Mode:</span> Response Email</div>
