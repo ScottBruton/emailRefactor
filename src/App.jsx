@@ -15,6 +15,8 @@ function App() {
   const [isResponseEmail, setIsResponseEmail] = useState(false);
   const [originalEmail, setOriginalEmail] = useState('');
   const [isSaving, setIsSaving] = useState(false);
+  const [selectedPreset, setSelectedPreset] = useState('none');
+  const [lastSavedSettings, setLastSavedSettings] = useState(null);
   
   const styleControlsRef = useRef(null);
   
@@ -67,6 +69,146 @@ function App() {
     goal: 'inform'
   });
 
+  // Preset definitions
+  const presets = {
+    none: { label: "None" },
+    formal: { 
+      label: "Formal Business", 
+      settings: {
+        enabledCategories: {
+          contentStyle: true,
+          purpose: false,
+          formality: true,
+          personalization: true,
+          emotion: false,
+          audience: true,
+          industry: true,
+          timeSensitivity: false,
+          relationship: true,
+          communicationGoal: true
+        },
+        styles: {
+          tone: 'formal',
+          formality: 'formal',
+          greeting: 'dear',
+          signoff: 'sincerely',
+          audienceExpertise: 'non-technical',
+          hierarchicalContext: 'speaking-to-equals',
+          industryContext: 'business',
+          relationshipType: 'professional-only',
+          goal: 'inform'
+        }
+      }
+    },
+    casual: {
+      label: "Casual Team",
+      settings: {
+        enabledCategories: {
+          contentStyle: true,
+          purpose: false,
+          formality: true,
+          personalization: true,
+          emotion: true,
+          audience: false,
+          industry: false,
+          timeSensitivity: false,
+          relationship: true,
+          communicationGoal: false
+        },
+        styles: {
+          tone: 'friendly',
+          formality: 'casual',
+          greeting: 'hi',
+          signoff: 'cheers',
+          emotion: 'positive',
+          relationshipType: 'established'
+        }
+      }
+    },
+    urgent: {
+      label: "Urgent Request",
+      settings: {
+        enabledCategories: {
+          contentStyle: true,
+          purpose: true,
+          formality: true,
+          personalization: false,
+          emotion: true,
+          audience: false,
+          industry: false,
+          timeSensitivity: true,
+          relationship: false,
+          communicationGoal: true
+        },
+        styles: {
+          tone: 'authoritative',
+          conciseness: 'brief',
+          clarity: 'direct',
+          purpose: 'request',
+          formality: 'semiformal',
+          emotion: 'urgent',
+          urgency: 'immediate-action',
+          goal: 'request-action'
+        }
+      }
+    },
+    technical: {
+      label: "Technical Report",
+      settings: {
+        enabledCategories: {
+          contentStyle: true,
+          purpose: true,
+          formality: true,
+          personalization: false,
+          emotion: false,
+          audience: true,
+          industry: true,
+          timeSensitivity: false,
+          relationship: false,
+          communicationGoal: true
+        },
+        styles: {
+          tone: 'formal',
+          languageComplexity: 'professional',
+          conciseness: 'detailed',
+          structure: 'paragraph',
+          purpose: 'inform',
+          formality: 'formal',
+          audienceExpertise: 'technical',
+          industryContext: 'technical',
+          goal: 'inform'
+        }
+      }
+    },
+    apology: {
+      label: "Apology",
+      settings: {
+        enabledCategories: {
+          contentStyle: true,
+          purpose: true,
+          formality: true,
+          personalization: true,
+          emotion: true,
+          audience: false,
+          industry: false,
+          timeSensitivity: false,
+          relationship: true,
+          communicationGoal: true
+        },
+        styles: {
+          tone: 'apologetic',
+          purpose: 'apology',
+          formality: 'formal',
+          greeting: 'dear',
+          signoff: 'sincerely',
+          emotion: 'concerned',
+          relationshipType: 'established',
+          goal: 'build-relationship'
+        }
+      }
+    }
+  };
+  
   const categories = {
     contentStyle: {
       title: "Content Style & Formatting",
@@ -193,6 +335,131 @@ function App() {
     if (!newEnabled && expandedCategory === categoryKey) {
       setExpandedCategory(null);
     }
+    // When settings change, set preset to 'none'
+    setSelectedPreset('none');
+  };
+
+  const handlePresetChange = (e) => {
+    const selectedValue = e.target.value;
+    setSelectedPreset(selectedValue);
+    
+    if (selectedValue !== 'none') {
+      const preset = presets[selectedValue];
+      if (preset && preset.settings) {
+        // Apply preset settings
+        if (preset.settings.enabledCategories) {
+          setEnabledCategories({
+            ...enabledCategories,
+            ...preset.settings.enabledCategories
+          });
+        }
+        
+        if (preset.settings.styles) {
+          setStyles({
+            ...styles,
+            ...preset.settings.styles
+          });
+        }
+      }
+    }
+  };
+
+  const handleRevertToSaved = () => {
+    if (lastSavedSettings) {
+      // Apply saved settings
+      if (lastSavedSettings.enabledCategories) {
+        setEnabledCategories(lastSavedSettings.enabledCategories);
+      }
+      
+      if (lastSavedSettings.styles) {
+        setStyles(lastSavedSettings.styles);
+      }
+      
+      if (lastSavedSettings.isResponseEmail !== undefined) {
+        setIsResponseEmail(lastSavedSettings.isResponseEmail);
+      }
+      
+      // Reset preset selection
+      setSelectedPreset('none');
+      
+      // Show temporary success message
+      const successMessage = document.getElementById('revert-success-message');
+      if (successMessage) {
+        successMessage.style.opacity = '1';
+        setTimeout(() => {
+          successMessage.style.opacity = '0';
+        }, 3000);
+      }
+    } else {
+      setError('No saved settings found to revert to.');
+    }
+  };
+
+  const handleClearSettings = () => {
+    // Reset to default settings (initial state)
+    setEnabledCategories({
+      contentStyle: false,
+      purpose: false,
+      formality: false,
+      personalization: false,
+      emotion: false,
+      audience: false,
+      industry: false,
+      timeSensitivity: false,
+      relationship: false,
+      communicationGoal: false
+    });
+    
+    setStyles({
+      // Content Style & Formatting
+      tone: 'formal',
+      languageComplexity: 'professional',
+      grammarSpelling: 'strict',
+      conciseness: 'brief',
+      structure: 'paragraph',
+      formatting: 'none',
+      emailLength: 'medium',
+      clarity: 'direct',
+      // Purpose & Intent
+      purpose: 'inquiry',
+      // Formality & Professionalism
+      formality: 'semiformal',
+      // Personalization
+      greeting: 'dear',
+      signoff: 'regards',
+      includeDetails: 'basic',
+      dynamicContent: 'standard',
+      // Emotion & Sentiment
+      emotion: 'neutral',
+      // Audience Adaptation
+      audienceExpertise: 'non-technical',
+      hierarchicalContext: 'speaking-to-equals',
+      ageAppropriate: 'adult',
+      culturalSensitivity: 'universal',
+      // Industry-Specific Language
+      industryContext: 'general',
+      // Time Sensitivity
+      urgency: 'no-urgency',
+      // Relationship Context
+      relationshipType: 'established',
+      // Communication Goal
+      goal: 'inform'
+    });
+    
+    // Reset response email setting
+    setIsResponseEmail(false);
+    
+    // Reset preset selection
+    setSelectedPreset('none');
+    
+    // Show temporary success message
+    const successMessage = document.getElementById('clear-success-message');
+    if (successMessage) {
+      successMessage.style.opacity = '1';
+      setTimeout(() => {
+        successMessage.style.opacity = '0';
+      }, 3000);
+    }
   };
 
   const handleRefactor = async () => {
@@ -258,6 +525,10 @@ function App() {
       };
       
       localStorage.setItem('emailRefactorSettings', JSON.stringify(settingsData));
+      
+      // Store the saved settings for revert functionality
+      setLastSavedSettings(settingsData);
+      
       setError(null);
       
       // Show temporary success message
@@ -301,6 +572,9 @@ function App() {
         setIsResponseEmail(settingsData.isResponseEmail);
       }
       
+      // Store the loaded settings for revert functionality
+      setLastSavedSettings(settingsData);
+      
       console.log('Settings loaded successfully.');
     } catch (error) {
       console.error('Error loading settings:', error);
@@ -313,29 +587,96 @@ function App() {
       <div className={`sidebar-container ${sidebarHidden ? 'hidden' : ''}`}>
         <div className="style-controls">
           <div className="sidebar-header">
-            <button 
-              className="save-settings-button" 
-              onClick={saveSettings}
-              title="Save current settings"
-              disabled={isSaving}
-            >
-              <svg 
-                xmlns="http://www.w3.org/2000/svg" 
-                width="16" 
-                height="16" 
-                viewBox="0 0 24 24" 
-                fill="none" 
-                stroke="currentColor" 
-                strokeWidth="2" 
-                strokeLinecap="round" 
-                strokeLinejoin="round"
+            <div className="settings-controls">
+              <div className="preset-label">Presets</div>
+              <select 
+                className="preset-dropdown"
+                value={selectedPreset}
+                onChange={handlePresetChange}
+                title="Select a preset for different email types"
               >
-                <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
-                <polyline points="17 21 17 13 7 13 7 21"></polyline>
-                <polyline points="7 3 7 8 15 8"></polyline>
-              </svg>
-            </button>
-            <span id="save-success-message" className="save-success-message">Settings saved!</span>
+                {Object.entries(presets).map(([key, preset]) => (
+                  <option key={key} value={key}>{preset.label}</option>
+                ))}
+              </select>
+              
+              <button 
+                className="save-settings-button" 
+                onClick={saveSettings}
+                title="Save current settings"
+                disabled={isSaving}
+                aria-label="Save settings"
+              >
+                <svg 
+                  xmlns="http://www.w3.org/2000/svg" 
+                  width="16" 
+                  height="16" 
+                  viewBox="0 0 24 24" 
+                  fill="none" 
+                  stroke="currentColor" 
+                  strokeWidth="2" 
+                  strokeLinecap="round" 
+                  strokeLinejoin="round"
+                >
+                  <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
+                  <polyline points="17 21 17 13 7 13 7 21"></polyline>
+                  <polyline points="7 3 7 8 15 8"></polyline>
+                </svg>
+              </button>
+              
+              <button 
+                className="revert-settings-button" 
+                onClick={handleRevertToSaved}
+                title="Revert to last saved settings"
+                disabled={!lastSavedSettings}
+                aria-label="Revert to saved settings"
+              >
+                <svg 
+                  xmlns="http://www.w3.org/2000/svg" 
+                  width="16" 
+                  height="16" 
+                  viewBox="0 0 24 24" 
+                  fill="none" 
+                  stroke="currentColor" 
+                  strokeWidth="2" 
+                  strokeLinecap="round" 
+                  strokeLinejoin="round"
+                >
+                  <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
+                  <path d="M3 3v5h5"></path>
+                </svg>
+              </button>
+              
+              <button 
+                className="clear-settings-button" 
+                onClick={handleClearSettings}
+                title="Reset all settings to default"
+                aria-label="Clear all settings"
+              >
+                <svg 
+                  xmlns="http://www.w3.org/2000/svg" 
+                  width="16" 
+                  height="16" 
+                  viewBox="0 0 24 24" 
+                  fill="none" 
+                  stroke="currentColor" 
+                  strokeWidth="2" 
+                  strokeLinecap="round" 
+                  strokeLinejoin="round"
+                >
+                  <path d="M3 6h18"></path>
+                  <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path>
+                  <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path>
+                  <line x1="10" y1="11" x2="10" y2="17"></line>
+                  <line x1="14" y1="11" x2="14" y2="17"></line>
+                </svg>
+              </button>
+            </div>
+            <div className="messages-container">
+              <span id="save-success-message" className="save-success-message">Settings saved!</span>
+              <span id="revert-success-message" className="revert-success-message">Settings reverted!</span>
+              <span id="clear-success-message" className="clear-success-message">Settings cleared!</span>
+            </div>
           </div>
           {Object.entries(categories).map(([categoryKey, category]) => (
             <div key={categoryKey} className="style-category">

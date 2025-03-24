@@ -68,10 +68,11 @@ body, html {
 
 .sidebar-header {
   display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  margin-bottom: 10px;
-  position: relative;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 16px;
+  padding: 10px 0;
+  border-bottom: 1px solid #ddd;
 }
 
 .save-settings-button {
@@ -98,11 +99,11 @@ body, html {
 }
 
 .save-success-message {
-  margin-left: 10px;
+  font-size: 12px;
   color: #28a745;
-  font-size: 0.8em;
+  margin-left: 8px;
   opacity: 0;
-  transition: opacity 0.3s ease;
+  transition: opacity 0.3s;
 }
 
 .style-controls.hidden {
@@ -592,6 +593,128 @@ select:focus {
   }
 
   .save-success-message {
+    color: #3dcc5f;
+  }
+}
+
+.settings-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.preset-dropdown {
+  min-width: 140px;
+  padding: 4px 8px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  color: #868686;
+  background-color: #fff;
+  font-size: 14px;
+  height: 28px;
+}
+
+.revert-settings-button,
+.save-settings-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 4px;
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.revert-settings-button:hover,
+.save-settings-button:hover {
+  background-color: #e0e0e0;
+}
+
+.revert-settings-button:disabled,
+.save-settings-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.revert-success-message {
+  font-size: 12px;
+  color: #28a745;
+  margin-left: 8px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+/* For smaller screens, make controls responsive */
+@media (max-width: 600px) {
+  .settings-controls {
+    flex-wrap: wrap;
+  }
+  
+  .preset-dropdown {
+    min-width: 120px;
+  }
+}
+
+.preset-label {
+  font-weight: 600;
+  color: #444;
+  margin-right: 8px;
+  white-space: nowrap;
+}
+
+.messages-container {
+  display: flex;
+  flex-direction: column;
+  margin-top: 4px;
+}
+
+.clear-success-message {
+  font-size: 12px;
+  color: #28a745;
+  margin-left: 8px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.clear-settings-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 4px;
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.clear-settings-button:hover {
+  background-color: #e0e0e0;
+  color: #dc3545;
+}
+
+/* Dark mode adjustments */
+@media (prefers-color-scheme: dark) {
+  .preset-label {
+    color: #ddd;
+  }
+  
+  .clear-settings-button {
+    background-color: #333;
+    border-color: #444;
+    color: #aaa;
+  }
+  
+  .clear-settings-button:hover {
+    background-color: #444;
+    color: #ff6b6b;
+  }
+  
+  .clear-success-message {
     color: #3dcc5f;
   }
 }
