@@ -49,7 +49,7 @@ body, html {
 }
 
 .sidebar-container.hidden {
-  transform: translateX(-350px);
+  transform: translateX(-390px);
 }
 
 .style-controls {
