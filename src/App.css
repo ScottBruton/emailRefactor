@@ -996,3 +996,182 @@ select:focus {
     color: #f6f6f6;
   }
 }
+
+.theme-toggle-button {
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  z-index: 1000;
+}
+
+.theme-toggle-button:hover {
+  transform: scale(1.1);
+}
+
+.theme-toggle-button img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* Dark theme specific styles for the toggle button */
+.dark-theme .theme-toggle-button img {
+  filter: invert(1);
+}
+
+/* Remove the old theme toggle container */
+.theme-toggle-container {
+  display: none;
+}
+
+/* Dark theme styles */
+.dark-theme {
+  color: #f6f6f6;
+  background-color: #2f2f2f;
+}
+
+.dark-theme .style-controls {
+  background: #1a1a1a;
+  border-right-color: #333;
+}
+
+.dark-theme .style-category {
+  background: #2f2f2f;
+}
+
+.dark-theme .toggle-label {
+  color: #f6f6f6;
+}
+
+.dark-theme .control-label {
+  color: #aaa;
+}
+
+.dark-theme .theme-toggle-container,
+.dark-theme .response-toggle-container {
+  background: #2f2f2f;
+  border-color: #333;
+}
+
+.dark-theme .theme-toggle-label span,
+.dark-theme .response-toggle-label span {
+  color: #f6f6f6;
+}
+
+.dark-theme .original-email-input {
+  background-color: #1f1f1f;
+  color: #f6f6f6;
+  border-color: #444;
+}
+
+.dark-theme .active-settings-summary {
+  background-color: rgba(0, 0, 0, 0.2);
+  border-color: rgba(40, 194, 255, 0.2);
+}
+
+.dark-theme select {
+  background-color: #1f1f1f;
+  color: #f6f6f6;
+  border-color: #444;
+}
+
+.dark-theme select option {
+  background-color: #1f1f1f;
+}
+
+.dark-theme .error-message {
+  background-color: #2c0b0e;
+  border-color: #842029;
+  color: #ea868f;
+}
+
+.dark-theme .category-controls.expanded {
+  border-top-color: #333;
+}
+
+.dark-theme .category-title {
+  color: #f6f6f6;
+}
+
+.dark-theme .sidebar-toggle {
+  background: #1a1a1a;
+  border-color: #333;
+}
+
+.dark-theme .sidebar-toggle svg {
+  fill: #f6f6f6;
+}
+
+.dark-theme .input-panel,
+.dark-theme .output-panel {
+  background-color: #1f1f1f;
+  color: #f6f6f6;
+  border-color: #444;
+}
+
+.dark-theme .setting-category {
+  color: #FFC426;
+}
+
+.dark-theme .save-settings-button {
+  color: #aaa;
+}
+
+.dark-theme .save-settings-button:hover:not(:disabled) {
+  background-color: rgba(0, 123, 255, 0.2);
+  color: #48a3ff;
+}
+
+.dark-theme .save-success-message {
+  color: #3dcc5f;
+}
+
+.dark-theme .modal-content {
+  background-color: #1f1f1f;
+  color: #f6f6f6;
+}
+
+.dark-theme .modal-textarea {
+  background-color: #2f2f2f;
+  color: #f6f6f6;
+  border-color: #444;
+}
+
+.dark-theme .modal-textarea:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.2);
+}
+
+.dark-theme .modal-title {
+  color: #f6f6f6;
+}
+
+.dark-theme .modal-close {
+  color: #aaa;
+}
+
+.dark-theme .modal-close:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #f6f6f6;
+}
+
+.dark-theme .response-email-preview {
+  background-color: #1f1f1f;
+  color: #f6f6f6;
+  border-color: #444;
+}
+
+.dark-theme .response-email-preview:disabled {
+  background-color: #2f2f2f;
+}

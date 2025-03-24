@@ -4,6 +4,8 @@ import { invoke } from "@tauri-apps/api/core";
 // import { appDataDir } from "@tauri-apps/api/path";
 // import { readTextFile, writeTextFile, createDir, exists } from "@tauri-apps/api/fs";
 import "./App.css";
+import darkIcon from '../assets/dark.svg';
+import lightIcon from '../assets/light.svg';
 
 function App() {
   const [inputText, setInputText] = useState('');
@@ -18,6 +20,7 @@ function App() {
   const [isSaving, setIsSaving] = useState(false);
   const [selectedPreset, setSelectedPreset] = useState('none');
   const [lastSavedSettings, setLastSavedSettings] = useState(null);
+  const [isDarkMode, setIsDarkMode] = useState(false);
   
   const styleControlsRef = useRef(null);
   
@@ -311,6 +314,14 @@ function App() {
     // Load saved settings when the app starts
     loadSettings();
   }, []);
+
+  useEffect(() => {
+    if (isDarkMode) {
+      document.documentElement.classList.add('dark-theme');
+    } else {
+      document.documentElement.classList.remove('dark-theme');
+    }
+  }, [isDarkMode]);
 
   const handleCategoryClick = (categoryKey, event) => {
     // If the click is on the toggle button, don't handle expansion
@@ -771,10 +782,26 @@ function App() {
     }
   };
 
+  const toggleTheme = () => {
+    setIsDarkMode(!isDarkMode);
+  };
+
   return (
     <div className="container">
       {renderStyleControls()}
       <div className={`main-content ${sidebarHidden ? 'sidebar-hidden' : ''}`}>
+        <div className="theme-toggle-container">
+          <label className="theme-toggle-label">
+            <span>Dark Theme</span>
+            <div className="toggle">
+              <input
+                type="checkbox"
+                checked={isDarkMode}
+                onChange={() => setIsDarkMode(!isDarkMode)}
+              />
+            </div>
+          </label>
+        </div>
         {error && <div className="error-message">{error}</div>}
         
         <div className="response-toggle-container">
@@ -885,6 +912,17 @@ function App() {
           </div>
         </div>
       </div>
+
+      <button 
+        className="theme-toggle-button"
+        onClick={toggleTheme}
+        aria-label={isDarkMode ? "Switch to light theme" : "Switch to dark theme"}
+      >
+        <img 
+          src={isDarkMode ? lightIcon : darkIcon} 
+          alt={isDarkMode ? "Light theme" : "Dark theme"}
+        />
+      </button>
 
       {/* Modal */}
       <div 
