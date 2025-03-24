@@ -678,47 +678,49 @@ function App() {
               <span id="clear-success-message" className="clear-success-message">Settings cleared!</span>
             </div>
           </div>
-          {Object.entries(categories).map(([categoryKey, category]) => (
-            <div key={categoryKey} className="style-category">
-              <div 
-                className="category-header"
-                onClick={(e) => handleCategoryClick(categoryKey, e)}
-              >
-                <span className="category-title">{category.title}</span>
-                <div className="toggle" onClick={(e) => e.stopPropagation()}>
-                  <input
-                    type="checkbox"
-                    checked={enabledCategories[categoryKey]}
-                    onChange={(e) => handleToggleClick(categoryKey, e)}
-                  />
+          <div className="style-categories-container">
+            {Object.entries(categories).map(([categoryKey, category]) => (
+              <div key={categoryKey} className="style-category">
+                <div 
+                  className="category-header"
+                  onClick={(e) => handleCategoryClick(categoryKey, e)}
+                >
+                  <span className="category-title">{category.title}</span>
+                  <div className="toggle" onClick={(e) => e.stopPropagation()}>
+                    <input
+                      type="checkbox"
+                      checked={enabledCategories[categoryKey]}
+                      onChange={(e) => handleToggleClick(categoryKey, e)}
+                    />
+                  </div>
+                </div>
+                <div 
+                  className={`category-controls ${
+                    expandedCategory === categoryKey && enabledCategories[categoryKey] ? 'expanded' : ''
+                  } ${!enabledCategories[categoryKey] ? 'disabled' : ''}`}
+                >
+                  {Object.entries(category.options).map(([optionKey, values]) => (
+                    <div key={optionKey} className="control-group">
+                      <label className="control-label">
+                        {optionKey.replace(/([A-Z])/g, ' $1').toLowerCase().replace(/^./, str => str.toUpperCase())}
+                      </label>
+                      <select
+                        value={styles[optionKey]}
+                        onChange={(e) => setStyles({...styles, [optionKey]: e.target.value})}
+                        disabled={!enabledCategories[categoryKey]}
+                      >
+                        {values.map(value => (
+                          <option key={value} value={value}>
+                            {value.replace(/-/g, ' ').replace(/^./, str => str.toUpperCase())}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  ))}
                 </div>
               </div>
-              <div 
-                className={`category-controls ${
-                  expandedCategory === categoryKey && enabledCategories[categoryKey] ? 'expanded' : ''
-                } ${!enabledCategories[categoryKey] ? 'disabled' : ''}`}
-              >
-                {Object.entries(category.options).map(([optionKey, values]) => (
-                  <div key={optionKey} className="control-group">
-                    <label className="control-label">
-                      {optionKey.replace(/([A-Z])/g, ' $1').toLowerCase().replace(/^./, str => str.toUpperCase())}
-                    </label>
-                    <select
-                      value={styles[optionKey]}
-                      onChange={(e) => setStyles({...styles, [optionKey]: e.target.value})}
-                      disabled={!enabledCategories[categoryKey]}
-                    >
-                      {values.map(value => (
-                        <option key={value} value={value}>
-                          {value.replace(/-/g, ' ').replace(/^./, str => str.toUpperCase())}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                ))}
-              </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
         <button 
           className="sidebar-toggle"
@@ -770,22 +772,26 @@ function App() {
         
         <div className="panels">
           <textarea
+            className="input-panel"
             value={inputText}
             onChange={(e) => setInputText(e.target.value)}
             placeholder="Enter your email text here..."
-            className="input-panel"
             disabled={isLoading}
+            rows={25}
           />
           <div className="output-container">
             <textarea
-              value={outputText}
-              readOnly
               className="output-panel"
+              value={outputText}
+              onChange={(e) => setOutputText(e.target.value)}
               placeholder="Refactored email will appear here..."
+              disabled={isLoading}
+              rows={25}
+              readOnly
             />
-            <button 
-              onClick={handleCopy} 
+            <button
               className="copy-button"
+              onClick={handleCopy}
               disabled={!outputText || isLoading}
             >
               Copy
