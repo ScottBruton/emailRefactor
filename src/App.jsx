@@ -1,5 +1,8 @@
 import { useState, useEffect, useRef } from "react";
 import { invoke } from "@tauri-apps/api/core";
+// Removing file system imports temporarily
+// import { appDataDir } from "@tauri-apps/api/path";
+// import { readTextFile, writeTextFile, createDir, exists } from "@tauri-apps/api/fs";
 import "./App.css";
 
 function App() {
@@ -11,6 +14,7 @@ function App() {
   const [sidebarHidden, setSidebarHidden] = useState(false);
   const [isResponseEmail, setIsResponseEmail] = useState(false);
   const [originalEmail, setOriginalEmail] = useState('');
+  const [isSaving, setIsSaving] = useState(false);
   
   const styleControlsRef = useRef(null);
   
@@ -160,6 +164,11 @@ function App() {
     });
   }, [enabledCategories, expandedCategory]);
 
+  useEffect(() => {
+    // Load saved settings when the app starts
+    loadSettings();
+  }, []);
+
   const handleCategoryClick = (categoryKey, event) => {
     // If the click is on the toggle button, don't handle expansion
     if (event.target.closest('.toggle')) {
@@ -238,10 +247,96 @@ function App() {
     setSidebarHidden(!sidebarHidden);
   };
 
+  const saveSettings = () => {
+    try {
+      setIsSaving(true);
+      
+      const settingsData = {
+        enabledCategories,
+        styles,
+        isResponseEmail
+      };
+      
+      localStorage.setItem('emailRefactorSettings', JSON.stringify(settingsData));
+      setError(null);
+      
+      // Show temporary success message
+      const successMessage = document.getElementById('save-success-message');
+      if (successMessage) {
+        successMessage.style.opacity = '1';
+        setTimeout(() => {
+          successMessage.style.opacity = '0';
+        }, 3000);
+      }
+    } catch (error) {
+      console.error('Error saving settings:', error);
+      setError('Failed to save settings.');
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
+  const loadSettings = () => {
+    try {
+      const settingsContent = localStorage.getItem('emailRefactorSettings');
+      
+      if (!settingsContent) {
+        // No settings yet, use defaults
+        console.log('No settings found. Using defaults.');
+        return;
+      }
+      
+      const settingsData = JSON.parse(settingsContent);
+      
+      // Apply saved settings
+      if (settingsData.enabledCategories) {
+        setEnabledCategories(settingsData.enabledCategories);
+      }
+      
+      if (settingsData.styles) {
+        setStyles(settingsData.styles);
+      }
+      
+      if (settingsData.isResponseEmail !== undefined) {
+        setIsResponseEmail(settingsData.isResponseEmail);
+      }
+      
+      console.log('Settings loaded successfully.');
+    } catch (error) {
+      console.error('Error loading settings:', error);
+      setError('Failed to load settings.');
+    }
+  };
+
   const renderStyleControls = () => {
     return (
       <div className={`sidebar-container ${sidebarHidden ? 'hidden' : ''}`}>
         <div className="style-controls">
+          <div className="sidebar-header">
+            <button 
+              className="save-settings-button" 
+              onClick={saveSettings}
+              title="Save current settings"
+              disabled={isSaving}
+            >
+              <svg 
+                xmlns="http://www.w3.org/2000/svg" 
+                width="16" 
+                height="16" 
+                viewBox="0 0 24 24" 
+                fill="none" 
+                stroke="currentColor" 
+                strokeWidth="2" 
+                strokeLinecap="round" 
+                strokeLinejoin="round"
+              >
+                <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
+                <polyline points="17 21 17 13 7 13 7 21"></polyline>
+                <polyline points="7 3 7 8 15 8"></polyline>
+              </svg>
+            </button>
+            <span id="save-success-message" className="save-success-message">Settings saved!</span>
+          </div>
           {Object.entries(categories).map(([categoryKey, category]) => (
             <div key={categoryKey} className="style-category">
               <div 

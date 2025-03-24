@@ -66,6 +66,45 @@ body, html {
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
 }
 
+.sidebar-header {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin-bottom: 10px;
+  position: relative;
+}
+
+.save-settings-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px;
+  border-radius: 4px;
+  color: #666;
+  transition: all 0.2s;
+}
+
+.save-settings-button:hover:not(:disabled) {
+  background-color: rgba(0, 123, 255, 0.1);
+  color: #007bff;
+}
+
+.save-settings-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.save-success-message {
+  margin-left: 10px;
+  color: #28a745;
+  font-size: 0.8em;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
 .style-controls.hidden {
   transform: translateX(-350px);
 }
@@ -541,5 +580,18 @@ select:focus {
 
   .setting-category {
     color: #FFC426;
+  }
+
+  .save-settings-button {
+    color: #aaa;
+  }
+
+  .save-settings-button:hover:not(:disabled) {
+    background-color: rgba(0, 123, 255, 0.2);
+    color: #48a3ff;
+  }
+
+  .save-success-message {
+    color: #3dcc5f;
   }
 }
