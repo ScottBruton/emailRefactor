@@ -14,6 +14,7 @@ function App() {
   const [sidebarHidden, setSidebarHidden] = useState(false);
   const [isResponseEmail, setIsResponseEmail] = useState(false);
   const [originalEmail, setOriginalEmail] = useState('');
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [selectedPreset, setSelectedPreset] = useState('none');
   const [lastSavedSettings, setLastSavedSettings] = useState(null);
@@ -740,6 +741,36 @@ function App() {
     );
   };
 
+  // Add new handlers for modal
+  const openModal = () => {
+    if (isResponseEmail) {
+      setIsModalOpen(true);
+    }
+  };
+
+  const closeModal = (e) => {
+    if (e) {
+      e.stopPropagation();
+    }
+    setIsModalOpen(false);
+  };
+
+  const handleModalClick = (e) => {
+    e.stopPropagation();
+  };
+
+  const handleOverlayClick = () => {
+    closeModal();
+  };
+
+  // Update the response toggle handler
+  const handleResponseToggle = () => {
+    setIsResponseEmail(!isResponseEmail);
+    if (!isResponseEmail) {
+      setOriginalEmail('');
+    }
+  };
+
   return (
     <div className="container">
       {renderStyleControls()}
@@ -753,7 +784,7 @@ function App() {
               <input
                 type="checkbox"
                 checked={isResponseEmail}
-                onChange={() => setIsResponseEmail(!isResponseEmail)}
+                onChange={handleResponseToggle}
               />
             </div>
           </label>
@@ -761,14 +792,14 @@ function App() {
         
         <div className="content-flex-container">
           {isResponseEmail && (
-            <div className="original-email-container">
-              <textarea
-                value={originalEmail}
-                onChange={(e) => setOriginalEmail(e.target.value)}
-                placeholder="Paste the original email you're responding to here..."
-                className="original-email-input"
-              />
-            </div>
+            <textarea
+              className="response-email-preview"
+              value={originalEmail}
+              onChange={(e) => setOriginalEmail(e.target.value)}
+              onClick={openModal}
+              placeholder="Click to add the original email you're responding to..."
+              readOnly
+            />
           )}
           
           <div className="panels">
@@ -852,6 +883,25 @@ function App() {
               )}
             </div>
           </div>
+        </div>
+      </div>
+
+      {/* Modal */}
+      <div 
+        className={`modal-overlay ${isModalOpen ? 'visible' : ''}`}
+        onClick={handleOverlayClick}
+      >
+        <div className="modal-content" onClick={handleModalClick}>
+          <div className="modal-header">
+            <div className="modal-title">Original Email</div>
+            <button className="modal-close" onClick={closeModal}>&times;</button>
+          </div>
+          <textarea
+            className="modal-textarea"
+            value={originalEmail}
+            onChange={(e) => setOriginalEmail(e.target.value)}
+            placeholder="Paste the original email you're responding to here..."
+          />
         </div>
       </div>
     </div>
