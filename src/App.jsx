@@ -1616,21 +1616,23 @@ function App() {
           )}
           
           <div className="panels-container">
-            <div className="fluffy-meter-container">
-              <h3>Fluffy Meter</h3>
-              <input
-                type="range"
-                min="1"
-                max="10"
-                value={fluffLevel}
-                onChange={(e) => setFluffLevel(parseInt(e.target.value))}
-                className="fluffy-meter"
-                orient="vertical"
-              />
-              <div className="fluffy-level-indicator">
-                <div className="level-name">{fluffLevels[fluffLevel].name}</div>
-                <div className="level-examples">{fluffLevels[fluffLevel].examples}</div>
-                <div className="level-comment">{fluffLevels[fluffLevel].comment}</div>
+            <div className="fluffy-meter-wrapper">
+              <div className="fluffy-meter-container">
+                <h3>Fluffy Meter</h3>
+                <input
+                  type="range"
+                  min="1"
+                  max="10"
+                  value={fluffLevel}
+                  onChange={(e) => setFluffLevel(parseInt(e.target.value))}
+                  className="fluffy-meter"
+                  orient="vertical"
+                />
+                <div className="fluffy-level-info">
+                  <div className="level-name">{fluffLevels[fluffLevel].name}</div>
+                  <div className="level-examples">{fluffLevels[fluffLevel].examples}</div>
+                  <div className="level-comment">{fluffLevels[fluffLevel].comment}</div>
+                </div>
               </div>
             </div>
 
