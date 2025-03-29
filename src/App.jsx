@@ -1605,20 +1605,20 @@ function App() {
           <div className="panels-container">
             
             <div className="fluffy-meter-wrapper">
-            <button 
-              className="sidebar-toggle"
-              onClick={toggleSidebar}
-              aria-label={sidebarHidden ? 'Show sidebar' : 'Hide sidebar'}
-            >
-              <svg 
-                viewBox="0 0 24 24" 
-                fill="currentColor"
-                width="24"
-                height="24"
+              <button 
+                className="sidebar-toggle"
+                onClick={toggleSidebar}
+                aria-label={sidebarHidden ? 'Show sidebar' : 'Hide sidebar'}
               >
-                <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z" stroke="currentColor" strokeWidth="1"/>
-              </svg>
-            </button>
+                <svg 
+                  viewBox="0 0 24 24" 
+                  fill="currentColor"
+                  width="24"
+                  height="24"
+                >
+                  <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
+                </svg>
+              </button>
               <div className="fluffy-meter-container">
                 <h3>Fluffy Meter</h3>
                 <input
