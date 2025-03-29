@@ -102,14 +102,22 @@ function App() {
           tone: 'professional',
           languageComplexity: 'professional',
           grammarSpelling: 'strict',
-          conciseness: 'detailed',
+          conciseness: 'balanced',
           structure: 'paragraph',
+          formatting: 'none',
+          emailLength: 'medium (100–200 words)',
+          clarity: 'direct',
           purpose: 'inform',
           formality: 'semiformal',
           greeting: 'dear',
           signoff: 'best regards',
+          includeDetails: 'basic',
+          dynamicContent: 'standard',
           emotion: 'neutral',
           audienceExpertise: 'mixed',
+          hierarchicalContext: 'speaking-to-equals',
+          ageAppropriate: 'adult',
+          culturalSensitivity: 'universal',
           industryContext: 'general',
           urgency: 'no-urgency',
           relationshipType: 'established',
@@ -133,17 +141,23 @@ function App() {
           communicationGoal: true
         },
         styles: {
-          tone: 'professional',
-          languageComplexity: 'professional',
-          grammarSpelling: 'strict',
-          conciseness: 'brief',
+          tone: 'direct',
+          languageComplexity: 'simple',
+          grammarSpelling: 'standard',
+          conciseness: 'ultra brief',
           structure: 'paragraph',
+          formatting: 'none',
+          emailLength: 'ultra short (under 50 words)',
+          clarity: 'direct',
           purpose: 'inform',
-          formality: 'semiformal',
+          formality: 'casual',
           greeting: 'hi',
           signoff: 'best',
+          includeDetails: 'minimal',
+          dynamicContent: 'template only',
           audienceExpertise: 'mixed',
-          urgency: 'time-bound',
+          hierarchicalContext: 'speaking-to-equals',
+          urgency: 'time-sensitive',
           relationshipType: 'established',
           goal: 'inform'
         }
@@ -169,16 +183,22 @@ function App() {
           languageComplexity: 'professional',
           grammarSpelling: 'strict',
           conciseness: 'detailed',
-          structure: 'bullet-points',
+          structure: 'bullet points',
+          formatting: 'emphasis on action items',
+          emailLength: 'medium (100–200 words)',
+          clarity: 'direct',
           purpose: 'request',
           formality: 'formal',
           greeting: 'dear',
           signoff: 'best regards',
+          includeDetails: 'detailed',
+          dynamicContent: 'personalized',
           audienceExpertise: 'mixed',
+          hierarchicalContext: 'speaking-to-equals',
           industryContext: 'business',
-          urgency: 'time-bound',
+          urgency: 'time-sensitive',
           relationshipType: 'professional-only',
-          goal: 'request-action'
+          goal: 'request'
         }
       }
     },
@@ -202,17 +222,23 @@ function App() {
           languageComplexity: 'professional',
           grammarSpelling: 'strict',
           conciseness: 'detailed',
-          structure: 'paragraph',
-          purpose: 'persuasion',
+          structure: 'bullet points',
+          formatting: 'highlighted key points',
+          emailLength: 'long (200–400 words)',
+          clarity: 'direct',
+          purpose: 'promotion',
           formality: 'semiformal',
           greeting: 'dear',
           signoff: 'best regards',
+          includeDetails: 'full context',
+          dynamicContent: 'highly personalized',
           emotion: 'positive',
           audienceExpertise: 'non-technical',
-          industryContext: 'business',
-          urgency: 'time-bound',
-          relationshipType: 'first-contact',
-          goal: 'persuade'
+          hierarchicalContext: 'speaking-to-client',
+          industryContext: 'sales',
+          urgency: 'time-sensitive',
+          relationshipType: 'prospect',
+          goal: 'close a sale'
         }
       }
     },
@@ -232,21 +258,26 @@ function App() {
           communicationGoal: true
         },
         styles: {
-          tone: 'authoritative',
+          tone: 'professional',
           languageComplexity: 'professional',
           grammarSpelling: 'strict',
           conciseness: 'detailed',
           structure: 'paragraph',
+          formatting: 'clear spacing',
+          emailLength: 'medium (100–200 words)',
+          clarity: 'diplomatic',
           purpose: 'request',
-          formality: 'formal',
+          formality: 'very formal',
           greeting: 'dear',
           signoff: 'regards',
+          includeDetails: 'detailed',
+          dynamicContent: 'standard',
           audienceExpertise: 'professional',
-          hierarchicalContext: 'speaking-to-superiors',
+          hierarchicalContext: 'speaking-to-superior',
           industryContext: 'business',
-          urgency: 'time-bound',
-          relationshipType: 'professional-only',
-          goal: 'request-action'
+          urgency: 'time-sensitive',
+          relationshipType: 'manager',
+          goal: 'request'
         }
       }
     },
@@ -267,18 +298,23 @@ function App() {
         },
         styles: {
           tone: 'friendly',
-          languageComplexity: 'professional',
-          grammarSpelling: 'relaxed',
+          languageComplexity: 'conversational',
+          grammarSpelling: 'casual',
           conciseness: 'brief',
           structure: 'paragraph',
+          formatting: 'none',
+          emailLength: 'short (50–100 words)',
+          clarity: 'direct',
           purpose: 'inform',
           formality: 'casual',
           greeting: 'hi',
           signoff: 'best',
+          includeDetails: 'basic',
+          dynamicContent: 'standard',
           emotion: 'positive',
           audienceExpertise: 'mixed',
           hierarchicalContext: 'speaking-to-equals',
-          relationshipType: 'established',
+          relationshipType: 'colleague',
           goal: 'inform'
         }
       }
@@ -304,15 +340,20 @@ function App() {
           grammarSpelling: 'strict',
           conciseness: 'detailed',
           structure: 'paragraph',
-          purpose: 'inform',
+          formatting: 'clear spacing',
+          emailLength: 'medium (100–200 words)',
+          clarity: 'transparent',
+          purpose: 'announcement',
           formality: 'formal',
           greeting: 'dear',
           signoff: 'best regards',
+          includeDetails: 'full context',
+          dynamicContent: 'standard',
           emotion: 'neutral',
           audienceExpertise: 'mixed',
           hierarchicalContext: 'speaking-to-equals',
-          urgency: 'time-bound',
-          relationshipType: 'professional-only',
+          urgency: 'time-sensitive',
+          relationshipType: 'colleague',
           goal: 'inform'
         }
       }
@@ -337,15 +378,21 @@ function App() {
           languageComplexity: 'professional',
           grammarSpelling: 'strict',
           conciseness: 'detailed',
-          structure: 'bullet-points',
-          purpose: 'inform',
+          structure: 'bullet points',
+          formatting: 'bold headers',
+          emailLength: 'long (200–400 words)',
+          clarity: 'direct',
+          purpose: 'report',
           formality: 'semiformal',
           greeting: 'hi',
           signoff: 'best',
+          includeDetails: 'full context',
+          dynamicContent: 'standard',
           audienceExpertise: 'mixed',
+          hierarchicalContext: 'speaking-to-equals',
           industryContext: 'business',
-          urgency: 'time-bound',
-          relationshipType: 'established',
+          urgency: 'time-sensitive',
+          relationshipType: 'colleague',
           goal: 'inform'
         }
       }
@@ -368,18 +415,24 @@ function App() {
         styles: {
           tone: 'professional',
           languageComplexity: 'professional',
-          grammarSpelling: 'strict',
+          grammarSpelling: 'standard',
           conciseness: 'brief',
           structure: 'paragraph',
+          formatting: 'none',
+          emailLength: 'short (50–100 words)',
+          clarity: 'direct',
           purpose: 'follow-up',
           formality: 'semiformal',
           greeting: 'hi',
           signoff: 'best',
+          includeDetails: 'minimal',
+          dynamicContent: 'standard',
           emotion: 'positive',
           audienceExpertise: 'mixed',
-          urgency: 'time-bound',
+          hierarchicalContext: 'speaking-to-equals',
+          urgency: 'time-sensitive',
           relationshipType: 'established',
-          goal: 'request-action'
+          goal: 'encourage action'
         }
       }
     },
@@ -400,18 +453,24 @@ function App() {
         },
         styles: {
           tone: 'friendly',
-          languageComplexity: 'casual',
-          grammarSpelling: 'relaxed',
-          conciseness: 'brief',
+          languageComplexity: 'conversational',
+          grammarSpelling: 'casual',
+          conciseness: 'balanced',
           structure: 'paragraph',
+          formatting: 'none',
+          emailLength: 'medium (100–200 words)',
+          clarity: 'direct',
           purpose: 'inform',
           formality: 'casual',
           greeting: 'hi',
-          signoff: 'best',
+          signoff: 'cheers',
+          includeDetails: 'basic',
+          dynamicContent: 'personalized',
           emotion: 'positive',
           audienceExpertise: 'mixed',
-          relationshipType: 'established',
-          goal: 'build-relationship'
+          hierarchicalContext: 'speaking-to-equals',
+          relationshipType: 'friend',
+          goal: 'build trust'
         }
       }
     },
@@ -436,15 +495,21 @@ function App() {
           grammarSpelling: 'strict',
           conciseness: 'detailed',
           structure: 'paragraph',
+          formatting: 'none',
+          emailLength: 'medium (100–200 words)',
+          clarity: 'clear but cautious',
           purpose: 'apology',
           formality: 'formal',
           greeting: 'dear',
           signoff: 'sincerely',
+          includeDetails: 'detailed',
+          dynamicContent: 'personalized',
           emotion: 'concerned',
           audienceExpertise: 'mixed',
-          urgency: 'immediate-action',
+          hierarchicalContext: 'speaking-to-equals',
+          urgency: 'high',
           relationshipType: 'established',
-          goal: 'build-relationship'
+          goal: 'resolve an issue'
         }
       }
     },
@@ -468,17 +533,23 @@ function App() {
           languageComplexity: 'professional',
           grammarSpelling: 'strict',
           conciseness: 'detailed',
-          structure: 'bullet-points',
+          structure: 'bullet points',
+          formatting: 'emphasis on action items',
+          emailLength: 'medium (100–200 words)',
+          clarity: 'direct',
           purpose: 'request',
           formality: 'semiformal',
           greeting: 'hi',
           signoff: 'best',
+          includeDetails: 'detailed',
+          dynamicContent: 'personalized',
           emotion: 'positive',
           audienceExpertise: 'mixed',
+          hierarchicalContext: 'speaking-to-equals',
           industryContext: 'creative',
-          urgency: 'time-bound',
-          relationshipType: 'established',
-          goal: 'request-action'
+          urgency: 'time-sensitive',
+          relationshipType: 'colleague',
+          goal: 'request'
         }
       }
     },
@@ -502,15 +573,21 @@ function App() {
           languageComplexity: 'professional',
           grammarSpelling: 'strict',
           conciseness: 'detailed',
-          structure: 'bullet-points',
-          purpose: 'inform',
+          structure: 'headers & sections',
+          formatting: 'bold headers',
+          emailLength: 'very long (400+ words)',
+          clarity: 'direct',
+          purpose: 'report',
           formality: 'formal',
           greeting: 'dear',
           signoff: 'best regards',
+          includeDetails: 'full context',
+          dynamicContent: 'standard',
           audienceExpertise: 'mixed',
+          hierarchicalContext: 'speaking-to-equals',
           industryContext: 'marketing',
-          urgency: 'time-bound',
-          relationshipType: 'established',
+          urgency: 'time-sensitive',
+          relationshipType: 'colleague',
           goal: 'inform'
         }
       }
@@ -532,18 +609,24 @@ function App() {
         },
         styles: {
           tone: 'professional',
-          languageComplexity: 'professional',
+          languageComplexity: 'technical',
           grammarSpelling: 'strict',
           conciseness: 'detailed',
-          structure: 'bullet-points',
-          purpose: 'inform',
+          structure: 'bullet points',
+          formatting: 'table format',
+          emailLength: 'long (200–400 words)',
+          clarity: 'direct',
+          purpose: 'report',
           formality: 'formal',
           greeting: 'dear',
           signoff: 'best regards',
-          audienceExpertise: 'professional',
+          includeDetails: 'full context',
+          dynamicContent: 'standard',
+          audienceExpertise: 'expert',
+          hierarchicalContext: 'speaking-to-equals',
           industryContext: 'marketing',
-          urgency: 'time-bound',
-          relationshipType: 'established',
+          urgency: 'time-sensitive',
+          relationshipType: 'colleague',
           goal: 'inform'
         }
       }
@@ -568,17 +651,23 @@ function App() {
           languageComplexity: 'professional',
           grammarSpelling: 'strict',
           conciseness: 'detailed',
-          structure: 'bullet-points',
-          purpose: 'persuasion',
+          structure: 'bullet points',
+          formatting: 'highlighted key points',
+          emailLength: 'long (200–400 words)',
+          clarity: 'direct',
+          purpose: 'proposal',
           formality: 'semiformal',
           greeting: 'dear',
           signoff: 'best regards',
+          includeDetails: 'full context',
+          dynamicContent: 'personalized',
           emotion: 'positive',
           audienceExpertise: 'mixed',
-          industryContext: 'marketing',
-          urgency: 'time-bound',
-          relationshipType: 'professional-only',
-          goal: 'persuade'
+          hierarchicalContext: 'speaking-to-client',
+          industryContext: 'media',
+          urgency: 'time-sensitive',
+          relationshipType: 'prospect',
+          goal: 'close a sale'
         }
       }
     },
@@ -602,17 +691,23 @@ function App() {
           languageComplexity: 'professional',
           grammarSpelling: 'strict',
           conciseness: 'detailed',
-          structure: 'bullet-points',
-          purpose: 'persuasion',
+          structure: 'bullet points',
+          formatting: 'highlighted key points',
+          emailLength: 'long (200–400 words)',
+          clarity: 'direct',
+          purpose: 'proposal',
           formality: 'semiformal',
           greeting: 'dear',
           signoff: 'best regards',
+          includeDetails: 'full context',
+          dynamicContent: 'personalized',
           emotion: 'positive',
           audienceExpertise: 'mixed',
-          industryContext: 'marketing',
-          urgency: 'time-bound',
-          relationshipType: 'professional-only',
-          goal: 'persuade'
+          hierarchicalContext: 'speaking-to-client',
+          industryContext: 'media',
+          urgency: 'time-sensitive',
+          relationshipType: 'prospect',
+          goal: 'close a sale'
         }
       }
     },
@@ -636,17 +731,23 @@ function App() {
           languageComplexity: 'professional',
           grammarSpelling: 'strict',
           conciseness: 'detailed',
-          structure: 'bullet-points',
-          purpose: 'persuasion',
+          structure: 'bullet points',
+          formatting: 'highlighted key points',
+          emailLength: 'long (200–400 words)',
+          clarity: 'direct',
+          purpose: 'proposal',
           formality: 'semiformal',
           greeting: 'dear',
           signoff: 'best regards',
+          includeDetails: 'full context',
+          dynamicContent: 'personalized',
           emotion: 'positive',
           audienceExpertise: 'mixed',
-          industryContext: 'marketing',
-          urgency: 'time-bound',
-          relationshipType: 'professional-only',
-          goal: 'persuade'
+          hierarchicalContext: 'speaking-to-client',
+          industryContext: 'media',
+          urgency: 'time-sensitive',
+          relationshipType: 'prospect',
+          goal: 'close a sale'
         }
       }
     },
@@ -670,15 +771,21 @@ function App() {
           languageComplexity: 'professional',
           grammarSpelling: 'strict',
           conciseness: 'brief',
-          structure: 'bullet-points',
+          structure: 'table format',
+          formatting: 'table format',
+          emailLength: 'short (50–100 words)',
+          clarity: 'direct',
           purpose: 'inform',
           formality: 'semiformal',
           greeting: 'hi',
           signoff: 'best',
+          includeDetails: 'basic',
+          dynamicContent: 'standard',
           audienceExpertise: 'mixed',
-          industryContext: 'marketing',
-          urgency: 'time-bound',
-          relationshipType: 'professional-only',
+          hierarchicalContext: 'speaking-to-equals',
+          industryContext: 'media',
+          urgency: 'time-sensitive',
+          relationshipType: 'prospect',
           goal: 'inform'
         }
       }
@@ -689,74 +796,74 @@ function App() {
     contentStyle: {
       title: "Content Style & Formatting",
       options: {
-        tone: ["formal", "informal", "friendly", "authoritative", "apologetic", "persuasive", "humorous", "sarcastic", "inspirational", "diplomatic", "enthusiastic", "respectful", "sympathetic", "assertive", "curious"],
-        languageComplexity: ["simple", "professional", "academic", "casual"],
-        grammarSpelling: ["strict", "relaxed", "conversational"],
-        conciseness: ["brief", "detailed"],
-        structure: ["paragraph", "bullet-points", "numbered-lists"],
-        formatting: ["none", "bold", "italics", "underlines", "hyperlinks"],
-        emailLength: ["short", "medium", "long"],
-        clarity: ["direct", "nuanced"]
+        tone: ["formal", "neutral", "informal", "friendly", "enthusiastic", "persuasive", "empathetic", "apologetic", "direct", "playful", "reserved"],
+        languageComplexity: ["simple", "conversational", "professional", "technical", "academic"],
+        grammarSpelling: ["strict", "standard", "casual", "none"],
+        conciseness: ["ultra brief", "brief", "balanced", "detailed", "elaborate"],
+        structure: ["paragraph", "bullet points", "numbered list", "hybrid", "Q&A", "headers & sections"],
+        formatting: ["none", "bold headers", "highlighted key points", "callouts", "clear spacing", "table format", "emphasis on action items"],
+        emailLength: ["ultra short (under 50 words)", "short (50–100 words)", "medium (100–200 words)", "long (200–400 words)", "very long (400+ words)"],
+        clarity: ["direct", "neutral", "diplomatic", "nuanced", "transparent", "clear but cautious"]
       }
     },
     purpose: {
       title: "Purpose & Intent",
       options: {
-        purpose: ["inquiry", "response", "request", "follow-up", "reminder", "apology", "thank-you", "complaint", "persuasion", "invitation"]
+        purpose: ["inquiry", "request", "follow-up", "proposal", "introduction", "report", "reminder", "confirmation", "announcement", "feedback", "escalation", "support", "update", "promotion"]
       }
     },
     formality: {
       title: "Formality & Professionalism",
       options: {
-        formality: ["casual", "semiformal", "formal"]
+        formality: ["casual", "semiformal", "formal", "very formal", "executive"]
       }
     },
     personalization: {
       title: "Personalization",
       options: {
-        greeting: ["dear", "hi", "hello"],
-        signoff: ["best", "regards", "sincerely", "cheers"],
-        includeDetails: ["none", "basic", "detailed"],
-        dynamicContent: ["standard", "cultural", "contextual"]
+        greeting: ["hi", "hello", "hey", "dear", "to whom it may concern", "none", "custom"],
+        signoff: ["thanks", "regards", "best", "sincerely", "cheers", "warm regards", "none", "custom"],
+        includeDetails: ["minimal", "basic", "detailed", "full context", "summary with attachments"],
+        dynamicContent: ["template only", "standard", "personalized", "highly personalized"]
       }
     },
     emotion: {
       title: "Emotion & Sentiment",
       options: {
-        emotion: ["neutral", "positive", "urgent", "empathetic", "encouraging", "critical", "excited", "disappointed", "hopeful", "surprised", "grateful", "concerned", "confident"]
+        emotion: ["neutral", "positive", "friendly", "enthusiastic", "motivational", "reassuring", "empathetic", "supportive", "apologetic", "concerned", "critical", "frustrated", "sarcastic", "celebratory", "grateful", "disappointed", "sympathetic", "angry"]
       }
     },
     audience: {
       title: "Audience Adaptation",
       options: {
-        audienceExpertise: ["technical", "non-technical", "mixed"],
-        hierarchicalContext: ["speaking-to-superiors", "speaking-to-equals", "speaking-to-subordinates"],
-        ageAppropriate: ["youth", "adult", "senior", "all-ages"],
-        culturalSensitivity: ["regional", "international", "universal"]
+        audienceExpertise: ["non-technical", "somewhat technical", "technical", "expert"],
+        hierarchicalContext: ["speaking-to-superior", "speaking-to-subordinate", "speaking-to-equals", "speaking-to-client", "speaking-to-audience"],
+        ageAppropriate: ["teen", "young adult", "adult", "senior", "universal"],
+        culturalSensitivity: ["universal", "region-specific", "localized", "inclusive", "neutral"]
       }
     },
     industry: {
       title: "Industry-Specific Language",
       options: {
-        industryContext: ["general", "business", "academic", "legal", "medical", "technical", "creative", "marketing"]
+        industryContext: ["general", "media", "marketing", "advertising", "sales", "tech", "finance", "healthcare", "education", "legal", "government", "nonprofit", "entertainment"]
       }
     },
     timeSensitivity: {
       title: "Time Sensitivity",
       options: {
-        urgency: ["immediate-action", "time-bound", "no-urgency"]
+        urgency: ["no-urgency", "low", "medium", "high", "urgent", "critical", "time-sensitive"]
       }
     },
     relationship: {
       title: "Relationship Context",
       options: {
-        relationshipType: ["first-contact", "established", "close", "professional-only"]
+        relationshipType: ["new contact", "acquaintance", "colleague", "manager", "direct report", "peer", "client", "vendor", "partner", "stakeholder", "friend", "trusted contact", "long-term relationship", "former contact", "prospect", "general audience"]
       }
     },
     communicationGoal: {
       title: "Communication Goal",
       options: {
-        goal: ["inform", "persuade", "build-relationship", "collaborate", "request-action", "problem-solve"]
+        goal: ["inform", "request", "persuade", "clarify", "reassure", "inspire", "apologize", "summarize", "negotiate", "encourage action", "build trust", "close a sale", "resolve an issue"]
       }
     }
   };
@@ -948,40 +1055,84 @@ function App() {
   };
 
   const handleRefactor = async () => {
-    if (!inputText.trim()) {
-      setError('Please enter some text to refactor');
-      return;
-    }
-
-    if (isResponseEmail && !originalEmail.trim()) {
-      setError('Cannot generate a response to an empty email. Please paste the original email you are responding to.');
-      return;
-    }
-
-    // Check if at least one category is enabled
-    const hasEnabledCategory = Object.values(enabledCategories).some(value => value === true);
-    if (!hasEnabledCategory) {
-      setError('Please enable at least one refactoring setting category.');
-      return;
-    }
-
-    setIsLoading(true);
-    setError(null);
     try {
-      const result = await invoke('refactor_email', { 
+      console.log('Starting refactoring process...');
+      console.log('Input text:', inputText);
+      console.log('Enabled categories:', enabledCategories);
+      console.log('Selected styles:', styles);
+
+      if (!inputText.trim()) {
+        console.log('Error: Empty input text');
+        setError('Please enter some text to refactor');
+        return;
+      }
+
+      if (isResponseEmail && !originalEmail.trim()) {
+        console.log('Error: Empty original email for response');
+        setError('Cannot generate a response to an empty email. Please paste the original email you are responding to.');
+        return;
+      }
+
+      const hasEnabledCategory = Object.values(enabledCategories).some(value => value === true);
+      if (!hasEnabledCategory) {
+        console.log('Error: No categories enabled');
+        setError('Please enable at least one refactoring setting category.');
+        return;
+      }
+
+      console.log('All validation passed, calling refactor_email...');
+      
+      setError('');
+      setIsLoading(true);
+
+      // Ensure all required style fields are present
+      const styleConfig = {
+        tone: styles.tone || 'neutral',
+        languageComplexity: styles.languageComplexity || 'professional',
+        grammarSpelling: styles.grammarSpelling || 'standard',
+        conciseness: styles.conciseness || 'balanced',
+        structure: styles.structure || 'paragraph',
+        formatting: styles.formatting || 'none',
+        emailLength: styles.emailLength || 'medium (100–200 words)',
+        clarity: styles.clarity || 'direct',
+        purpose: styles.purpose || 'inform',
+        formality: styles.formality || 'semiformal',
+        greeting: styles.greeting || 'hi',
+        signoff: styles.signoff || 'best',
+        includeDetails: styles.includeDetails || 'basic',
+        dynamicContent: styles.dynamicContent || 'standard',
+        emotion: styles.emotion || 'neutral',
+        audienceExpertise: styles.audienceExpertise || 'mixed',
+        hierarchicalContext: styles.hierarchicalContext || 'speaking-to-equals',
+        ageAppropriate: styles.ageAppropriate || 'adult',
+        culturalSensitivity: styles.culturalSensitivity || 'universal',
+        industryContext: styles.industryContext || 'general',
+        urgency: styles.urgency || 'no-urgency',
+        relationshipType: styles.relationshipType || 'established',
+        goal: styles.goal || 'inform',
+        enabledCategories
+      };
+
+      console.log('Sending style config:', styleConfig);
+
+      const result = await invoke('refactor_email', {
         text: inputText,
-        originalEmail: isResponseEmail ? originalEmail : '',
         isResponse: isResponseEmail,
-        styles: {
-          ...styles,
-          enabledCategories
-        }
+        originalEmail: originalEmail,
+        styles: styleConfig
       });
+
+      console.log('Refactor result:', result);
+
+      if (!result) {
+        throw new Error('Received empty result from refactor_email');
+      }
+
       setOutputText(result);
+      setIsLoading(false);
     } catch (error) {
-      console.error('Error refactoring email:', error);
-      setError('Failed to refactor email. Please try again.');
-    } finally {
+      console.error('Refactoring error:', error);
+      setError(`Failed to refactor email: ${error.message || 'Please try again.'}`);
       setIsLoading(false);
     }
   };
