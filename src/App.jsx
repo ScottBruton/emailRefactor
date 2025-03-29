@@ -83,8 +83,141 @@ function App() {
   // Preset definitions
   const presets = {
     none: { label: "None" },
-    management: {
-      label: "Management",
+    custom: {
+      label: "Custom",
+      settings: {
+        enabledCategories: {
+          contentStyle: true,
+          purpose: true,
+          formality: true,
+          personalization: true,
+          emotion: true,
+          audience: true,
+          industry: true,
+          timeSensitivity: true,
+          relationship: true,
+          communicationGoal: true
+        },
+        styles: {
+          tone: 'professional',
+          languageComplexity: 'professional',
+          grammarSpelling: 'strict',
+          conciseness: 'detailed',
+          structure: 'paragraph',
+          purpose: 'inform',
+          formality: 'semiformal',
+          greeting: 'dear',
+          signoff: 'best regards',
+          emotion: 'neutral',
+          audienceExpertise: 'mixed',
+          industryContext: 'general',
+          urgency: 'no-urgency',
+          relationshipType: 'established',
+          goal: 'inform'
+        }
+      }
+    },
+    quickReply: {
+      label: "Quick Reply",
+      settings: {
+        enabledCategories: {
+          contentStyle: true,
+          purpose: true,
+          formality: true,
+          personalization: true,
+          emotion: false,
+          audience: true,
+          industry: false,
+          timeSensitivity: true,
+          relationship: true,
+          communicationGoal: true
+        },
+        styles: {
+          tone: 'professional',
+          languageComplexity: 'professional',
+          grammarSpelling: 'strict',
+          conciseness: 'brief',
+          structure: 'paragraph',
+          purpose: 'inform',
+          formality: 'semiformal',
+          greeting: 'hi',
+          signoff: 'best',
+          audienceExpertise: 'mixed',
+          urgency: 'time-bound',
+          relationshipType: 'established',
+          goal: 'inform'
+        }
+      }
+    },
+    quoteRequest: {
+      label: "Quote Request",
+      settings: {
+        enabledCategories: {
+          contentStyle: true,
+          purpose: true,
+          formality: true,
+          personalization: true,
+          emotion: false,
+          audience: true,
+          industry: true,
+          timeSensitivity: true,
+          relationship: true,
+          communicationGoal: true
+        },
+        styles: {
+          tone: 'professional',
+          languageComplexity: 'professional',
+          grammarSpelling: 'strict',
+          conciseness: 'detailed',
+          structure: 'bullet-points',
+          purpose: 'request',
+          formality: 'formal',
+          greeting: 'dear',
+          signoff: 'best regards',
+          audienceExpertise: 'mixed',
+          industryContext: 'business',
+          urgency: 'time-bound',
+          relationshipType: 'professional-only',
+          goal: 'request-action'
+        }
+      }
+    },
+    salesPitch: {
+      label: "Sales Pitch",
+      settings: {
+        enabledCategories: {
+          contentStyle: true,
+          purpose: true,
+          formality: true,
+          personalization: true,
+          emotion: true,
+          audience: true,
+          industry: true,
+          timeSensitivity: true,
+          relationship: true,
+          communicationGoal: true
+        },
+        styles: {
+          tone: 'enthusiastic',
+          languageComplexity: 'professional',
+          grammarSpelling: 'strict',
+          conciseness: 'detailed',
+          structure: 'paragraph',
+          purpose: 'persuasion',
+          formality: 'semiformal',
+          greeting: 'dear',
+          signoff: 'best regards',
+          emotion: 'positive',
+          audienceExpertise: 'non-technical',
+          industryContext: 'business',
+          urgency: 'time-bound',
+          relationshipType: 'first-contact',
+          goal: 'persuade'
+        }
+      }
+    },
+    managementRequest: {
+      label: "Management Request",
       settings: {
         enabledCategories: {
           contentStyle: true,
@@ -102,23 +235,23 @@ function App() {
           tone: 'authoritative',
           languageComplexity: 'professional',
           grammarSpelling: 'strict',
-          conciseness: 'brief',
+          conciseness: 'detailed',
           structure: 'paragraph',
-          purpose: 'inform',
+          purpose: 'request',
           formality: 'formal',
           greeting: 'dear',
           signoff: 'regards',
-          audienceExpertise: 'mixed',
-          hierarchicalContext: 'speaking-to-subordinates',
+          audienceExpertise: 'professional',
+          hierarchicalContext: 'speaking-to-superiors',
           industryContext: 'business',
           urgency: 'time-bound',
           relationshipType: 'professional-only',
-          goal: 'inform'
+          goal: 'request-action'
         }
       }
     },
-    teamUpdate: {
-      label: "Team Update",
+    teammate: {
+      label: "Teammate",
       settings: {
         enabledCategories: {
           contentStyle: true,
@@ -135,11 +268,11 @@ function App() {
         styles: {
           tone: 'friendly',
           languageComplexity: 'professional',
-          grammarSpelling: 'strict',
-          conciseness: 'detailed',
-          structure: 'bullet-points',
+          grammarSpelling: 'relaxed',
+          conciseness: 'brief',
+          structure: 'paragraph',
           purpose: 'inform',
-          formality: 'semiformal',
+          formality: 'casual',
           greeting: 'hi',
           signoff: 'best',
           emotion: 'positive',
@@ -150,40 +283,8 @@ function App() {
         }
       }
     },
-    professional: {
-      label: "Professional",
-      settings: {
-        enabledCategories: {
-          contentStyle: true,
-          purpose: true,
-          formality: true,
-          personalization: true,
-          emotion: false,
-          audience: true,
-          industry: true,
-          timeSensitivity: false,
-          relationship: true,
-          communicationGoal: true
-        },
-        styles: {
-          tone: 'formal',
-          languageComplexity: 'professional',
-          grammarSpelling: 'strict',
-          conciseness: 'detailed',
-          structure: 'paragraph',
-          purpose: 'inform',
-          formality: 'formal',
-          greeting: 'dear',
-          signoff: 'sincerely',
-          audienceExpertise: 'professional',
-          industryContext: 'business',
-          relationshipType: 'professional-only',
-          goal: 'inform'
-        }
-      }
-    },
-    clientUpdate: {
-      label: "Client Update",
+    hrCommunication: {
+      label: "HR Communication",
       settings: {
         enabledCategories: {
           contentStyle: true,
@@ -192,7 +293,7 @@ function App() {
           personalization: true,
           emotion: true,
           audience: true,
-          industry: true,
+          industry: false,
           timeSensitivity: true,
           relationship: true,
           communicationGoal: true
@@ -207,17 +308,17 @@ function App() {
           formality: 'formal',
           greeting: 'dear',
           signoff: 'best regards',
-          emotion: 'positive',
-          audienceExpertise: 'non-technical',
-          industryContext: 'business',
+          emotion: 'neutral',
+          audienceExpertise: 'mixed',
+          hierarchicalContext: 'speaking-to-equals',
           urgency: 'time-bound',
-          relationshipType: 'established',
+          relationshipType: 'professional-only',
           goal: 'inform'
         }
       }
     },
-    projectUpdate: {
-      label: "Project Update",
+    progressReport: {
+      label: "Progress Report",
       settings: {
         enabledCategories: {
           contentStyle: true,
@@ -249,8 +350,8 @@ function App() {
         }
       }
     },
-    media: {
-      label: "Media",
+    followUp: {
+      label: "Follow-Up",
       settings: {
         enabledCategories: {
           contentStyle: true,
@@ -258,103 +359,6 @@ function App() {
           formality: true,
           personalization: true,
           emotion: true,
-          audience: true,
-          industry: true,
-          timeSensitivity: false,
-          relationship: true,
-          communicationGoal: true
-        },
-        styles: {
-          tone: 'enthusiastic',
-          languageComplexity: 'professional',
-          grammarSpelling: 'strict',
-          conciseness: 'detailed',
-          structure: 'paragraph',
-          purpose: 'inform',
-          formality: 'semiformal',
-          greeting: 'hi',
-          signoff: 'best',
-          emotion: 'positive',
-          audienceExpertise: 'non-technical',
-          industryContext: 'creative',
-          relationshipType: 'professional-only',
-          goal: 'persuade'
-        }
-      }
-    },
-    knowledgeSharing: {
-      label: "Knowledge Sharing",
-      settings: {
-        enabledCategories: {
-          contentStyle: true,
-          purpose: true,
-          formality: true,
-          personalization: true,
-          emotion: false,
-          audience: true,
-          industry: true,
-          timeSensitivity: false,
-          relationship: false,
-          communicationGoal: true
-        },
-        styles: {
-          tone: 'professional',
-          languageComplexity: 'professional',
-          grammarSpelling: 'strict',
-          conciseness: 'detailed',
-          structure: 'bullet-points',
-          purpose: 'inform',
-          formality: 'semiformal',
-          greeting: 'hi',
-          signoff: 'best',
-          audienceExpertise: 'mixed',
-          industryContext: 'technical',
-          goal: 'inform'
-        }
-      }
-    },
-    urgentRequest: {
-      label: "Urgent Request",
-      settings: {
-        enabledCategories: {
-          contentStyle: true,
-          purpose: true,
-          formality: true,
-          personalization: true,
-          emotion: true,
-          audience: true,
-          industry: false,
-          timeSensitivity: true,
-          relationship: true,
-          communicationGoal: true
-        },
-        styles: {
-          tone: 'authoritative',
-          languageComplexity: 'professional',
-          grammarSpelling: 'strict',
-          conciseness: 'brief',
-          structure: 'paragraph',
-          purpose: 'request',
-          formality: 'formal',
-          greeting: 'dear',
-          signoff: 'regards',
-          emotion: 'urgent',
-          audienceExpertise: 'mixed',
-          urgency: 'immediate-action',
-          relationshipType: 'professional-only',
-          goal: 'request-action'
-        }
-      }
-    },
-    statusCheckIn: {
-      label: "Status Check-In",
-      settings: {
-        enabledCategories: {
-          contentStyle: true,
-          purpose: true,
-          formality: true,
-          personalization: true,
-          emotion: false,
           audience: true,
           industry: false,
           timeSensitivity: true,
@@ -367,38 +371,6 @@ function App() {
           grammarSpelling: 'strict',
           conciseness: 'brief',
           structure: 'paragraph',
-          purpose: 'inquiry',
-          formality: 'semiformal',
-          greeting: 'hi',
-          signoff: 'best',
-          audienceExpertise: 'mixed',
-          urgency: 'time-bound',
-          relationshipType: 'established',
-          goal: 'request-action'
-        }
-      }
-    },
-    meetingFollowUp: {
-      label: "Meeting Follow-Up",
-      settings: {
-        enabledCategories: {
-          contentStyle: true,
-          purpose: true,
-          formality: true,
-          personalization: true,
-          emotion: true,
-          audience: true,
-          industry: false,
-          timeSensitivity: true,
-          relationship: true,
-          communicationGoal: true
-        },
-        styles: {
-          tone: 'professional',
-          languageComplexity: 'professional',
-          grammarSpelling: 'strict',
-          conciseness: 'detailed',
-          structure: 'bullet-points',
           purpose: 'follow-up',
           formality: 'semiformal',
           greeting: 'hi',
@@ -407,7 +379,39 @@ function App() {
           audienceExpertise: 'mixed',
           urgency: 'time-bound',
           relationshipType: 'established',
-          goal: 'inform'
+          goal: 'request-action'
+        }
+      }
+    },
+    friendly: {
+      label: "Friendly",
+      settings: {
+        enabledCategories: {
+          contentStyle: true,
+          purpose: true,
+          formality: true,
+          personalization: true,
+          emotion: true,
+          audience: true,
+          industry: false,
+          timeSensitivity: false,
+          relationship: true,
+          communicationGoal: true
+        },
+        styles: {
+          tone: 'friendly',
+          languageComplexity: 'casual',
+          grammarSpelling: 'relaxed',
+          conciseness: 'brief',
+          structure: 'paragraph',
+          purpose: 'inform',
+          formality: 'casual',
+          greeting: 'hi',
+          signoff: 'best',
+          emotion: 'positive',
+          audienceExpertise: 'mixed',
+          relationshipType: 'established',
+          goal: 'build-relationship'
         }
       }
     },
@@ -444,8 +448,8 @@ function App() {
         }
       }
     },
-    casual: {
-      label: "Casual",
+    reviewRequest: {
+      label: "Review Request",
       settings: {
         enabledCategories: {
           contentStyle: true,
@@ -453,24 +457,229 @@ function App() {
           formality: true,
           personalization: true,
           emotion: true,
-          audience: false,
-          industry: false,
-          timeSensitivity: false,
+          audience: true,
+          industry: true,
+          timeSensitivity: true,
           relationship: true,
-          communicationGoal: false
+          communicationGoal: true
         },
         styles: {
-          tone: 'friendly',
-          languageComplexity: 'casual',
-          grammarSpelling: 'relaxed',
-          conciseness: 'brief',
-          structure: 'paragraph',
-          purpose: 'inform',
-          formality: 'casual',
+          tone: 'professional',
+          languageComplexity: 'professional',
+          grammarSpelling: 'strict',
+          conciseness: 'detailed',
+          structure: 'bullet-points',
+          purpose: 'request',
+          formality: 'semiformal',
           greeting: 'hi',
-          signoff: 'cheers',
+          signoff: 'best',
           emotion: 'positive',
-          relationshipType: 'close'
+          audienceExpertise: 'mixed',
+          industryContext: 'creative',
+          urgency: 'time-bound',
+          relationshipType: 'established',
+          goal: 'request-action'
+        }
+      }
+    },
+    campaignBrief: {
+      label: "Campaign Brief",
+      settings: {
+        enabledCategories: {
+          contentStyle: true,
+          purpose: true,
+          formality: true,
+          personalization: true,
+          emotion: false,
+          audience: true,
+          industry: true,
+          timeSensitivity: true,
+          relationship: true,
+          communicationGoal: true
+        },
+        styles: {
+          tone: 'professional',
+          languageComplexity: 'professional',
+          grammarSpelling: 'strict',
+          conciseness: 'detailed',
+          structure: 'bullet-points',
+          purpose: 'inform',
+          formality: 'formal',
+          greeting: 'dear',
+          signoff: 'best regards',
+          audienceExpertise: 'mixed',
+          industryContext: 'marketing',
+          urgency: 'time-bound',
+          relationshipType: 'established',
+          goal: 'inform'
+        }
+      }
+    },
+    targetAudienceStrategy: {
+      label: "Target Audience Strategy",
+      settings: {
+        enabledCategories: {
+          contentStyle: true,
+          purpose: true,
+          formality: true,
+          personalization: true,
+          emotion: false,
+          audience: true,
+          industry: true,
+          timeSensitivity: true,
+          relationship: true,
+          communicationGoal: true
+        },
+        styles: {
+          tone: 'professional',
+          languageComplexity: 'professional',
+          grammarSpelling: 'strict',
+          conciseness: 'detailed',
+          structure: 'bullet-points',
+          purpose: 'inform',
+          formality: 'formal',
+          greeting: 'dear',
+          signoff: 'best regards',
+          audienceExpertise: 'professional',
+          industryContext: 'marketing',
+          urgency: 'time-bound',
+          relationshipType: 'established',
+          goal: 'inform'
+        }
+      }
+    },
+    digitalAudioProposal: {
+      label: "Digital Audio Proposal",
+      settings: {
+        enabledCategories: {
+          contentStyle: true,
+          purpose: true,
+          formality: true,
+          personalization: true,
+          emotion: true,
+          audience: true,
+          industry: true,
+          timeSensitivity: true,
+          relationship: true,
+          communicationGoal: true
+        },
+        styles: {
+          tone: 'enthusiastic',
+          languageComplexity: 'professional',
+          grammarSpelling: 'strict',
+          conciseness: 'detailed',
+          structure: 'bullet-points',
+          purpose: 'persuasion',
+          formality: 'semiformal',
+          greeting: 'dear',
+          signoff: 'best regards',
+          emotion: 'positive',
+          audienceExpertise: 'mixed',
+          industryContext: 'marketing',
+          urgency: 'time-bound',
+          relationshipType: 'professional-only',
+          goal: 'persuade'
+        }
+      }
+    },
+    podcastSponsorshipPitch: {
+      label: "Podcast Sponsorship Pitch",
+      settings: {
+        enabledCategories: {
+          contentStyle: true,
+          purpose: true,
+          formality: true,
+          personalization: true,
+          emotion: true,
+          audience: true,
+          industry: true,
+          timeSensitivity: true,
+          relationship: true,
+          communicationGoal: true
+        },
+        styles: {
+          tone: 'enthusiastic',
+          languageComplexity: 'professional',
+          grammarSpelling: 'strict',
+          conciseness: 'detailed',
+          structure: 'bullet-points',
+          purpose: 'persuasion',
+          formality: 'semiformal',
+          greeting: 'dear',
+          signoff: 'best regards',
+          emotion: 'positive',
+          audienceExpertise: 'mixed',
+          industryContext: 'marketing',
+          urgency: 'time-bound',
+          relationshipType: 'professional-only',
+          goal: 'persuade'
+        }
+      }
+    },
+    streamingMediaPackage: {
+      label: "Streaming Media Package",
+      settings: {
+        enabledCategories: {
+          contentStyle: true,
+          purpose: true,
+          formality: true,
+          personalization: true,
+          emotion: true,
+          audience: true,
+          industry: true,
+          timeSensitivity: true,
+          relationship: true,
+          communicationGoal: true
+        },
+        styles: {
+          tone: 'enthusiastic',
+          languageComplexity: 'professional',
+          grammarSpelling: 'strict',
+          conciseness: 'detailed',
+          structure: 'bullet-points',
+          purpose: 'persuasion',
+          formality: 'semiformal',
+          greeting: 'dear',
+          signoff: 'best regards',
+          emotion: 'positive',
+          audienceExpertise: 'mixed',
+          industryContext: 'marketing',
+          urgency: 'time-bound',
+          relationshipType: 'professional-only',
+          goal: 'persuade'
+        }
+      }
+    },
+    availabilityRateCard: {
+      label: "Availability & Rate Card",
+      settings: {
+        enabledCategories: {
+          contentStyle: true,
+          purpose: true,
+          formality: true,
+          personalization: true,
+          emotion: false,
+          audience: true,
+          industry: true,
+          timeSensitivity: true,
+          relationship: true,
+          communicationGoal: true
+        },
+        styles: {
+          tone: 'professional',
+          languageComplexity: 'professional',
+          grammarSpelling: 'strict',
+          conciseness: 'brief',
+          structure: 'bullet-points',
+          purpose: 'inform',
+          formality: 'semiformal',
+          greeting: 'hi',
+          signoff: 'best',
+          audienceExpertise: 'mixed',
+          industryContext: 'marketing',
+          urgency: 'time-bound',
+          relationshipType: 'professional-only',
+          goal: 'inform'
         }
       }
     }
