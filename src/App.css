@@ -287,12 +287,8 @@ select:focus {
   flex: 1;
   min-height: 300px;
   position: relative;
-}
-
-.fluffy-meter-wrapper {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  height: calc(100vh - 200px);
+  overflow: hidden;
 }
 
 .fluffy-meter-container {
@@ -304,10 +300,13 @@ select:focus {
   padding: 12px 8px;
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  width: 80px;
+  width: 140px;
   height: fit-content;
-  position: sticky;
-  top: 20px;
+  position: relative;
+  top: 60px;
+  left: -50px;
+  overflow: visible;
+  z-index: 1200;
 }
 
 .fluffy-meter-container h3 {
@@ -322,7 +321,7 @@ select:focus {
 
 .fluffy-meter {
   width: 30px;
-  height: 250px;
+  height: 180px;
   writing-mode: bt-lr;
   -webkit-appearance: slider-vertical;
   appearance: slider-vertical;
@@ -383,17 +382,18 @@ select:focus {
   display: flex;
   flex: 1;
   gap: 12px;
-  margin-bottom: 20px;
+  height: 100%;
+  overflow: hidden;
 }
 
 .input-panel, .output-panel {
   flex: 1;
-  height: auto;
-  min-height: 300px;
+  height: calc(100% - 24px);
+  min-height: 200px;
   padding: 12px;
   border: 1px solid #ddd;
   border-radius: 8px;
-  resize: vertical;
+  resize: none;
   font-family: inherit;
   background-color: white;
   transition: border-color 0.2s;
@@ -513,9 +513,9 @@ select:focus {
 }
 
 .sidebar-toggle {
-  position: absolute;
-  right: -40px;
-  top: 0px;
+  position: relative;
+  left: 0px;
+  top: 10px;
   width: 40px;
   height: 40px;
   background: white;
@@ -527,8 +527,8 @@ select:focus {
   align-items: center;
   justify-content: center;
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-  z-index: 1201;
-  transition: transform 0.3s ease;
+  z-index: 1300;
+  transition: all 0.3s ease;
 }
 
 .sidebar-toggle svg {
@@ -539,7 +539,7 @@ select:focus {
 }
 
 .sidebar-container.hidden .sidebar-toggle {
-  transform: translateX(40px);
+  left: 0;
 }
 
 .sidebar-container.hidden .sidebar-toggle svg {
@@ -574,13 +574,15 @@ select:focus {
   margin-bottom: 25px;
   width: 98%;
   flex-shrink: 0;
+  max-height: 250px;
+  overflow-y: auto;
 }
 
 .original-email-input {
   width: 100%;
   min-height: 120px;
   height: auto;
-  max-height: 250px;
+  max-height: 200px;
   padding: 12px;
   border: 1px solid #ddd;
   border-radius: 8px;
@@ -1538,6 +1540,7 @@ select:focus {
   position: relative;
   display: flex;
   align-items: flex-start;
+  margin-left: 20px;
 }
 
 .fluffy-level-info {
@@ -1545,7 +1548,7 @@ select:focus {
   left: auto;
   margin-left: 0;
   width: 100%;
-  font-size: 11px;
+  font-size: 8px;
   color: var(--text-primary);
   text-align: center;
   margin-top: 8px;
