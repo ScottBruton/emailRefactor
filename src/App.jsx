@@ -28,6 +28,7 @@ function App() {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [presetToDelete, setPresetToDelete] = useState(null);
   const [customPresets, setCustomPresets] = useState({});
+  const [fluffLevel, setFluffLevel] = useState(1);
   
   const styleControlsRef = useRef(null);
   
@@ -79,6 +80,59 @@ function App() {
     // Communication Goal
     goal: 'inform'
   });
+
+  const fluffLevels = {
+    1: {
+      name: "Conversational / Layman",
+      examples: "help, do, fix",
+      comment: "Totally natural, casual"
+    },
+    2: {
+      name: "Friendly but clear",
+      examples: "assist, use, show",
+      comment: "Good for personal or internal emails"
+    },
+    3: {
+      name: "Professional but plain",
+      examples: "support, guide, build",
+      comment: "Common in clean, polite emails"
+    },
+    4: {
+      name: "Formal/Polished",
+      examples: "facilitate, implement",
+      comment: "Polite and competent"
+    },
+    5: {
+      name: "Business Casual",
+      examples: "enable, engage, optimize",
+      comment: "Still okay in work emails"
+    },
+    6: {
+      name: "Semi-jargony",
+      examples: "empower, streamline, align",
+      comment: "Borderline buzzwordy"
+    },
+    7: {
+      name: "Upper-limit human",
+      examples: "leverage, deploy, execute",
+      comment: "Max before it sounds artificial"
+    },
+    8: {
+      name: "AI Fluff Begins",
+      examples: "transformative, innovative synergies",
+      comment: "Buzzwords stacked"
+    },
+    9: {
+      name: "AI Manifesto Mode",
+      examples: "paradigm-shifting, thought-leadership",
+      comment: "Confident but vague"
+    },
+    10: {
+      name: "Buzzword Soup",
+      examples: "holistic frameworks of excellence",
+      comment: "Sounds like it means a lot, says nothing"
+    }
+  };
 
   // Preset definitions
   const presets = {
@@ -1060,6 +1114,9 @@ function App() {
       console.log('Input text:', inputText);
       console.log('Enabled categories:', enabledCategories);
       console.log('Selected styles:', styles);
+      console.log('Fluff level:', fluffLevel, '- Type:', fluffLevels[fluffLevel].name);
+      console.log('Fluff examples:', fluffLevels[fluffLevel].examples);
+      console.log('Fluff comment:', fluffLevels[fluffLevel].comment);
 
       if (!inputText.trim()) {
         console.log('Error: Empty input text');
@@ -1110,6 +1167,12 @@ function App() {
         urgency: styles.urgency || 'no-urgency',
         relationshipType: styles.relationshipType || 'established',
         goal: styles.goal || 'inform',
+        fluffLevel: {
+          level: fluffLevel,
+          name: fluffLevels[fluffLevel].name,
+          examples: fluffLevels[fluffLevel].examples,
+          comment: fluffLevels[fluffLevel].comment
+        },
         enabledCategories
       };
 
@@ -1552,32 +1615,52 @@ function App() {
             />
           )}
           
-          <div className="panels">
-            <textarea
-              className="input-panel"
-              value={inputText}
-              onChange={(e) => setInputText(e.target.value)}
-              placeholder="Enter your email text here..."
-              disabled={isLoading}
-              rows={25}
-            />
-            <div className="output-container">
+          <div className="panels-container">
+            <div className="fluffy-meter-container">
+              <h3>Fluffy Meter</h3>
+              <input
+                type="range"
+                min="1"
+                max="10"
+                value={fluffLevel}
+                onChange={(e) => setFluffLevel(parseInt(e.target.value))}
+                className="fluffy-meter"
+                orient="vertical"
+              />
+              <div className="fluffy-level-indicator">
+                <div className="level-name">{fluffLevels[fluffLevel].name}</div>
+                <div className="level-examples">{fluffLevels[fluffLevel].examples}</div>
+                <div className="level-comment">{fluffLevels[fluffLevel].comment}</div>
+              </div>
+            </div>
+
+            <div className="panels">
               <textarea
-                className="output-panel"
-                value={outputText}
-                onChange={(e) => setOutputText(e.target.value)}
-                placeholder="Refactored email will appear here..."
+                className="input-panel"
+                value={inputText}
+                onChange={(e) => setInputText(e.target.value)}
+                placeholder="Enter your email text here..."
                 disabled={isLoading}
                 rows={25}
-                readOnly
               />
-              <button
-                className="copy-button"
-                onClick={handleCopy}
-                disabled={!outputText || isLoading}
-              >
-                Copy
-              </button>
+              <div className="output-container">
+                <textarea
+                  className="output-panel"
+                  value={outputText}
+                  onChange={(e) => setOutputText(e.target.value)}
+                  placeholder="Refactored email will appear here..."
+                  disabled={isLoading}
+                  rows={25}
+                  readOnly
+                />
+                <button
+                  className="copy-button"
+                  onClick={handleCopy}
+                  disabled={!outputText || isLoading}
+                >
+                  Copy
+                </button>
+              </div>
             </div>
           </div>
 
@@ -1596,6 +1679,7 @@ function App() {
                 <div className="no-settings">No refactor settings selected</div>
               ) : (
                 <>
+                  <div><span className="setting-category">Fluff Level:</span> {fluffLevels[fluffLevel].name} ({fluffLevel}/10)</div>
                   {enabledCategories.contentStyle && 
                     <div><span className="setting-category">Content:</span> {styles.tone}, {styles.languageComplexity}, {styles.grammarSpelling}, {styles.conciseness}, {styles.structure}, {styles.formatting}, {styles.emailLength}, {styles.clarity}</div>
                   }
