@@ -1522,71 +1522,53 @@ select:focus {
 }
 
 .preset-controls {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  width: 100%;
-  font-size: 12px;
+  position: relative;
+  margin-bottom: 12px;
 }
 
-.preset-selection {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  width: 100%;
+/* MUI Select customization */
+.preset-controls .MuiSelect-select {
+  padding-right: 32px !important;
 }
 
-.preset-selection .preset-dropdown {
-  flex-grow: 1;
+.preset-controls .MuiListItemSecondaryAction-root {
+  right: 8px !important;
 }
 
-.preset-selection .delete-preset-button {
-  background: none;
-  border: none;
-  padding: 4px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 4px;
-  transition: all 0.2s ease;
+.preset-controls .MuiIconButton-root {
+  padding: 4px !important;
 }
 
-.preset-selection .delete-preset-button:hover {
-  background-color: rgba(220, 53, 69, 0.1);
-}
-
-.preset-selection .delete-preset-button img {
+.preset-controls .MuiIconButton-root img {
   width: 16px;
   height: 16px;
-  opacity: 0.6;
-  transition: opacity 0.2s ease;
+  opacity: 0.7;
+  transition: opacity 0.2s;
 }
 
-.preset-selection .delete-preset-button:hover img {
+.preset-controls .MuiIconButton-root:hover img {
   opacity: 1;
 }
 
-/* Dark theme styles */
-.dark-theme .preset-selection .delete-preset-button:hover {
-  background-color: rgba(220, 53, 69, 0.2);
-}
-
-.dark-theme .preset-selection .delete-preset-button img {
-  filter: invert(1);
+/* Add preset input box */
+.preset-controls .MuiOutlinedInput-root {
+  margin-top: 4px;
 }
 
 /* Dark theme adjustments */
-.dark-theme .fluffy-meter-container {
-  background: #1f1f1f;
-  border: 1px solid #333;
+.dark-theme .preset-controls .MuiSelect-select {
+  color: #f6f6f6;
 }
 
-.dark-theme .fluffy-meter::-webkit-slider-thumb {
-  background: #007bff;
+.dark-theme .preset-controls .MuiOutlinedInput-notchedOutline {
+  border-color: #444;
 }
 
-.dark-theme .fluffy-meter::-webkit-slider-runnable-track {
-  background: #333;
+.dark-theme .preset-controls .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline {
+  border-color: #666;
+}
+
+.dark-theme .preset-controls .MuiIconButton-root {
+  color: #f6f6f6;
 }
 

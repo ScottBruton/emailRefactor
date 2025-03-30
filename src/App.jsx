@@ -8,6 +8,7 @@ import darkIcon from '../assets/dark.svg';
 import lightIcon from '../assets/light.svg';
 import addPresetIcon from '../assets/addPreset.svg';
 import deleteIcon from '../assets/delete.svg';
+import PresetSelector from './components/PresetSelector';
 
 function App() {
   const [inputText, setInputText] = useState('');
@@ -1107,23 +1108,64 @@ function App() {
     setSelectedPreset('none');
   };
 
-  const handlePresetChange = (e) => {
-    const selectedValue = e.target.value;
-    setSelectedPreset(selectedValue);
+  const handlePresetChange = (presetKey) => {
+    setSelectedPreset(presetKey);
     
-    if (selectedValue !== 'none') {
-      const selectedPresetData = presets[selectedValue] || customPresets[selectedValue];
-      if (selectedPresetData?.settings) {
-        // Apply preset settings
-        if (selectedPresetData.settings.enabledCategories) {
-          setEnabledCategories(selectedPresetData.settings.enabledCategories);
-        }
-        
-        if (selectedPresetData.settings.styles) {
-          setStyles(selectedPresetData.settings.styles);
-        }
-      }
+    // If 'none' is selected, reset to default state
+    if (presetKey === 'none') {
+      setEnabledCategories({
+        contentStyle: false,
+        purpose: false,
+        formality: false,
+        personalization: false,
+        emotion: false,
+        audience: false,
+        industry: false,
+        timeSensitivity: false,
+        relationship: false,
+        communicationGoal: false
+      });
+      return;
     }
+    
+    // Get the selected preset settings
+    const preset = presets[presetKey] || customPresets[presetKey];
+    if (!preset || !preset.settings) return;
+
+    // Update enabled categories
+    if (preset.settings.enabledCategories) {
+      setEnabledCategories(preset.settings.enabledCategories);
+    }
+
+    // Update styles
+    if (preset.settings.styles) {
+      setStyles(preset.settings.styles);
+    }
+  };
+
+  const handleDeletePreset = (presetKey) => {
+    // If the deleted preset is currently selected, switch to 'none'
+    if (selectedPreset === presetKey) {
+      setSelectedPreset('none');
+      // Reset all categories to default state
+      const defaultCategories = { ...categories };
+      Object.keys(defaultCategories).forEach(categoryKey => {
+        defaultCategories[categoryKey] = {
+          ...defaultCategories[categoryKey],
+          active: false,
+          settings: {
+            ...defaultCategories[categoryKey].settings,
+            // Reset any specific settings to their defaults here
+          }
+        };
+      });
+      setCategories(defaultCategories);
+    }
+    
+    // Remove the preset from customPresets
+    const newCustomPresets = { ...customPresets };
+    delete newCustomPresets[presetKey];
+    setCustomPresets(newCustomPresets);
   };
 
   const handleRevertToSaved = () => {
@@ -1442,29 +1484,6 @@ function App() {
     }
   };
 
-  const handleDeletePreset = (presetKey, e) => {
-    e.stopPropagation();
-    setPresetToDelete(presetKey);
-    setIsDeleteModalOpen(true);
-  };
-
-  const confirmDeletePreset = () => {
-    if (presetToDelete) {
-      const updatedCustomPresets = { ...customPresets };
-      delete updatedCustomPresets[presetToDelete];
-      
-      // Update state and localStorage
-      setCustomPresets(updatedCustomPresets);
-      localStorage.setItem('customPresets', JSON.stringify(updatedCustomPresets));
-      
-      if (selectedPreset === presetToDelete) {
-        setSelectedPreset('none');
-      }
-    }
-    setIsDeleteModalOpen(false);
-    setPresetToDelete(null);
-  };
-
   const renderStyleControls = () => {
     return (
       <div className={`sidebar-container ${sidebarHidden ? 'hidden' : ''}`}>
@@ -1472,42 +1491,14 @@ function App() {
           <div className="sidebar-header">
             <div className="settings-controls">
               <div className="preset-controls">
-                <div className="preset-header">
-                  <button 
-                    className="add-preset-button"
-                    onClick={() => setIsAddPresetModalOpen(true)}
-                    title="Add new preset"
-                  >
-                    <img src={addPresetIcon} alt="Add preset" />
-                  </button>
-                  <span className="preset-label">Presets</span>
-                </div>
-                <div className="preset-selection">
-                  <select 
-                    className="preset-dropdown"
-                    value={selectedPreset}
-                    onChange={handlePresetChange}
-                    title="Select a preset for different email types"
-                  >
-                    {Object.entries(presets).map(([key, preset]) => (
-                      <option key={key} value={key}>{preset.label}</option>
-                    ))}
-                    {Object.entries(customPresets).map(([key, preset]) => (
-                      <option key={key} value={key} className="custom-preset-option">
-                        {preset.label}
-                      </option>
-                    ))}
-                  </select>
-                  {selectedPreset !== 'none' && customPresets[selectedPreset] && (
-                    <button
-                      className="delete-preset-button"
-                      onClick={(e) => handleDeletePreset(selectedPreset, e)}
-                      title="Delete preset"
-                    >
-                      <img src={deleteIcon} alt="Delete" />
-                    </button>
-                  )}
-                </div>
+                <PresetSelector
+                  presets={presets}
+                  customPresets={customPresets}
+                  selectedPreset={selectedPreset}
+                  onPresetChange={handlePresetChange}
+                  onDeletePreset={handleDeletePreset}
+                  onAddPreset={handleAddPreset}
+                />
               </div>
               <button 
                 className="save-settings-button" 
@@ -1906,7 +1897,7 @@ function App() {
             <p className="modal-message">Are you sure you want to delete this preset?</p>
             <div className="modal-buttons">
               <button className="modal-button cancel" onClick={() => setIsDeleteModalOpen(false)}>Cancel</button>
-              <button className="modal-button delete" onClick={confirmDeletePreset}>Delete</button>
+              <button className="modal-button delete" onClick={() => handleDeletePreset(presetToDelete)}>Delete</button>
             </div>
           </div>
         </div>
