@@ -600,7 +600,7 @@ select:focus {
 }
 
 .response-toggle-container {
-  margin-bottom: 15px;
+  margin-bottom: 2px;
   background: #f8f9fa;
   padding: 12px 15px;
   border-radius: 6px;
@@ -1035,7 +1035,7 @@ select:focus {
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000;
+  z-index: 2000;
   opacity: 0;
   visibility: hidden;
   transition: all 0.3s ease;
