@@ -1632,8 +1632,6 @@ function App() {
                 />
                 <div className="fluffy-level-info">
                   <div className="level-name">{fluffLevels[fluffLevel].name}</div>
-                  <div className="level-examples">{fluffLevels[fluffLevel].examples}</div>
-                  <div className="level-comment">{fluffLevels[fluffLevel].comment}</div>
                 </div>
               </div>
             </div>
@@ -1679,11 +1677,15 @@ function App() {
           <div className="active-settings-summary">
             <div className="settings-header">Active Settings</div>
             <div className="settings-content">
+              <div className="active-settings-fluff">
+                <div><span className="setting-category">Fluff Level:</span> {fluffLevels[fluffLevel].name} ({fluffLevel}/10)</div>
+                <div className="fluff-examples">{fluffLevels[fluffLevel].examples}</div>
+                <div className="fluff-comment">{fluffLevels[fluffLevel].comment}</div>
+              </div>
               {!Object.values(enabledCategories).some(value => value === true) ? (
                 <div className="no-settings">No refactor settings selected</div>
               ) : (
                 <>
-                  <div><span className="setting-category">Fluff Level:</span> {fluffLevels[fluffLevel].name} ({fluffLevel}/10)</div>
                   {enabledCategories.contentStyle && 
                     <div><span className="setting-category">Content:</span> {styles.tone}, {styles.languageComplexity}, {styles.grammarSpelling}, {styles.conciseness}, {styles.structure}, {styles.formatting}, {styles.emailLength}, {styles.clarity}</div>
                   }
