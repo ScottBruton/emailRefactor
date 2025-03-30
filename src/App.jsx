@@ -1111,22 +1111,22 @@ function App() {
   const handleRefactor = async () => {
     try {
       console.log('Starting refactoring process...');
-      console.log('Input text:', inputText);
+      console.log('Input text (reply):', inputText);
+      console.log('Original email:', originalEmail);
+      console.log('Is response mode:', isResponseEmail);
       console.log('Enabled categories:', enabledCategories);
       console.log('Selected styles:', styles);
       console.log('Fluff level:', fluffLevel, '- Type:', fluffLevels[fluffLevel].name);
-      console.log('Fluff examples:', fluffLevels[fluffLevel].examples);
-      console.log('Fluff comment:', fluffLevels[fluffLevel].comment);
 
       if (!inputText.trim()) {
         console.log('Error: Empty input text');
-        setError('Please enter some text to refactor');
+        setError('Please enter your reply in the input area');
         return;
       }
 
       if (isResponseEmail && !originalEmail.trim()) {
         console.log('Error: Empty original email for response');
-        setError('Cannot generate a response to an empty email. Please paste the original email you are responding to.');
+        setError('Please add the original email you are responding to by clicking the text box above');
         return;
       }
 
@@ -1186,16 +1186,16 @@ function App() {
       });
 
       console.log('Refactor result:', result);
-
-      if (!result) {
-        throw new Error('Received empty result from refactor_email');
+      
+      if (result) {
+        setOutputText(result);
+      } else {
+        throw new Error('No result returned from refactor_email');
       }
-
-      setOutputText(result);
-      setIsLoading(false);
     } catch (error) {
-      console.error('Refactoring error:', error);
-      setError(`Failed to refactor email: ${error.message || 'Please try again.'}`);
+      console.error('Error during refactoring:', error);
+      setError(error.toString());
+    } finally {
       setIsLoading(false);
     }
   };
@@ -1597,7 +1597,7 @@ function App() {
               value={originalEmail}
               onChange={(e) => setOriginalEmail(e.target.value)}
               onClick={openModal}
-              placeholder="Click to add the original email you're responding to..."
+              placeholder="Click here to add the email you're responding to..."
               readOnly
             />
           )}
@@ -1641,7 +1641,7 @@ function App() {
                 className="input-panel"
                 value={inputText}
                 onChange={(e) => setInputText(e.target.value)}
-                placeholder="Enter your email text here..."
+                placeholder={isResponseEmail ? "Enter your reply here..." : "Enter your email text here..."}
                 disabled={isLoading}
                 rows={25}
               />
@@ -1650,7 +1650,7 @@ function App() {
                   className="output-panel"
                   value={outputText}
                   onChange={(e) => setOutputText(e.target.value)}
-                  placeholder="Refactored email will appear here..."
+                  placeholder={isResponseEmail ? "Your refactored reply will appear here..." : "Refactored email will appear here..."}
                   disabled={isLoading}
                   rows={25}
                   readOnly
