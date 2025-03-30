@@ -179,6 +179,122 @@ function App() {
         }
       }
     },
+    standardReply: {
+      label: "Standard Reply",
+      settings: {
+        enabledCategories: {
+          contentStyle: true,
+          purpose: true,
+          formality: true,
+          personalization: true,
+          emotion: false,
+          audience: true,
+          industry: false,
+          timeSensitivity: true,
+          relationship: true,
+          communicationGoal: true
+        },
+        styles: {
+          tone: 'professional',
+          languageComplexity: 'professional',
+          grammarSpelling: 'strict',
+          conciseness: 'balanced',
+          structure: 'paragraph',
+          formatting: 'none',
+          emailLength: 'medium (100–150 words)',
+          clarity: 'direct',
+          purpose: 'inform',
+          formality: 'semiformal',
+          greeting: 'hi',
+          signoff: 'best regards',
+          includeDetails: 'basic',
+          dynamicContent: 'standard',
+          audienceExpertise: 'mixed',
+          hierarchicalContext: 'speaking-to-equals',
+          urgency: 'time-sensitive',
+          relationshipType: 'established',
+          goal: 'inform'
+        }
+      }
+    },
+    detailedReply: {
+      label: "Detailed Reply",
+      settings: {
+        enabledCategories: {
+          contentStyle: true,
+          purpose: true,
+          formality: true,
+          personalization: true,
+          emotion: true,
+          audience: true,
+          industry: true,
+          timeSensitivity: true,
+          relationship: true,
+          communicationGoal: true
+        },
+        styles: {
+          tone: 'professional',
+          languageComplexity: 'professional',
+          grammarSpelling: 'strict',
+          conciseness: 'detailed',
+          structure: 'paragraph',
+          formatting: 'clear spacing',
+          emailLength: 'long (150–200 words)',
+          clarity: 'direct',
+          purpose: 'inform',
+          formality: 'formal',
+          greeting: 'dear',
+          signoff: 'best regards',
+          includeDetails: 'full context',
+          dynamicContent: 'personalized',
+          emotion: 'neutral',
+          audienceExpertise: 'mixed',
+          hierarchicalContext: 'speaking-to-equals',
+          industryContext: 'general',
+          urgency: 'time-sensitive',
+          relationshipType: 'established',
+          goal: 'inform'
+        }
+      }
+    },
+    bulletpointReply: {
+      label: "Bulletpoint Reply",
+      settings: {
+        enabledCategories: {
+          contentStyle: true,
+          purpose: true,
+          formality: true,
+          personalization: true,
+          emotion: false,
+          audience: true,
+          industry: false,
+          timeSensitivity: true,
+          relationship: true,
+          communicationGoal: true
+        },
+        styles: {
+          tone: 'professional',
+          languageComplexity: 'professional',
+          grammarSpelling: 'strict',
+          conciseness: 'brief',
+          structure: 'bullet points',
+          formatting: 'emphasis on action items',
+          emailLength: 'medium (100–150 words)',
+          clarity: 'direct',
+          purpose: 'inform',
+          formality: 'semiformal',
+          greeting: 'hi',
+          signoff: 'best regards',
+          includeDetails: 'basic',
+          dynamicContent: 'standard',
+          audienceExpertise: 'mixed',
+          hierarchicalContext: 'speaking-to-equals',
+          urgency: 'time-sensitive',
+          relationshipType: 'established',
+          goal: 'inform'
+        }
+      }
+    },
     quickReply: {
       label: "Quick Reply",
       settings: {
