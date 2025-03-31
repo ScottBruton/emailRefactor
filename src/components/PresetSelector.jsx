@@ -23,14 +23,26 @@ const PresetSelector = ({
   onRevertSettings,
   onClearSettings,
   isSaving,
-  lastSavedSettings
+  lastSavedSettings,
+  styles,
+  enabledCategories
 }) => {
   const [isAddPresetOpen, setIsAddPresetOpen] = useState(false);
   const [newPresetName, setNewPresetName] = useState('');
 
-  const handleAddPreset = () => {
+  const handleAddPreset = async () => {
     if (newPresetName.trim()) {
-      onAddPreset(newPresetName.trim());
+      // Create new preset with current settings
+      const newPreset = {
+        label: newPresetName.trim(),
+        settings: {
+          styles: { ...styles },
+          enabledCategories: { ...enabledCategories }
+        }
+      };
+
+      // Update UI through parent component
+      onAddPreset(newPresetName.trim(), newPreset);
       setNewPresetName('');
       setIsAddPresetOpen(false);
     }
@@ -193,17 +205,6 @@ const PresetSelector = ({
             }
           }}
         >
-          {Object.entries(presets).map(([key, preset]) => (
-            <MenuItem key={key} value={key} sx={{ pr: 6 }}>
-              <ListItemText 
-                primary={preset.label}
-                primaryTypographyProps={{
-                  fontSize: '0.875rem',
-                  fontWeight: selectedPreset === key ? 500 : 400
-                }}
-              />
-            </MenuItem>
-          ))}
           {Object.entries(customPresets).map(([key, preset]) => (
             <MenuItem key={key} value={key} sx={{ pr: 6, display: 'flex', justifyContent: 'space-between' }}>
               <ListItemText 
@@ -239,6 +240,17 @@ const PresetSelector = ({
               </IconButton>
             </MenuItem>
           ))}
+          {Object.entries(presets).map(([key, preset]) => (
+            <MenuItem key={key} value={key} sx={{ pr: 6 }}>
+              <ListItemText 
+                primary={preset.label}
+                primaryTypographyProps={{
+                  fontSize: '0.875rem',
+                  fontWeight: selectedPreset === key ? 500 : 400
+                }}
+              />
+            </MenuItem>
+          ))}
         </Select>
       </FormControl>
 
@@ -248,13 +260,16 @@ const PresetSelector = ({
           top: '100%', 
           left: 0,
           width: '180px',
-          backgroundColor: 'background.paper',
+          backgroundColor: (theme) => theme.palette.mode === 'dark' ? '#2d2d2d' : 'background.paper',
           border: '1px solid',
-          borderColor: 'divider',
+          borderColor: (theme) => theme.palette.mode === 'dark' ? '#404040' : 'divider',
           borderRadius: 1,
-          p: 1,
+          p: 1.5,
           zIndex: 1000,
-          boxShadow: 3
+          boxShadow: (theme) => theme.palette.mode === 'dark' ? '0 4px 8px rgba(0, 0, 0, 0.4)' : 3,
+          display: 'flex',
+          flexDirection: 'column',
+          gap: 1
         }}>
           <OutlinedInput
             fullWidth
@@ -262,9 +277,109 @@ const PresetSelector = ({
             value={newPresetName}
             onChange={(e) => setNewPresetName(e.target.value)}
             placeholder="Enter preset name..."
-            onKeyPress={(e) => e.key === 'Enter' && handleAddPreset()}
+            onKeyPress={(e) => {
+              if (e.key === 'Enter' && newPresetName.trim()) {
+                handleAddPreset();
+              }
+            }}
             autoFocus
+            sx={{
+              '& .MuiOutlinedInput-notchedOutline': {
+                borderColor: (theme) => theme.palette.mode === 'dark' ? '#404040' : 'divider',
+              },
+              '&:hover .MuiOutlinedInput-notchedOutline': {
+                borderColor: (theme) => theme.palette.mode === 'dark' ? '#606060' : 'divider',
+              },
+              '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                borderColor: (theme) => theme.palette.mode === 'dark' ? '#48a3ff' : 'primary.main',
+              },
+              '& input': {
+                color: (theme) => theme.palette.mode === 'dark' ? '#ffffff' : 'inherit',
+              },
+              '& input::placeholder': {
+                color: (theme) => theme.palette.mode === 'dark' ? '#888888' : 'inherit',
+                opacity: 1,
+              },
+            }}
           />
+          <Box sx={{ display: 'flex', gap: 1, justifyContent: 'flex-end', mt: 0.5 }}>
+            <IconButton
+              size="small"
+              onClick={() => {
+                setNewPresetName('');
+                setIsAddPresetOpen(false);
+              }}
+              sx={{
+                border: '1px solid',
+                borderColor: (theme) => theme.palette.mode === 'dark' ? '#404040' : 'divider',
+                padding: '4px',
+                color: (theme) => theme.palette.mode === 'dark' ? '#ffffff' : 'inherit',
+                '&:hover': {
+                  backgroundColor: (theme) => theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'action.hover'
+                }
+              }}
+            >
+              <svg 
+                xmlns="http://www.w3.org/2000/svg" 
+                width="14" 
+                height="14" 
+                viewBox="0 0 24 24" 
+                fill="none" 
+                stroke="currentColor" 
+                strokeWidth="2" 
+                strokeLinecap="round" 
+                strokeLinejoin="round"
+                style={{
+                  opacity: 0.7,
+                  transition: 'opacity 0.2s'
+                }}
+              >
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+              </svg>
+            </IconButton>
+            <IconButton
+              size="small"
+              onClick={() => {
+                if (newPresetName.trim()) {
+                  handleAddPreset();
+                }
+              }}
+              disabled={!newPresetName.trim()}
+              sx={{
+                border: '1px solid',
+                borderColor: (theme) => theme.palette.mode === 'dark' ? '#404040' : 'divider',
+                padding: '4px',
+                color: (theme) => theme.palette.mode === 'dark' ? '#ffffff' : 'inherit',
+                '&:hover': {
+                  backgroundColor: (theme) => theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'action.hover'
+                },
+                '&.Mui-disabled': {
+                  opacity: 0.5,
+                  cursor: 'not-allowed',
+                  color: (theme) => theme.palette.mode === 'dark' ? '#666666' : 'inherit'
+                }
+              }}
+            >
+              <svg 
+                xmlns="http://www.w3.org/2000/svg" 
+                width="14" 
+                height="14" 
+                viewBox="0 0 24 24" 
+                fill="none" 
+                stroke="currentColor" 
+                strokeWidth="2" 
+                strokeLinecap="round" 
+                strokeLinejoin="round"
+                style={{
+                  opacity: 0.7,
+                  transition: 'opacity 0.2s'
+                }}
+              >
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+            </IconButton>
+          </Box>
         </Box>
       )}
     </Box>

@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { invoke } from "@tauri-apps/api/core";
+import { Store, load } from '@tauri-apps/plugin-store';
 // Removing file system imports temporarily
 // import { appDataDir } from "@tauri-apps/api/path";
 // import { readTextFile, writeTextFile, createDir, exists } from "@tauri-apps/api/fs";
@@ -11,6 +12,7 @@ import deleteIcon from '../assets/delete.svg';
 import PresetSelector from './components/PresetSelector';
 
 function App() {
+  const [store, setStore] = useState(null);
   const [inputText, setInputText] = useState('');
   const [outputText, setOutputText] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -1060,19 +1062,67 @@ function App() {
     });
   }, [enabledCategories, expandedCategory]);
 
+  // Initialize store
   useEffect(() => {
-    // Load saved settings and custom presets when the app starts
-    loadSettings();
-    loadCustomPresets();
-    
-    // Load the last used theme preference, default to dark if not set
-    const savedTheme = localStorage.getItem('isDarkMode');
-    if (savedTheme !== null) {
-      setIsDarkMode(JSON.parse(savedTheme));
-    } else {
-      setIsDarkMode(true); // Set dark mode as default if no preference saved
-    }
+    const initStore = async () => {
+      try {
+        // Load the store using the load function
+        const storeInstance = await load('settings.json', { autoSave: true });
+        setStore(storeInstance);
+      } catch (error) {
+        console.error('Error initializing store:', error);
+      }
+    };
+
+    initStore();
   }, []);
+
+  // Load settings after store is initialized
+  useEffect(() => {
+    const loadSettings = async () => {
+      if (!store) return;
+
+      try {
+        // Load theme preference
+        const savedTheme = await store.get('isDarkMode');
+        if (savedTheme !== null && savedTheme !== undefined) {
+          setIsDarkMode(savedTheme);
+        }
+
+        // Load custom presets
+        const savedPresets = await store.get('customPresets');
+        if (savedPresets) {
+          setCustomPresets(savedPresets);
+        }
+
+        // Load last saved settings
+        const savedSettings = await store.get('lastSavedSettings');
+        if (savedSettings) {
+          setLastSavedSettings(savedSettings);
+        }
+      } catch (error) {
+        console.error('Error loading settings:', error);
+      }
+    };
+
+    loadSettings();
+  }, [store]);
+
+  // Save theme preference
+  useEffect(() => {
+    const saveTheme = async () => {
+      if (!store) return;
+
+      try {
+        await store.set('isDarkMode', isDarkMode);
+        await store.save(); // Explicitly save after setting
+      } catch (error) {
+        console.error('Error saving theme:', error);
+      }
+    };
+
+    saveTheme();
+  }, [isDarkMode, store]);
 
   useEffect(() => {
     if (isDarkMode) {
@@ -1145,29 +1195,23 @@ function App() {
     }
   };
 
-  const handleDeletePreset = (presetKey) => {
-    // If the deleted preset is currently selected, switch to 'none'
-    if (selectedPreset === presetKey) {
-      setSelectedPreset('none');
-      // Reset all categories to default state
-      const defaultCategories = { ...categories };
-      Object.keys(defaultCategories).forEach(categoryKey => {
-        defaultCategories[categoryKey] = {
-          ...defaultCategories[categoryKey],
-          active: false,
-          settings: {
-            ...defaultCategories[categoryKey].settings,
-            // Reset any specific settings to their defaults here
-          }
-        };
-      });
-      setCategories(defaultCategories);
+  const handleDeletePreset = async (presetKey) => {
+    try {
+      const updatedPresets = { ...customPresets };
+      delete updatedPresets[presetKey];
+      setCustomPresets(updatedPresets);
+
+      // Save to store
+      await store.set('customPresets', updatedPresets);
+      await store.save();
+
+      // If the deleted preset was selected, reset to 'none'
+      if (selectedPreset === presetKey) {
+        setSelectedPreset('none');
+      }
+    } catch (error) {
+      console.error('Error deleting preset:', error);
     }
-    
-    // Remove the preset from customPresets
-    const newCustomPresets = { ...customPresets };
-    delete newCustomPresets[presetKey];
-    setCustomPresets(newCustomPresets);
   };
 
   const handleRevertToSaved = () => {
@@ -1373,116 +1417,43 @@ function App() {
     setSidebarHidden(!sidebarHidden);
   };
 
-  const saveSettings = () => {
+  const saveSettings = async () => {
+    if (!store) return;
+
     try {
       setIsSaving(true);
-      
-      const settingsData = {
-        enabledCategories,
+      const currentSettings = {
         styles,
-        isResponseEmail,
-        selectedPreset  // Save the currently selected preset
+        enabledCategories
       };
       
-      // Save settings to localStorage
-      localStorage.setItem('emailRefactorSettings', JSON.stringify(settingsData));
+      await store.set('lastSavedSettings', currentSettings);
+      await store.save();
       
-      // Store the saved settings for revert functionality
-      setLastSavedSettings(settingsData);
-      
-      setError(null);
-      
-      // Show temporary success message
-      const successMessage = document.getElementById('save-success-message');
-      if (successMessage) {
-        successMessage.style.opacity = '1';
-        setTimeout(() => {
-          successMessage.style.opacity = '0';
-        }, 3000);
-      }
+      setLastSavedSettings(currentSettings);
+      showSaveSuccess();
     } catch (error) {
       console.error('Error saving settings:', error);
-      setError('Failed to save settings.');
     } finally {
       setIsSaving(false);
     }
   };
 
-  const loadSettings = () => {
+  const handleAddPreset = async (name, preset) => {
+    if (!store) return;
+
     try {
-      const settingsContent = localStorage.getItem('emailRefactorSettings');
-      
-      if (!settingsContent) {
-        // No settings yet, use defaults
-        console.log('No settings found. Using defaults.');
-        return;
-      }
-      
-      const settingsData = JSON.parse(settingsContent);
-      
-      // Apply saved settings
-      if (settingsData.enabledCategories) {
-        setEnabledCategories(settingsData.enabledCategories);
-      }
-      
-      if (settingsData.styles) {
-        setStyles(settingsData.styles);
-      }
-      
-      if (settingsData.isResponseEmail !== undefined) {
-        setIsResponseEmail(settingsData.isResponseEmail);
-      }
-
-      if (settingsData.selectedPreset !== undefined) {
-        setSelectedPreset(settingsData.selectedPreset);
-      }
-      
-      // Store the loaded settings for revert functionality
-      setLastSavedSettings(settingsData);
-      
-      console.log('Settings loaded successfully.');
-    } catch (error) {
-      console.error('Error loading settings:', error);
-      setError('Failed to load settings.');
-    }
-  };
-
-  const loadCustomPresets = () => {
-    try {
-      const savedPresets = localStorage.getItem('customPresets');
-      if (savedPresets) {
-        setCustomPresets(JSON.parse(savedPresets));
-      }
-    } catch (error) {
-      console.error('Error loading custom presets:', error);
-      setError('Failed to load custom presets.');
-    }
-  };
-
-  const handleAddPreset = () => {
-    if (newPresetName.trim()) {
-      const presetKey = newPresetName.toLowerCase().replace(/\s+/g, '');
-      const newPreset = {
-        label: newPresetName.trim(),
-        settings: {
-          enabledCategories: {...enabledCategories},
-          styles: {...styles}
-        }
-      };
-      
-      // Update state with new preset
       const updatedPresets = {
-        ...customPresets,
-        [presetKey]: newPreset
+        [name]: preset,
+        ...customPresets
       };
-      
-      // Save to state and localStorage
       setCustomPresets(updatedPresets);
-      localStorage.setItem('customPresets', JSON.stringify(updatedPresets));
       
-      // Reset and close modal
-      setNewPresetName('');
-      setIsAddPresetModalOpen(false);
+      // Save to store
+      await store.set('customPresets', updatedPresets);
+      await store.save();
+    } catch (error) {
+      console.error('Error saving preset:', error);
     }
   };
 
@@ -1505,6 +1476,8 @@ function App() {
                   onClearSettings={handleClearSettings}
                   isSaving={isSaving}
                   lastSavedSettings={lastSavedSettings}
+                  styles={styles}
+                  enabledCategories={enabledCategories}
                 />
               </div>
               <div className="messages-container">
@@ -1596,11 +1569,6 @@ function App() {
   const toggleTheme = () => {
     setIsDarkMode(!isDarkMode);
   };
-
-  // Add effect to save theme preference
-  useEffect(() => {
-    localStorage.setItem('isDarkMode', JSON.stringify(isDarkMode));
-  }, [isDarkMode]);
 
   return (
     <div className="container">
@@ -1816,7 +1784,7 @@ function App() {
             />
             <div className="modal-buttons">
               <button className="modal-button cancel" onClick={() => setIsAddPresetModalOpen(false)}>Cancel</button>
-              <button className="modal-button ok" onClick={handleAddPreset}>OK</button>
+              <button className="modal-button ok" onClick={() => handleAddPreset(newPresetName, { label: newPresetName, settings: { enabledCategories: {...enabledCategories}, styles: {...styles} } })}>OK</button>
             </div>
           </div>
         </div>
