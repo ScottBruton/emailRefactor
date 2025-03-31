@@ -1572,3 +1572,212 @@ select:focus {
   color: #f6f6f6;
 }
 
+/* MUI Component Styles */
+.preset-controls .MuiSelect-root {
+  background-color: var(--background-color);
+  color: var(--text-color);
+  border-color: var(--border-color);
+}
+
+.preset-controls .MuiOutlinedInput-root {
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
+
+.preset-controls .MuiOutlinedInput-notchedOutline {
+  border-color: var(--border-color);
+}
+
+.preset-controls .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline {
+  border-color: var(--border-color-hover);
+}
+
+.preset-controls .MuiSelect-icon {
+  color: var(--text-color);
+}
+
+.preset-controls .MuiInputLabel-root {
+  color: var(--text-color);
+}
+
+.preset-controls .MuiInputLabel-root.Mui-focused {
+  color: var(--accent-color);
+}
+
+.preset-controls .MuiMenu-paper {
+  background-color: var(--background-color);
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+}
+
+.preset-controls .MuiMenuItem-root {
+  color: var(--text-color);
+}
+
+.preset-controls .MuiMenuItem-root:hover {
+  background-color: var(--hover-color);
+}
+
+.preset-controls .MuiMenuItem-root.Mui-selected {
+  background-color: var(--selected-color);
+  color: var(--accent-color);
+}
+
+.preset-controls .MuiIconButton-root {
+  color: var(--text-color);
+}
+
+.preset-controls .MuiIconButton-root:hover {
+  background-color: var(--hover-color);
+}
+
+/* Dark theme specific styles */
+.dark-theme .preset-controls .MuiSelect-root {
+  background-color: #2d2d2d;
+  color: #ffffff;
+}
+
+.dark-theme .preset-controls .MuiOutlinedInput-root {
+  background-color: #2d2d2d;
+  color: #ffffff;
+}
+
+.dark-theme .preset-controls .MuiMenu-paper {
+  background-color: #2d2d2d;
+  border-color: #404040;
+  color: #ffffff;
+}
+
+.dark-theme .preset-controls .MuiMenuItem-root {
+  color: #ffffff;
+}
+
+.dark-theme .preset-controls .MuiMenuItem-root:hover {
+  background-color: #404040;
+}
+
+.dark-theme .preset-controls .MuiMenuItem-root.Mui-selected {
+  background-color: #404040;
+  color: #48a3ff;
+}
+
+.dark-theme .preset-controls .MuiIconButton-root:hover {
+  background-color: #404040;
+}
+
+.dark-theme .preset-controls .MuiInputLabel-root {
+  color: #ffffff;
+}
+
+.dark-theme .preset-controls .MuiSelect-icon {
+  color: #ffffff;
+}
+
+.dark-theme .preset-controls .MuiOutlinedInput-notchedOutline {
+  border-color: #404040;
+}
+
+.dark-theme .preset-controls .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline {
+  border-color: #606060;
+}
+
+.dark-theme .preset-controls .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+  border-color: #48a3ff;
+}
+
+/* Light theme specific styles */
+:not(.dark-theme) .preset-controls .MuiSelect-root {
+  background-color: #ffffff;
+}
+
+:not(.dark-theme) .preset-controls .MuiOutlinedInput-root {
+  background-color: #ffffff;
+}
+
+:not(.dark-theme) .preset-controls .MuiMenu-paper {
+  background-color: #ffffff;
+  border-color: #e0e0e0;
+}
+
+:not(.dark-theme) .preset-controls .MuiMenuItem-root:hover {
+  background-color: #f5f5f5;
+}
+
+:not(.dark-theme) .preset-controls .MuiMenuItem-root.Mui-selected {
+  background-color: #f5f5f5;
+}
+
+:not(.dark-theme) .preset-controls .MuiIconButton-root:hover {
+  background-color: #f5f5f5;
+}
+
+/* Dark theme specific styles for Preset Selector */
+.dark-theme .MuiSelect-select,
+.dark-theme .MuiOutlinedInput-root {
+  background-color: #2d2d2d !important;
+  color: #ffffff !important;
+}
+
+.dark-theme .MuiOutlinedInput-notchedOutline {
+  border-color: #404040 !important;
+}
+
+.dark-theme .MuiInputLabel-root {
+  color: #ffffff !important;
+}
+
+.dark-theme .MuiSelect-icon {
+  color: #ffffff !important;
+}
+
+.dark-theme .MuiPaper-root.MuiMenu-paper {
+  background-color: #2d2d2d !important;
+  color: #ffffff !important;
+}
+
+.dark-theme .MuiMenuItem-root {
+  color: #ffffff !important;
+}
+
+.dark-theme .MuiMenuItem-root:hover {
+  background-color: #404040 !important;
+}
+
+.dark-theme .MuiIconButton-root {
+  background-color: #2d2d2d !important;
+  border-color: #404040 !important;
+}
+
+.dark-theme .MuiIconButton-root:hover {
+  background-color: #404040 !important;
+}
+
+.dark-theme .MuiIconButton-root img,
+.dark-theme .MuiIconButton-root svg {
+  filter: invert(1);
+}
+
+/* Action buttons SVG color handling */
+.dark-theme .MuiIconButton-root svg,
+.dark-theme button svg {
+  filter: invert(1);
+  opacity: 0.9;
+}
+
+.dark-theme .MuiIconButton-root:hover svg,
+.dark-theme button:hover svg {
+  opacity: 1;
+}
+
+/* Light theme SVG handling */
+:not(.dark-theme) .MuiIconButton-root svg,
+:not(.dark-theme) button svg {
+  filter: none;
+  opacity: 0.7;
+}
+
+:not(.dark-theme) .MuiIconButton-root:hover svg,
+:not(.dark-theme) button:hover svg {
+  opacity: 1;
+}
+

@@ -23,7 +23,7 @@ function App() {
   const [isSaving, setIsSaving] = useState(false);
   const [selectedPreset, setSelectedPreset] = useState('none');
   const [lastSavedSettings, setLastSavedSettings] = useState(null);
-  const [isDarkMode, setIsDarkMode] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(true);
   const [isAddPresetModalOpen, setIsAddPresetModalOpen] = useState(false);
   const [newPresetName, setNewPresetName] = useState('');
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
@@ -1065,10 +1065,12 @@ function App() {
     loadSettings();
     loadCustomPresets();
     
-    // Load the last used theme preference
+    // Load the last used theme preference, default to dark if not set
     const savedTheme = localStorage.getItem('isDarkMode');
     if (savedTheme !== null) {
       setIsDarkMode(JSON.parse(savedTheme));
+    } else {
+      setIsDarkMode(true); // Set dark mode as default if no preference saved
     }
   }, []);
 
@@ -1498,84 +1500,18 @@ function App() {
                   onPresetChange={handlePresetChange}
                   onDeletePreset={handleDeletePreset}
                   onAddPreset={handleAddPreset}
+                  onSaveSettings={saveSettings}
+                  onRevertSettings={handleRevertToSaved}
+                  onClearSettings={handleClearSettings}
+                  isSaving={isSaving}
+                  lastSavedSettings={lastSavedSettings}
                 />
               </div>
-              <button 
-                className="save-settings-button" 
-                onClick={saveSettings}
-                title="Save current settings"
-                disabled={isSaving}
-                aria-label="Save settings"
-              >
-                <svg 
-                  xmlns="http://www.w3.org/2000/svg" 
-                  width="16" 
-                  height="16" 
-                  viewBox="0 0 24 24" 
-                  fill="none" 
-                  stroke="currentColor" 
-                  strokeWidth="2" 
-                  strokeLinecap="round" 
-                  strokeLinejoin="round"
-                >
-                  <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
-                  <polyline points="17 21 17 13 7 13 7 21"></polyline>
-                  <polyline points="7 3 7 8 15 8"></polyline>
-                </svg>
-              </button>
-              
-              <button 
-                className="revert-settings-button" 
-                onClick={handleRevertToSaved}
-                title="Revert to last saved settings"
-                disabled={!lastSavedSettings}
-                aria-label="Revert to saved settings"
-              >
-                <svg 
-                  xmlns="http://www.w3.org/2000/svg" 
-                  width="16" 
-                  height="16" 
-                  viewBox="0 0 24 24" 
-                  fill="none" 
-                  stroke="currentColor" 
-                  strokeWidth="2" 
-                  strokeLinecap="round" 
-                  strokeLinejoin="round"
-                >
-                  <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
-                  <path d="M3 3v5h5"></path>
-                </svg>
-              </button>
-              
-              <button 
-                className="clear-settings-button" 
-                onClick={handleClearSettings}
-                title="Reset all settings to default"
-                aria-label="Clear all settings"
-              >
-                <svg 
-                  xmlns="http://www.w3.org/2000/svg" 
-                  width="16" 
-                  height="16" 
-                  viewBox="0 0 24 24" 
-                  fill="none" 
-                  stroke="currentColor" 
-                  strokeWidth="2" 
-                  strokeLinecap="round" 
-                  strokeLinejoin="round"
-                >
-                  <path d="M3 6h18"></path>
-                  <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path>
-                  <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path>
-                  <line x1="10" y1="11" x2="10" y2="17"></line>
-                  <line x1="14" y1="11" x2="14" y2="17"></line>
-                </svg>
-              </button>
-            </div>
-            <div className="messages-container">
-              <span id="save-success-message" className="save-success-message">Settings saved!</span>
-              <span id="revert-success-message" className="revert-success-message">Settings reverted!</span>
-              <span id="clear-success-message" className="clear-success-message">Settings cleared!</span>
+              <div className="messages-container">
+                <span id="save-success-message" className="save-success-message">Settings saved!</span>
+                <span id="revert-success-message" className="revert-success-message">Settings reverted!</span>
+                <span id="clear-success-message" className="clear-success-message">Settings cleared!</span>
+              </div>
             </div>
           </div>
           <div className="style-categories-container">
