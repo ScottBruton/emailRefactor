@@ -1,6 +1,8 @@
 import { useState, useEffect, useRef } from "react";
 import { invoke } from "@tauri-apps/api/core";
 import { Store, load } from '@tauri-apps/plugin-store';
+import Box from '@mui/material/Box';
+import Slider from '@mui/material/Slider';
 // Removing file system imports temporarily
 // import { appDataDir } from "@tauri-apps/api/path";
 // import { readTextFile, writeTextFile, createDir, exists } from "@tauri-apps/api/fs";
@@ -1632,15 +1634,67 @@ function App() {
               </button>
               <div className="fluffy-meter-container">
                 <h3>Fluffy Meter</h3>
-                <input
-                  type="range"
-                  min="1"
-                  max="10"
-                  value={fluffLevel}
-                  onChange={(e) => setFluffLevel(parseInt(e.target.value))}
-                  className="fluffy-meter"
-                  orient="vertical"
-                />
+                <Box sx={{ 
+                  height: 200, 
+                  display: 'flex', 
+                  alignItems: 'center',
+                  padding: '24px 12px',
+                }}>
+                  <Slider
+                    orientation="vertical"
+                    value={fluffLevel}
+                    onChange={(e, newValue) => setFluffLevel(newValue)}
+                    step={1}
+                    marks
+                    min={1}
+                    max={10}
+                    sx={{
+                      height: '100%',
+                      '& .MuiSlider-thumb': {
+                        width: 22,
+                        height: 22,
+                        backgroundColor: (theme) => 
+                          theme.palette.mode === 'dark' ? '#60A5FA' : '#2563EB',
+                        '&:hover, &.Mui-focusVisible': {
+                          boxShadow: (theme) =>
+                            theme.palette.mode === 'dark'
+                              ? '0 0 0 8px rgba(96, 165, 250, 0.16)'
+                              : '0 0 0 8px rgba(37, 99, 235, 0.16)',
+                        },
+                        '&.Mui-active': {
+                          boxShadow: (theme) =>
+                            theme.palette.mode === 'dark'
+                              ? '0 0 0 12px rgba(96, 165, 250, 0.24)'
+                              : '0 0 0 12px rgba(37, 99, 235, 0.24)',
+                        }
+                      },
+                      '& .MuiSlider-track': {
+                        width: 8,
+                        backgroundColor: (theme) =>
+                          theme.palette.mode === 'dark' ? '#60A5FA' : '#2563EB',
+                        borderRadius: '4px',
+                      },
+                      '& .MuiSlider-rail': {
+                        width: 8,
+                        backgroundColor: (theme) =>
+                          theme.palette.mode === 'dark' ? '#1F2937' : '#E5E7EB',
+                        borderRadius: '4px',
+                      },
+                      '& .MuiSlider-mark': {
+                        width: 4,
+                        height: 4,
+                        borderRadius: '50%',
+                        backgroundColor: (theme) =>
+                          theme.palette.mode === 'dark' ? '#4B5563' : '#9CA3AF',
+                      },
+                      '& .MuiSlider-markActive': {
+                        backgroundColor: (theme) =>
+                          theme.palette.mode === 'dark' ? '#60A5FA' : '#2563EB',
+                        opacity: 1,
+                      }
+                    }}
+                  />
+                </Box>
                 <div className="fluffy-level-info">
                   <div className="level-name">{fluffLevels[fluffLevel].name}</div>
                 </div>

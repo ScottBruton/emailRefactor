@@ -293,7 +293,7 @@ const PresetSelector = ({
           top: '100%', 
           left: 0,
           width: '180px',
-          backgroundColor: (theme) => theme.palette.mode === 'dark' ? '#2d2d2d' : 'background.paper',
+          backgroundColor: (theme) => theme.palette.mode === 'dark' ? '#2d2d2d' : 'rgb(121, 120, 120)',
           border: '1px solid',
           borderColor: (theme) => theme.palette.mode === 'dark' ? '#404040' : 'divider',
           borderRadius: 1,
@@ -317,6 +317,7 @@ const PresetSelector = ({
             }}
             autoFocus
             sx={{
+              backgroundColor: (theme) => theme.palette.mode === 'dark' ? '#2d2d2d' : 'background.paper',
               '& .MuiOutlinedInput-notchedOutline': {
                 borderColor: (theme) => theme.palette.mode === 'dark' ? '#404040' : 'divider',
               },
@@ -347,8 +348,9 @@ const PresetSelector = ({
                 borderColor: (theme) => theme.palette.mode === 'dark' ? '#404040' : 'divider',
                 padding: '4px',
                 color: (theme) => theme.palette.mode === 'dark' ? '#ffffff' : 'inherit',
+                backgroundColor: (theme) => theme.palette.mode === 'dark' ? '#2d2d2d' : 'background.paper',
                 '&:hover': {
-                  backgroundColor: (theme) => theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'action.hover'
+                  backgroundColor: (theme) => theme.palette.mode === 'dark' ? '#404040' : 'action.hover'
                 }
               }}
             >
@@ -384,13 +386,15 @@ const PresetSelector = ({
                 borderColor: (theme) => theme.palette.mode === 'dark' ? '#404040' : 'divider',
                 padding: '4px',
                 color: (theme) => theme.palette.mode === 'dark' ? '#ffffff' : 'inherit',
+                backgroundColor: (theme) => theme.palette.mode === 'dark' ? '#2d2d2d' : 'background.paper',
                 '&:hover': {
-                  backgroundColor: (theme) => theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'action.hover'
+                  backgroundColor: (theme) => theme.palette.mode === 'dark' ? '#404040' : 'action.hover'
                 },
                 '&.Mui-disabled': {
                   opacity: 0.5,
                   cursor: 'not-allowed',
-                  color: (theme) => theme.palette.mode === 'dark' ? '#666666' : 'inherit'
+                  color: (theme) => theme.palette.mode === 'dark' ? '#666666' : 'inherit',
+                  backgroundColor: (theme) => theme.palette.mode === 'dark' ? '#2d2d2d' : 'background.paper',
                 }
               }}
             >

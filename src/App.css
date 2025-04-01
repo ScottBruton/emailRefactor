@@ -343,31 +343,6 @@ select:focus {
   transform: none;
 }
 
-.fluffy-meter {
-  width: 30px;
-  height: 200px;
-  writing-mode: bt-lr;
-  -webkit-appearance: slider-vertical;
-  appearance: slider-vertical;
-  background: var(--background-primary);
-  cursor: pointer;
-}
-
-.fluffy-meter::-webkit-slider-thumb {
-  width: 16px;
-  height: 16px;
-  background: var(--accent-color);
-  border-radius: 50%;
-  cursor: pointer;
-}
-
-.fluffy-meter::-webkit-slider-runnable-track {
-  width: 10px;
-  cursor: pointer;
-  background: var(--background-tertiary);
-  border-radius: 5px;
-}
-
 .fluffy-level-info {
   position: static;
   left: auto;
