@@ -193,6 +193,11 @@ const PresetSelector = ({
             label="Presets"
             size="small"
             input={<OutlinedInput label="Presets" />}
+            renderValue={(selected) => {
+              // When displaying the selected value, just show the label
+              const preset = customPresets[selected] || presets[selected];
+              return preset?.label || '';
+            }}
             MenuProps={{
               PaperProps: {
                 sx: {
