@@ -967,6 +967,8 @@ function App() {
     }
   };
   
+  const defaultPresets = { ...presets }; // Store the original presets
+
   const categories = {
     contentStyle: {
       title: "Content Style & Formatting",
@@ -1092,7 +1094,7 @@ function App() {
         }
 
         // Load custom presets
-        const savedPresets = await store.get('customPresets');
+        const savedPresets = await store.get('presets');
         if (savedPresets) {
           setCustomPresets(savedPresets);
         }
@@ -1117,7 +1119,6 @@ function App() {
 
       try {
         await store.set('isDarkMode', isDarkMode);
-        await store.save(); // Explicitly save after setting
       } catch (error) {
         console.error('Error saving theme:', error);
       }
@@ -1158,11 +1159,9 @@ function App() {
     if (!newEnabled && expandedCategory === categoryKey) {
       setExpandedCategory(null);
     }
-    // When settings change, set preset to 'none'
-    setSelectedPreset('none');
   };
 
-  const handlePresetChange = (presetKey) => {
+  const handlePresetChange = async (presetKey) => {
     setSelectedPreset(presetKey);
     
     // If 'none' is selected, reset to default state
@@ -1182,18 +1181,26 @@ function App() {
       return;
     }
     
-    // Get the selected preset settings
-    const preset = presets[presetKey] || customPresets[presetKey];
-    if (!preset || !preset.settings) return;
+    try {
+      // First check saved presets for any overrides
+      const savedPresets = await store.get('presets') || {};
+      
+      // Use saved preset if it exists, otherwise use built-in preset
+      const preset = savedPresets[presetKey] || presets[presetKey];
+      
+      if (!preset || !preset.settings) return;
 
-    // Update enabled categories
-    if (preset.settings.enabledCategories) {
-      setEnabledCategories(preset.settings.enabledCategories);
-    }
+      // Update enabled categories
+      if (preset.settings.enabledCategories) {
+        setEnabledCategories(preset.settings.enabledCategories);
+      }
 
-    // Update styles
-    if (preset.settings.styles) {
-      setStyles(preset.settings.styles);
+      // Update styles
+      if (preset.settings.styles) {
+        setStyles(preset.settings.styles);
+      }
+    } catch (error) {
+      console.error('Error loading preset:', error);
     }
   };
 
@@ -1204,8 +1211,7 @@ function App() {
       setCustomPresets(updatedPresets);
 
       // Save to store
-      await store.set('customPresets', updatedPresets);
-      await store.save();
+      await store.set('presets', updatedPresets);
 
       // If the deleted preset was selected, reset to 'none'
       if (selectedPreset === presetKey) {
@@ -1324,11 +1330,11 @@ function App() {
       console.log('Selected styles:', styles);
       console.log('Fluff level:', fluffLevel, '- Type:', fluffLevels[fluffLevel].name);
 
-      if (!inputText.trim()) {
+    if (!inputText.trim()) {
         console.log('Error: Empty input text');
         setError('Please enter your reply in the input area');
-        return;
-      }
+      return;
+    }
 
       if (isResponseEmail && !originalEmail.trim()) {
         console.log('Error: Empty original email for response');
@@ -1346,7 +1352,7 @@ function App() {
       console.log('All validation passed, calling refactor_email...');
       
       setError('');
-      setIsLoading(true);
+    setIsLoading(true);
 
       // Ensure all required style fields are present
       const styleConfig = {
@@ -1384,7 +1390,7 @@ function App() {
 
       console.log('Sending style config:', styleConfig);
 
-      const result = await invoke('refactor_email', {
+      const result = await invoke('refactor_email', { 
         text: inputText,
         isResponse: isResponseEmail,
         originalEmail: originalEmail,
@@ -1394,7 +1400,7 @@ function App() {
       console.log('Refactor result:', result);
       
       if (result) {
-        setOutputText(result);
+      setOutputText(result);
       } else {
         throw new Error('No result returned from refactor_email');
       }
@@ -1423,21 +1429,42 @@ function App() {
     if (!store) return;
 
     try {
-      setIsSaving(true);
-      const currentSettings = {
-        styles,
-        enabledCategories
-      };
-      
-      await store.set('lastSavedSettings', currentSettings);
-      await store.save();
-      
-      setLastSavedSettings(currentSettings);
-      showSaveSuccess();
+        setIsSaving(true);
+        const currentSettings = {
+            styles,
+            enabledCategories,
+            selectedPreset
+        };
+
+        // Save the current settings regardless of preset selection
+        await store.set('lastSavedSettings', currentSettings);
+        setLastSavedSettings(currentSettings);
+
+        // If a preset is selected (not 'none'), update its settings in the store
+        if (selectedPreset && selectedPreset !== 'none') {
+            const updatedPresets = await store.get('presets') || {};
+            
+            // Only save to customPresets if it's already a custom preset
+            // or if it's not a built-in preset
+            if (customPresets[selectedPreset] || !presets[selectedPreset]) {
+                updatedPresets[selectedPreset] = {
+                    label: customPresets[selectedPreset]?.label || selectedPreset,
+                    settings: {
+                        styles: { ...styles },
+                        enabledCategories: { ...enabledCategories }
+                    }
+                };
+                
+                await store.set('presets', updatedPresets);
+                setCustomPresets(updatedPresets);
+            }
+        }
+        
+        showSaveSuccess();
     } catch (error) {
-      console.error('Error saving settings:', error);
+        console.error('Error saving settings:', error);
     } finally {
-      setIsSaving(false);
+        setIsSaving(false);
     }
   };
 
@@ -1452,10 +1479,47 @@ function App() {
       setCustomPresets(updatedPresets);
       
       // Save to store
-      await store.set('customPresets', updatedPresets);
-      await store.save();
+      await store.set('presets', updatedPresets);
     } catch (error) {
       console.error('Error saving preset:', error);
+    }
+  };
+
+  const handleModifyPreset = async (presetKey, newSettings) => {
+    if (!store) return;
+
+    try {
+      // Update the preset in customPresets
+      const updatedPresets = {
+        ...customPresets,
+        [presetKey]: {
+          label: presetKey,
+          settings: newSettings
+        }
+      };
+      setCustomPresets(updatedPresets);
+      
+      // Save to store
+      await store.set('presets', updatedPresets);
+    } catch (error) {
+      console.error('Error modifying preset:', error);
+    }
+  };
+
+  const handleRestorePresets = async () => {
+    if (!store) return;
+
+    try {
+      // Reset custom presets to empty object
+      setCustomPresets({});
+      
+      // Save empty custom presets to store
+      await store.set('presets', {});
+      
+      // Reset selected preset to 'none'
+      setSelectedPreset('none');
+    } catch (error) {
+      console.error('Error restoring presets:', error);
     }
   };
 
@@ -1480,6 +1544,8 @@ function App() {
                   lastSavedSettings={lastSavedSettings}
                   styles={styles}
                   enabledCategories={enabledCategories}
+                  onModifyPreset={handleModifyPreset}
+                  onRestorePresets={handleRestorePresets}
                 />
               </div>
               <div className="messages-container">
@@ -1490,48 +1556,50 @@ function App() {
             </div>
           </div>
           <div className="style-categories-container">
-            {Object.entries(categories).map(([categoryKey, category]) => (
-              <div key={categoryKey} className="style-category">
-                <div 
-                  className="category-header"
-                  onClick={(e) => handleCategoryClick(categoryKey, e)}
-                >
-                  <span className="category-title">{category.title}</span>
-                  <div className="toggle" onClick={(e) => e.stopPropagation()}>
-                    <input
-                      type="checkbox"
-                      checked={enabledCategories[categoryKey]}
-                      onChange={(e) => handleToggleClick(categoryKey, e)}
-                    />
-                  </div>
-                </div>
-                <div 
-                  className={`category-controls ${
-                    expandedCategory === categoryKey && enabledCategories[categoryKey] ? 'expanded' : ''
-                  } ${!enabledCategories[categoryKey] ? 'disabled' : ''}`}
-                >
-                  {Object.entries(category.options).map(([optionKey, values]) => (
-                    <div key={optionKey} className="control-group">
-                      <label className="control-label">
-                        {optionKey.replace(/([A-Z])/g, ' $1').toLowerCase().replace(/^./, str => str.toUpperCase())}
-                      </label>
-                      <select
-                        value={styles[optionKey]}
-                        onChange={(e) => setStyles({...styles, [optionKey]: e.target.value})}
-                        disabled={!enabledCategories[categoryKey]}
-                      >
-                        {values.map(value => (
-                          <option key={value} value={value}>
-                            {value.replace(/-/g, ' ').replace(/^./, str => str.toUpperCase())}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-                  ))}
+          {Object.entries(categories).map(([categoryKey, category]) => (
+            <div key={categoryKey} className="style-category">
+              <div 
+                className="category-header"
+                onClick={(e) => handleCategoryClick(categoryKey, e)}
+              >
+                <span className="category-title">{category.title}</span>
+                <div className="toggle" onClick={(e) => e.stopPropagation()}>
+                  <input
+                    type="checkbox"
+                    checked={enabledCategories[categoryKey]}
+                    onChange={(e) => handleToggleClick(categoryKey, e)}
+                  />
                 </div>
               </div>
-            ))}
-          </div>
+              <div 
+                className={`category-controls ${
+                  expandedCategory === categoryKey && enabledCategories[categoryKey] ? 'expanded' : ''
+                } ${!enabledCategories[categoryKey] ? 'disabled' : ''}`}
+              >
+                {Object.entries(category.options).map(([optionKey, values]) => (
+                  <div key={optionKey} className="control-group">
+                    <label className="control-label">
+                      {optionKey.replace(/([A-Z])/g, ' $1').toLowerCase().replace(/^./, str => str.toUpperCase())}
+                    </label>
+                    <select
+                      value={styles[optionKey]}
+                        onChange={(e) => {
+                          setStyles({...styles, [optionKey]: e.target.value});
+                        }}
+                      disabled={!enabledCategories[categoryKey]}
+                    >
+                      {values.map(value => (
+                        <option key={value} value={value}>
+                          {value.replace(/-/g, ' ').replace(/^./, str => str.toUpperCase())}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
         </div>
 
       </div>
@@ -1618,20 +1686,20 @@ function App() {
           <div className="panels-container">
             
             <div className="fluffy-meter-wrapper">
-              <button 
-                className="sidebar-toggle"
-                onClick={toggleSidebar}
-                aria-label={sidebarHidden ? 'Show sidebar' : 'Hide sidebar'}
-              >
-                <svg 
-                  viewBox="0 0 24 24" 
-                  fill="currentColor"
+        <button 
+          className="sidebar-toggle"
+          onClick={toggleSidebar}
+          aria-label={sidebarHidden ? 'Show sidebar' : 'Hide sidebar'}
+        >
+          <svg 
+            viewBox="0 0 24 24" 
+            fill="currentColor"
                   width="24"
                   height="24"
-                >
-                  <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
-                </svg>
-              </button>
+          >
+            <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
+          </svg>
+        </button>
               <div className="fluffy-meter-container">
                 <h3>Fluffy Meter</h3>
                 <Box sx={{ 
@@ -1697,47 +1765,47 @@ function App() {
                 </Box>
                 <div className="fluffy-level-info">
                   <div className="level-name">{fluffLevels[fluffLevel].name}</div>
-                </div>
+      </div>
               </div>
             </div>
 
-            <div className="panels">
-              <textarea
+        <div className="panels">
+          <textarea
                 className="input-panel"
-                value={inputText}
-                onChange={(e) => setInputText(e.target.value)}
+            value={inputText}
+            onChange={(e) => setInputText(e.target.value)}
                 placeholder={isResponseEmail ? "Enter your reply here..." : "Enter your email text here..."}
-                disabled={isLoading}
+            disabled={isLoading}
                 rows={25}
-              />
-              <div className="output-container">
-                <textarea
+          />
+          <div className="output-container">
+            <textarea
                   className="output-panel"
-                  value={outputText}
+              value={outputText}
                   onChange={(e) => setOutputText(e.target.value)}
                   placeholder={isResponseEmail ? "Your refactored reply will appear here..." : "Refactored email will appear here..."}
                   disabled={isLoading}
                   rows={25}
-                  readOnly
-                />
-                <button
-                  className="copy-button"
+              readOnly
+            />
+            <button 
+              className="copy-button"
                   onClick={handleCopy}
-                  disabled={!outputText || isLoading}
-                >
-                  Copy
-                </button>
+              disabled={!outputText || isLoading}
+            >
+              Copy
+            </button>
               </div>
-            </div>
           </div>
+        </div>
 
-          <button 
-            onClick={handleRefactor} 
-            className="refactor-button"
+        <button 
+          onClick={handleRefactor} 
+          className="refactor-button"
             disabled={isLoading || !inputText.trim() || !Object.values(enabledCategories).some(value => value === true)}
-          >
-            {isLoading ? 'Refactoring...' : 'Refactor Email'}
-          </button>
+        >
+          {isLoading ? 'Refactoring...' : 'Refactor Email'}
+        </button>
           
           <div className="active-settings-summary">
             <div className="settings-header">Active Settings</div>
@@ -1746,7 +1814,7 @@ function App() {
                 <div><span className="setting-category">Fluff Level:</span> {fluffLevels[fluffLevel].name} ({fluffLevel}/10)</div>
                 <div className="fluff-examples">{fluffLevels[fluffLevel].examples}</div>
                 <div className="fluff-comment">{fluffLevels[fluffLevel].comment}</div>
-              </div>
+      </div>
               {!Object.values(enabledCategories).some(value => value === true) ? (
                 <div className="no-settings">No refactor settings selected</div>
               ) : (
