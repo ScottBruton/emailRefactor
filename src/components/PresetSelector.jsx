@@ -56,15 +56,30 @@ const PresetSelector = ({
   };
 
   const handleSaveSettings = async () => {
+    console.log('handleSaveSettings called');
+    console.log('selectedPreset:', selectedPreset);
+    console.log('presets:', presets);
+    console.log('customPresets:', customPresets);
+    
     if (selectedPreset && selectedPreset !== 'none') {
       // Check if settings have been modified from the preset
       const preset = presets[selectedPreset] || customPresets[selectedPreset];
-      const hasModifications = JSON.stringify(preset.settings) !== JSON.stringify({
-        enabledCategories,
-        styles
+      console.log('Current preset:', preset);
+      console.log('Current styles:', styles);
+      console.log('Current enabledCategories:', enabledCategories);
+      
+      const hasModifications = JSON.stringify({
+        styles: preset.settings.styles,
+        enabledCategories: preset.settings.enabledCategories
+      }) !== JSON.stringify({
+        styles,
+        enabledCategories
       });
 
+      console.log('Has modifications:', hasModifications);
+
       if (hasModifications) {
+        console.log('Opening modify modal for preset:', selectedPreset);
         setSelectedPresetForModification(selectedPreset);
         setIsModifyModalOpen(true);
         return;
@@ -74,6 +89,11 @@ const PresetSelector = ({
   };
 
   const handleModifyPreset = () => {
+    console.log('handleModifyPreset called');
+    console.log('selectedPresetForModification:', selectedPresetForModification);
+    console.log('Current styles:', styles);
+    console.log('Current enabledCategories:', enabledCategories);
+    
     if (selectedPresetForModification) {
       onModifyPreset(selectedPresetForModification, {
         enabledCategories,
@@ -305,6 +325,7 @@ const PresetSelector = ({
                   size="small"
                   onClick={(e) => {
                     e.stopPropagation();
+                    console.log('Delete button clicked in dropdown for preset:', key);
                     setPresetToDelete(key);
                     setIsDeleteModalOpen(true);
                   }}
@@ -344,6 +365,7 @@ const PresetSelector = ({
             <IconButton 
               size="small"
               onClick={() => {
+                console.log('Delete button clicked in header for preset:', selectedPreset);
                 setPresetToDelete(selectedPreset);
                 setIsDeleteModalOpen(true);
               }}
@@ -519,6 +541,35 @@ const PresetSelector = ({
             <div className="modal-buttons">
               <button className="modal-button cancel" onClick={() => setIsModifyModalOpen(false)}>Cancel</button>
               <button className="modal-button ok" onClick={handleModifyPreset}>Modify</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Delete Preset Modal */}
+      {isDeleteModalOpen && (
+        <div className="modal-overlay visible" onClick={() => setIsDeleteModalOpen(false)}>
+          <div className="modal-content" onClick={e => e.stopPropagation()}>
+            <div className="modal-header">
+              <div className="modal-title">Delete Preset</div>
+              <button className="modal-close" onClick={() => setIsDeleteModalOpen(false)}>&times;</button>
+            </div>
+            <p className="modal-message">
+              Are you sure you want to delete the preset "{presetToDelete}"? This action cannot be undone.
+            </p>
+            <div className="modal-buttons">
+              <button className="modal-button cancel" onClick={() => setIsDeleteModalOpen(false)}>Cancel</button>
+              <button 
+                className="modal-button delete" 
+                onClick={() => {
+                  console.log('Confirming deletion of preset:', presetToDelete);
+                  onDeletePreset(presetToDelete);
+                  setIsDeleteModalOpen(false);
+                  setPresetToDelete(null);
+                }}
+              >
+                Delete
+              </button>
             </div>
           </div>
         </div>

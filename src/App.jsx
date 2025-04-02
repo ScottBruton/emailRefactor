@@ -184,7 +184,7 @@ function App() {
         }
       }
     },
-    standardReply: {
+    "Standard Reply": {
       label: "Standard Reply",
       settings: {
         enabledCategories: {
@@ -1206,19 +1206,39 @@ function App() {
 
   const handleDeletePreset = async (presetKey) => {
     try {
-      const updatedPresets = { ...customPresets };
+      console.log('handleDeletePreset called with presetKey:', presetKey);
+      console.log('Current customPresets before deletion:', customPresets);
+      
+      // Get current custom presets from store
+      const existingPresets = await store.get('customPresets') || {};
+      console.log('Existing presets from store:', existingPresets);
+      
+      // Create updated presets object without the deleted preset
+      const updatedPresets = { ...existingPresets };
       delete updatedPresets[presetKey];
+      console.log('Updated presets after deletion:', updatedPresets);
+      
+      // Update state and store
+      console.log('Setting customPresets state to:', updatedPresets);
       setCustomPresets(updatedPresets);
-
-      // Save to store
-      await store.set('presets', updatedPresets);
+      
+      console.log('Saving to store with key "customPresets":', updatedPresets);
+      await store.set('customPresets', updatedPresets);
+      console.log('Store updated successfully');
 
       // If the deleted preset was selected, reset to 'none'
       if (selectedPreset === presetKey) {
+        console.log('Deleted preset was selected, resetting to none');
         setSelectedPreset('none');
       }
     } catch (error) {
       console.error('Error deleting preset:', error);
+      console.error('Error details:', {
+        presetKey,
+        customPresets,
+        error: error.message,
+        stack: error.stack
+      });
     }
   };
 
@@ -1426,45 +1446,51 @@ function App() {
   };
 
   const saveSettings = async () => {
+    console.log('App: saveSettings called');
+    console.log('Current selectedPreset:', selectedPreset);
+    console.log('Current styles:', styles);
+    console.log('Current enabledCategories:', enabledCategories);
+
     if (!store) return;
+    setIsSaving(true);
 
     try {
-        setIsSaving(true);
-        const currentSettings = {
-            styles,
-            enabledCategories,
-            selectedPreset
-        };
+      const currentSettings = {
+        styles,
+        enabledCategories,
+        selectedPreset
+      };
 
-        // Save the current settings regardless of preset selection
-        await store.set('lastSavedSettings', currentSettings);
-        setLastSavedSettings(currentSettings);
+      console.log('Saving current settings:', currentSettings);
+      await store.set('lastSavedSettings', currentSettings);
 
-        // If a preset is selected (not 'none'), update its settings in the store
-        if (selectedPreset && selectedPreset !== 'none') {
-            const updatedPresets = await store.get('presets') || {};
-            
-            // Only save to customPresets if it's already a custom preset
-            // or if it's not a built-in preset
-            if (customPresets[selectedPreset] || !presets[selectedPreset]) {
-                updatedPresets[selectedPreset] = {
-                    label: customPresets[selectedPreset]?.label || selectedPreset,
-                    settings: {
-                        styles: { ...styles },
-                        enabledCategories: { ...enabledCategories }
-                    }
-                };
-                
-                await store.set('presets', updatedPresets);
-                setCustomPresets(updatedPresets);
-            }
-        }
+      if (selectedPreset && selectedPreset !== 'none') {
+        const existingPresets = await store.get('customPresets') || {};
+        console.log('Existing custom presets:', existingPresets);
         
-        showSaveSuccess();
+        if (customPresets[selectedPreset]) {
+          console.log('Updating existing custom preset:', selectedPreset);
+          const updatedPresets = {
+            ...existingPresets,
+            [selectedPreset]: {
+              label: customPresets[selectedPreset].label,
+              settings: {
+                styles,
+                enabledCategories
+              }
+            }
+          };
+          console.log('Updated presets to save:', updatedPresets);
+          await store.set('customPresets', updatedPresets);
+          setCustomPresets(updatedPresets);
+        }
+      }
+
+      setIsSaving(false);
+      showSaveSuccess();
     } catch (error) {
-        console.error('Error saving settings:', error);
-    } finally {
-        setIsSaving(false);
+      console.error('Error saving settings:', error);
+      setIsSaving(false);
     }
   };
 
@@ -1486,21 +1512,61 @@ function App() {
   };
 
   const handleModifyPreset = async (presetKey, newSettings) => {
-    if (!store) return;
+    console.log('App: handleModifyPreset called');
+    console.log('Preset key:', presetKey);
+    console.log('New settings:', newSettings);
+    console.log('Current customPresets:', customPresets);
+    console.log('Current presets:', presets);
+
+    if (!store) {
+      console.error('Store not initialized');
+      return;
+    }
 
     try {
-      // Update the preset in customPresets
-      const updatedPresets = {
-        ...customPresets,
-        [presetKey]: {
-          label: presetKey,
-          settings: newSettings
-        }
-      };
-      setCustomPresets(updatedPresets);
+      // Check if this is a default preset
+      const isDefaultPreset = presetKey in presets && !(presetKey in customPresets);
       
-      // Save to store
-      await store.set('presets', updatedPresets);
+      if (isDefaultPreset) {
+        // For default presets, save to the 'presets' store
+        const existingPresets = await store.get('presets') || {};
+        const updatedPresets = {
+          ...existingPresets,
+          [presetKey]: {
+            label: presets[presetKey].label,
+            settings: newSettings
+          }
+        };
+        
+        await store.set('presets', updatedPresets);
+      } else {
+        // For custom presets, save to the 'customPresets' store
+        const existingPresets = await store.get('customPresets') || {};
+        const updatedPresets = {
+          ...existingPresets,
+          [presetKey]: {
+            label: customPresets[presetKey]?.label || presetKey,
+            settings: newSettings
+          }
+        };
+        
+        await store.set('customPresets', updatedPresets);
+        setCustomPresets(updatedPresets);
+      }
+
+      // Update last saved settings regardless of preset type
+      await store.set('lastSavedSettings', {
+        styles: newSettings.styles,
+        enabledCategories: newSettings.enabledCategories,
+        selectedPreset: presetKey
+      });
+
+      setLastSavedSettings({
+        styles: newSettings.styles,
+        enabledCategories: newSettings.enabledCategories,
+        selectedPreset: presetKey
+      });
+      
     } catch (error) {
       console.error('Error modifying preset:', error);
     }
