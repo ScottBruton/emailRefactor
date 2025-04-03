@@ -1093,10 +1093,10 @@ function App() {
           setIsDarkMode(savedTheme);
         }
 
-        // Load custom presets
-        const savedPresets = await store.get('presets');
-        if (savedPresets) {
-          setCustomPresets(savedPresets);
+        // Load custom presets from the correct store key
+        const savedCustomPresets = await store.get('customPresets');
+        if (savedCustomPresets) {
+          setCustomPresets(savedCustomPresets);
         }
 
         // Load last saved settings
@@ -1182,11 +1182,11 @@ function App() {
     }
     
     try {
-      // First check saved presets for any overrides
-      const savedPresets = await store.get('presets') || {};
+      // First check custom presets
+      const savedCustomPresets = await store.get('customPresets') || {};
       
-      // Use saved preset if it exists, otherwise use built-in preset
-      const preset = savedPresets[presetKey] || presets[presetKey];
+      // Use custom preset if it exists, otherwise use built-in preset
+      const preset = savedCustomPresets[presetKey] || presets[presetKey];
       
       if (!preset || !preset.settings) return;
 
@@ -1498,16 +1498,38 @@ function App() {
     if (!store) return;
 
     try {
+      console.log('Creating new preset:', name);
+      console.log('Preset settings:', preset);
+      console.log('Current customPresets:', customPresets);
+
+      // Get existing presets from store to ensure we have the latest state
+      const existingPresets = await store.get('customPresets') || {};
+      console.log('Existing presets from store:', existingPresets);
+
+      // Create updated presets object with the new preset
       const updatedPresets = {
-        [name]: preset,
-        ...customPresets
+        ...existingPresets,
+        [name]: preset
       };
+      console.log('Updated presets to save:', updatedPresets);
+
+      // Update state and store
       setCustomPresets(updatedPresets);
+      await store.set('customPresets', updatedPresets);
       
-      // Save to store
-      await store.set('presets', updatedPresets);
+      // Set the selected preset to the newly created one
+      setSelectedPreset(name);
+      
+      console.log('New preset created and selected:', name);
     } catch (error) {
       console.error('Error saving preset:', error);
+      console.error('Error details:', {
+        name,
+        preset,
+        customPresets,
+        error: error.message,
+        stack: error.stack
+      });
     }
   };
 
@@ -1579,8 +1601,8 @@ function App() {
       // Reset custom presets to empty object
       setCustomPresets({});
       
-      // Save empty custom presets to store
-      await store.set('presets', {});
+      // Save empty custom presets to store with the correct key
+      await store.set('customPresets', {});
       
       // Reset selected preset to 'none'
       setSelectedPreset('none');
@@ -1972,7 +1994,24 @@ function App() {
             />
             <div className="modal-buttons">
               <button className="modal-button cancel" onClick={() => setIsAddPresetModalOpen(false)}>Cancel</button>
-              <button className="modal-button ok" onClick={() => handleAddPreset(newPresetName, { label: newPresetName, settings: { enabledCategories: {...enabledCategories}, styles: {...styles} } })}>OK</button>
+              <button 
+                className="modal-button ok" 
+                onClick={() => {
+                  console.log('Adding new preset with name:', newPresetName);
+                  console.log('Current styles:', styles);
+                  console.log('Current enabledCategories:', enabledCategories);
+                  handleAddPreset(newPresetName, { 
+                    label: newPresetName, 
+                    settings: { 
+                      enabledCategories: {...enabledCategories}, 
+                      styles: {...styles} 
+                    } 
+                  });
+                  setIsAddPresetModalOpen(false);
+                }}
+              >
+                OK
+              </button>
             </div>
           </div>
         </div>

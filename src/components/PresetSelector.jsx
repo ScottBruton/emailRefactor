@@ -39,6 +39,10 @@ const PresetSelector = ({
 
   const handleAddPreset = async () => {
     if (newPresetName.trim()) {
+      console.log('Creating new preset with name:', newPresetName.trim());
+      console.log('Current styles:', styles);
+      console.log('Current enabledCategories:', enabledCategories);
+      
       // Create new preset with current settings
       const newPreset = {
         label: newPresetName.trim(),
