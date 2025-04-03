@@ -119,7 +119,13 @@ const PresetSelector = ({
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-      <Box sx={{ display: 'flex', gap: 1, justifyContent: 'flex-end' }}>
+      <Box sx={{ 
+        display: 'flex', 
+        gap: 1, 
+        justifyContent: 'flex-end',
+        position: 'relative',
+        width: '100%'
+      }}>
         <IconButton 
           size="small" 
           onClick={() => setIsAddPresetModalOpen(true)}
@@ -288,9 +294,15 @@ const PresetSelector = ({
         </IconButton>
       </Box>
 
-      <FormControl sx={{ minWidth: 180 }}>
+      <FormControl sx={{ minWidth: 180, width: '100%' }}>
         <InputLabel size="small">Presets</InputLabel>
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+        <Box sx={{ 
+          display: 'flex', 
+          alignItems: 'center', 
+          gap: 1,
+          width: '100%',
+          position: 'relative' 
+        }}>
           <Select
             value={selectedPreset}
             onChange={(e) => onPresetChange(e.target.value)}
@@ -298,7 +310,6 @@ const PresetSelector = ({
             size="small"
             input={<OutlinedInput label="Presets" />}
             renderValue={(selected) => {
-              // When displaying the selected value, just show the label
               const preset = customPresets[selected] || presets[selected];
               return preset?.label || '';
             }}
@@ -314,7 +325,15 @@ const PresetSelector = ({
                 }
               }
             }}
-            sx={{ minWidth: 180 }}
+            sx={{ 
+              minWidth: 180,
+              width: '100%',
+              '& .MuiSelect-select': {
+                pr: '32px !important'
+              },
+              position: 'relative',
+              zIndex: 0
+            }}
           >
             {Object.entries(customPresets).map(([key, preset]) => (
               <MenuItem key={key} value={key} sx={{ pr: 6, display: 'flex', justifyContent: 'space-between' }}>
@@ -368,7 +387,8 @@ const PresetSelector = ({
           {selectedPreset in customPresets && (
             <IconButton 
               size="small"
-              onClick={() => {
+              onClick={(e) => {
+                e.stopPropagation();
                 console.log('Delete button clicked in header for preset:', selectedPreset);
                 setPresetToDelete(selectedPreset);
                 setIsDeleteModalOpen(true);
@@ -377,6 +397,12 @@ const PresetSelector = ({
                 border: '1px solid',
                 borderColor: 'divider',
                 padding: '4px',
+                position: 'absolute',
+                right: -44,
+                top: '50%',
+                transform: 'translateY(-50%)',
+                zIndex: 1,
+                backgroundColor: (theme) => theme.palette.background.paper,
                 '&:hover': {
                   backgroundColor: 'action.hover'
                 }

@@ -1190,15 +1190,56 @@ function App() {
       
       if (!preset || !preset.settings) return;
 
-      // Update enabled categories
-      if (preset.settings.enabledCategories) {
-        setEnabledCategories(preset.settings.enabledCategories);
-      }
+      // Update enabled categories with default values for any missing categories
+      const defaultEnabledCategories = {
+        contentStyle: false,
+        purpose: false,
+        formality: false,
+        personalization: false,
+        emotion: false,
+        audience: false,
+        industry: false,
+        timeSensitivity: false,
+        relationship: false,
+        communicationGoal: false
+      };
+      
+      setEnabledCategories({
+        ...defaultEnabledCategories,
+        ...(preset.settings.enabledCategories || {})
+      });
 
-      // Update styles
-      if (preset.settings.styles) {
-        setStyles(preset.settings.styles);
-      }
+      // Update styles with default values for any missing style properties
+      const defaultStyles = {
+        tone: 'formal',
+        languageComplexity: 'professional',
+        grammarSpelling: 'strict',
+        conciseness: 'brief',
+        structure: 'paragraph',
+        formatting: 'none',
+        emailLength: 'medium (100–150 words)',
+        clarity: 'direct',
+        purpose: 'inquiry',
+        formality: 'semiformal',
+        greeting: 'dear',
+        signoff: 'regards',
+        includeDetails: 'basic',
+        dynamicContent: 'standard',
+        emotion: 'neutral',
+        audienceExpertise: 'non-technical',
+        hierarchicalContext: 'speaking-to-equals',
+        ageAppropriate: 'adult',
+        culturalSensitivity: 'universal',
+        industryContext: 'general',
+        timeSensitivity: 'standard',
+        relationshipContext: 'professional',
+        communicationGoal: 'inform'
+      };
+      
+      setStyles({
+        ...defaultStyles,
+        ...(preset.settings.styles || {})
+      });
     } catch (error) {
       console.error('Error loading preset:', error);
     }

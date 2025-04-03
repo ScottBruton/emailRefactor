@@ -113,7 +113,6 @@ body, html {
   flex-direction: column;
   margin-bottom: 6px;
   font-size: 13px;
-  min-height: 40px;
   position: relative;
 }
 
@@ -123,23 +122,30 @@ body, html {
 
 .category-header {
   padding: 12px 15px;
-  margin-bottom: 0;
+  margin: 0;
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: space-between;
   cursor: pointer;
   flex-shrink: 0;
   gap: 10px;
+  min-height: 40px;
+  box-sizing: border-box;
+  width: 100%;
 }
 
 .category-header .toggle {
-  margin-left: 0;
+  margin: 0;
   width: 40px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .category-title {
   flex: 1;
-  margin-right: 10px;
+  margin: 0;
   font-size: 11px;
   font-weight: 600;
   color: #333;
@@ -148,7 +154,6 @@ body, html {
   overflow-wrap: break-word;
   hyphens: auto;
   line-height: 1.2;
-  padding-right: 5px;
 }
 
 .category-controls {
@@ -210,9 +215,14 @@ body, html {
 .toggle {
   display: flex;
   align-items: center;
+  justify-content: center;
   cursor: pointer;
   user-select: none;
   width: 40px;
+  flex-shrink: 0;
+  margin: 0;
+  padding: 0;
+  position: relative;
 }
 
 .toggle input[type="checkbox"] {
@@ -224,6 +234,8 @@ body, html {
   position: relative;
   cursor: pointer;
   transition: background 0.3s;
+  margin: 0;
+  padding: 0;
 }
 
 .toggle input[type="checkbox"]:checked {
@@ -239,9 +251,9 @@ body, html {
   top: -1px;
   left: 2px;
   background: white;
-  border-color: #333;
-  border-width: 1px;
+  border: 1px solid #333;
   transition: transform 0.3s;
+  box-sizing: border-box;
 }
 
 .toggle input[type="checkbox"]:checked::before {
@@ -729,6 +741,9 @@ select:focus {
   display: flex;
   align-items: center;
   gap: 8px;
+  min-height: 28px;
+  box-sizing: border-box;
+  flex-shrink: 0;
 }
 
 .preset-dropdown {
@@ -797,6 +812,9 @@ select:focus {
   display: flex;
   flex-direction: column;
   margin-top: 4px;
+  min-height: 20px;
+  box-sizing: border-box;
+  flex-shrink: 0;
 }
 
 .clear-success-message {
@@ -898,6 +916,8 @@ select:focus {
   margin-bottom: 16px;
   padding: 10px 0;
   border-bottom: 1px solid #ddd;
+  min-height: 90px;
+  box-sizing: border-box;
 }
 
 .save-settings-button {
@@ -1499,6 +1519,9 @@ select:focus {
 .preset-controls {
   position: relative;
   margin-bottom: 12px;
+  min-height: 40px;
+  box-sizing: border-box;
+  flex-shrink: 0;
 }
 
 /* MUI Select customization */
