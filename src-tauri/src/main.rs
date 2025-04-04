@@ -2,7 +2,9 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
 use tauri_plugin_store::StoreBuilder;
-use tauri::{Manager, menu::{Menu, MenuItem}, tray::TrayIconBuilder, WindowEvent};
+use tauri::{Manager, menu::{Menu, MenuItem}, tray::TrayIconBuilder, WindowEvent, Event,RunEvent};
+
+
 use tauri::tray::TrayIconEvent;
 use tauri_plugin_dialog::{DialogExt, MessageDialogButtons};
 use log::{info, error};
@@ -68,36 +70,32 @@ fn main() {
                     }
                 })
                 .build(app)?;
-
-            // Handle window close button click
-            let window = app.get_webview_window("main").unwrap();
-            let window_handle = window.clone();
-            window.on_window_event(move |event| {
-                if let WindowEvent::CloseRequested { .. } = event {
-                    info!("Window close requested");
-                    // Show confirmation dialog
-                    let app_handle = window_handle.app_handle();
-                    let should_minimize = app_handle.dialog()
-                        .message("Do you want to minimize to tray or quit the application?")
-                        .title("Close Application")
-                        .buttons(MessageDialogButtons::OkCancelCustom("Minimize".to_string(), "Quit".to_string()))
-                        .blocking_show();
-
-                    info!("Dialog result: {}", should_minimize);
-                    if should_minimize {
-                        info!("Minimize to tray requested");
-                        // User clicked "Minimize" - minimize to tray
-                        window_handle.hide().unwrap();
-                        info!("Window hidden");
-                    } else {
-                        info!("Quit requested from dialog");
-                        // User clicked "Quit" - quit the application
-                        app_handle.exit(0);
-                    }
-                }
-            });
             
             Ok(())
+        })
+        .on_window_event(|window, event| {
+            if let WindowEvent::CloseRequested { api, .. } = event {
+                info!("Window close requested");
+                let app_handle = window.app_handle();
+                
+                // Show confirmation dialog
+                let should_minimize = app_handle.dialog()
+                    .message("Do you want to minimize to tray or quit the application?")
+                    .title("Close Application")
+                    .buttons(MessageDialogButtons::OkCancelCustom("Minimize".to_string(), "Quit".to_string()))
+                    .blocking_show();
+
+                info!("Dialog result: {}", should_minimize);
+                if should_minimize {
+                    info!("Minimize to tray requested");
+                    window.hide().unwrap();
+                    info!("Window hidden");
+                    api.prevent_close();
+                } else {
+                    info!("Quit requested from dialog");
+                    app_handle.exit(0);
+                }
+            }
         })
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
