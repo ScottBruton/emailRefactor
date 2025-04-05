@@ -39,6 +39,7 @@ fn main() {
 
             // Create the tray icon
             let tray = TrayIconBuilder::new()
+                .icon(app.default_window_icon().unwrap().clone())
                 .menu(&menu)
                 .on_menu_event(|app, event| {
                     info!("Tray menu event: {:?}", event.id);
