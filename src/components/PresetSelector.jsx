@@ -388,6 +388,7 @@ const PresetSelector = ({
             <IconButton 
               size="small"
               onClick={(e) => {
+                e.preventDefault();
                 e.stopPropagation();
                 console.log('Delete button clicked in header for preset:', selectedPreset);
                 setPresetToDelete(selectedPreset);
@@ -398,14 +399,16 @@ const PresetSelector = ({
                 borderColor: 'divider',
                 padding: '4px',
                 position: 'absolute',
-                right: -44,
+                right: -32,
                 top: '50%',
                 transform: 'translateY(-50%)',
-                zIndex: 1,
+                zIndex: 100,
                 backgroundColor: (theme) => theme.palette.background.paper,
                 '&:hover': {
-                  backgroundColor: 'action.hover'
-                }
+                  backgroundColor: 'action.hover',
+                  cursor: 'pointer'
+                },
+                pointerEvents: 'auto'
               }}
             >
               <img 
@@ -415,7 +418,8 @@ const PresetSelector = ({
                   width: '14px', 
                   height: '14px',
                   opacity: 0.7,
-                  transition: 'opacity 0.2s'
+                  transition: 'opacity 0.2s',
+                  pointerEvents: 'none'
                 }} 
               />
             </IconButton>
