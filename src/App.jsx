@@ -12,6 +12,7 @@ import lightIcon from '../assets/light.svg';
 import addPresetIcon from '../assets/addPreset.svg';
 import deleteIcon from '../assets/delete.svg';
 import PresetSelector from './components/PresetSelector';
+import logo from '../assets/ScoBroMail_icon.png';
 
 function App() {
   const [store, setStore] = useState(null);
@@ -1678,10 +1679,26 @@ function App() {
                 />
               </div>
               <div className="messages-container">
-                <span id="save-success-message" className="save-success-message">Settings saved!</span>
-                <span id="revert-success-message" className="revert-success-message">Settings reverted!</span>
-                <span id="clear-success-message" className="clear-success-message">Settings cleared!</span>
-              </div>
+              <div 
+                  style={{
+                    backgroundImage: `url(${logo})`,
+                    backgroundSize: 'contain',
+                    backgroundPosition: 'center',
+                    backgroundRepeat: 'no-repeat',
+                    width: '100%',
+                    height: '100%',
+                    opacity: 10,
+                    zIndex: 0
+                  }}
+                  className="logo"
+                  role="img"
+                  aria-label="ScoBroMail Logo"
+                />
+                <div id="save-success-message" className="save-success-message pill-message">Settings saved!</div>
+                <div id="revert-success-message" className="revert-success-message pill-message">Settings reverted!</div>
+                <div id="clear-success-message" className="clear-success-message pill-message">Settings cleared!</div>
+
+               </div>
             </div>
           </div>
           <div className="style-categories-container">
