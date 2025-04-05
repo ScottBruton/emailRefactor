@@ -1385,18 +1385,18 @@ function App() {
   const handleRefactor = async () => {
     try {
       console.log('Starting refactoring process...');
-      console.log('Input text (reply):', inputText);
+      console.log('Input text:', inputText);
       console.log('Original email:', originalEmail);
       console.log('Is response mode:', isResponseEmail);
       console.log('Enabled categories:', enabledCategories);
       console.log('Selected styles:', styles);
       console.log('Fluff level:', fluffLevel, '- Type:', fluffLevels[fluffLevel].name);
 
-    if (!inputText.trim()) {
+      if (!inputText.trim()) {
         console.log('Error: Empty input text');
         setError('Please enter your reply in the input area');
-      return;
-    }
+        return;
+      }
 
       if (isResponseEmail && !originalEmail.trim()) {
         console.log('Error: Empty original email for response');
@@ -1411,10 +1411,10 @@ function App() {
         return;
       }
 
-      console.log('All validation passed, calling refactor_email...');
+      console.log('All validation passed, preparing to call refactor_email...');
       
       setError('');
-    setIsLoading(true);
+      setIsLoading(true);
 
       // Ensure all required style fields are present
       const styleConfig = {
@@ -1452,6 +1452,7 @@ function App() {
 
       console.log('Sending style config:', styleConfig);
 
+      console.log('Attempting to invoke refactor_email command...');
       const result = await invoke('refactor_email', { 
         text: inputText,
         isResponse: isResponseEmail,
@@ -1462,12 +1463,13 @@ function App() {
       console.log('Refactor result:', result);
       
       if (result) {
-      setOutputText(result);
+        setOutputText(result);
       } else {
         throw new Error('No result returned from refactor_email');
       }
     } catch (error) {
       console.error('Error during refactoring:', error);
+      console.error('Error stack:', error.stack);
       setError(error.toString());
     } finally {
       setIsLoading(false);
