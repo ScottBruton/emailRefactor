@@ -15,6 +15,7 @@ use tauri::{
 use tauri_plugin_dialog::{MessageDialogButtons, DialogExt};
 use tauri_plugin_store::StoreBuilder;
 use log::info;
+use std::fs;
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct EnabledCategories {
@@ -231,10 +232,31 @@ fn construct_response_system_prompt(styles: &EmailStyles, original_email: &str) 
 }
 
 #[tauri::command]
-async fn refactor_email(text: String, original_email: String, is_response: bool, styles: EmailStyles) -> Result<String, String> {
-    dotenv().ok();
+async fn refactor_email(app: tauri::AppHandle, text: String, original_email: String, is_response: bool, styles: EmailStyles) -> Result<String, String> {
+    // Try to load .env from _up_ folder
+    let env_path = app.path().resource_dir()
+        .map(|p| p.join("_up_").join(".env"))
+        .unwrap_or_else(|_| std::env::current_dir().unwrap_or_default().join("_up_").join(".env"));
+    log_error(&format!("Looking for .env file at: {}", env_path.display()));
     
-    // Check for API key
+    // Try to load from .env file
+    if let Ok(_) = dotenv::from_path(&env_path) {
+        log_error("Successfully loaded .env file");
+    } else {
+        log_error("Failed to load .env file");
+        // Try executable directory as fallback
+        if let Ok(exe_dir) = std::env::current_exe().map(|p| p.parent().unwrap_or(&p).to_path_buf()) {
+            let exe_env_path = exe_dir.join(".env");
+            log_error(&format!("Trying executable directory: {}", exe_env_path.display()));
+            if let Ok(_) = dotenv::from_path(&exe_env_path) {
+                log_error("Successfully loaded .env from executable directory");
+            } else {
+                log_error("Failed to load .env from executable directory");
+            }
+        }
+    }
+
+    // Try to get API key
     let api_key = match env::var("OPENAI_API_KEY") {
         Ok(key) => key,
         Err(e) => {
@@ -243,13 +265,6 @@ async fn refactor_email(text: String, original_email: String, is_response: bool,
             return Err(error_msg);
         }
     };
-    
-    // Construct system prompt based on styles
-    let system_prompt = if is_response {
-        construct_response_system_prompt(&styles, &original_email)
-    } else {
-        construct_system_prompt(&styles)
-    };
 
     // Validate API key format
     if !api_key.starts_with("sk-") {
@@ -257,6 +272,13 @@ async fn refactor_email(text: String, original_email: String, is_response: bool,
         log_error(&error_msg);
         return Err(error_msg);
     }
+
+    // Construct system prompt based on styles
+    let system_prompt = if is_response {
+        construct_response_system_prompt(&styles, &original_email)
+    } else {
+        construct_system_prompt(&styles)
+    };
 
     let mut prompt_parts = Vec::new();
     prompt_parts.push(system_prompt);

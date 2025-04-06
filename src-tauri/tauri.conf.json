@@ -35,6 +35,9 @@
       "icons/icon.icns",
       "../assets/Tray_Icon.ico"
     ],
+    "resources": [
+      "../.env"
+    ],
     "windows": {
       "nsis": {
         "installMode": "currentUser"
@@ -45,13 +48,6 @@
       },
       "digestAlgorithm": "sha256",
       "timestampUrl": ""
-    },
-    "macOS": {
-      "entitlements": null,
-      "exceptionDomain": "",
-      "frameworks": [],
-      "providerShortName": null,
-      "signingIdentity": null
     }
   }
 }
