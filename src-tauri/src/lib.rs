@@ -14,7 +14,7 @@ use tauri::{
 };
 use tauri_plugin_dialog::{MessageDialogButtons, DialogExt};
 use tauri_plugin_store::StoreBuilder;
-use tauri_plugin_updater::Builder;
+use tauri_plugin_updater::{Builder, UpdaterExt};
 use log::info;
 use std::fs;
 
@@ -339,17 +339,39 @@ async fn refactor_email(app: tauri::AppHandle, text: String, original_email: Str
         }
 }
 
+#[tauri::command]
+async fn check_update(app: tauri::AppHandle) -> Result<String, String> {
+    match app.updater() {
+        Ok(updater) => {
+            match updater.check().await {
+                Ok(Some(update)) => {
+                    match update.download_and_install(|progress: usize, total: Option<u64>| {}, || {}).await {
+                        Ok(_) => {
+                            app.restart();
+                        }
+                        Err(e) => Err(format!("Failed to install update: {}", e))
+                    }
+                }
+                Ok(None) => Ok("You have the latest version installed.".to_string()),
+                Err(e) => Err(format!("Failed to check for updates: {}", e))
+            }
+        }
+        Err(e) => Err(format!("Failed to get updater: {}", e))
+    }
+}
+
 pub fn run() {
     tauri::Builder::default()
         .plugin(tauri_plugin_store::Builder::default().build())
         .plugin(tauri_plugin_dialog::init())
         .plugin(tauri_plugin_opener::init())
         .plugin(Builder::new().build())
-        .invoke_handler(tauri::generate_handler![refactor_email])
+        .invoke_handler(tauri::generate_handler![refactor_email, check_update])
         .setup(|app| {
             info!("Setting up application...");
             info!("Registering commands...");
             info!("Registered refactor_email command");
+            info!("Registered check_update command");
             
             // Create a store for our app's settings
             let handle = app.handle();
