@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Typography, Box } from '@mui/material';
-import { check } from '@tauri-apps/plugin-updater';
+import { invoke } from '@tauri-apps/api/core';
 import infoIcon from '../../assets/info.svg';
 
 const InfoButton = () => {
@@ -22,14 +22,8 @@ const InfoButton = () => {
     setIsUpdating(true);
     setUpdateStatus('Checking for updates...');
     try {
-        const update = await check();
-        if (update.isAvailable) {
-            setUpdateStatus('Update available. Installing...');
-            await update.downloadAndInstall();
-            setUpdateStatus('Update installed. Restarting...');
-        } else {
-            setUpdateStatus('You have the latest version installed.');
-        }
+        const result = await invoke('check_update');
+        setUpdateStatus(result);
     } catch (error) {
         console.error('Update error:', error);
         setUpdateStatus('Failed to check for updates. Please check your internet connection and try again.');
@@ -97,10 +91,15 @@ const InfoButton = () => {
           <Typography variant="body1" gutterBottom style={{ color: 'var(--text-color)' }}>
             <strong>Version:</strong> 1.0.0
           </Typography>
+          {updateStatus && (
+            <Typography variant="body1" gutterBottom style={{ color: 'var(--text-color)' }}>
+              <strong>Update Status:</strong> {updateStatus}
+            </Typography>
+          )}
         </DialogContent>
         <DialogActions style={{ backgroundColor: 'var(--background-color)' }}>
-          <Button onClick={handleUpdate} style={{ color: 'var(--primary-color)' }}>
-            Update
+          <Button onClick={handleUpdate} disabled={isUpdating} style={{ color: 'var(--primary-color)' }}>
+            {isUpdating ? 'Checking...' : 'Update'}
           </Button>
           <Button onClick={handleClose} style={{ color: 'var(--primary-color)' }}>
             Close
