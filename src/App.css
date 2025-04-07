@@ -12,7 +12,15 @@
   line-height: 24px;
   font-weight: 400;
   color: #0f0f0f;
-  background-color: #f6f6f6;
+  background-color: #ffffff;
+  --background-color: #ffffff;
+  --text-color: #0f0f0f;
+  --primary-color: #007bff;
+  --border-color: #ddd;
+  --hover-color: #f5f5f5;
+  --selected-color: #e3f2fd;
+  --accent-color: #007bff;
+  --icon-filter: none;
 }
 
 body, html {
@@ -1247,6 +1255,14 @@ select:focus {
 .dark-theme {
   color: #f6f6f6;
   background-color: #2f2f2f;
+  --background-color: #2f2f2f;
+  --text-color: #f6f6f6;
+  --primary-color: #48a3ff;
+  --border-color: #444;
+  --hover-color: #404040;
+  --selected-color: #1a1a1a;
+  --accent-color: #48a3ff;
+  --icon-filter: invert(1) brightness(100);
 }
 
 .dark-theme .style-controls {
@@ -1835,5 +1851,47 @@ select:focus {
 :not(.dark-theme) .MuiIconButton-root:hover svg,
 :not(.dark-theme) button:hover svg {
   opacity: 1;
+}
+
+.App {
+  position: relative;
+  display: flex;
+  height: 100vh;
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
+
+/* Info Button styles */
+.info-button {
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  z-index: 1000;
+  cursor: pointer;
+  opacity: 0.8;
+  transition: opacity 0.2s ease;
+}
+
+.info-button:hover {
+  opacity: 1;
+}
+
+/* Info Dialog styles */
+.MuiDialog-paper {
+  background-color: var(--background-color) !important;
+  color: var(--text-color) !important;
+}
+
+.MuiDialogTitle-root {
+  background-color: var(--primary-color);
+  color: var(--text-color) !important;
+}
+
+.MuiDialogContent-root {
+  color: var(--text-color) !important;
+}
+
+.MuiButton-root {
+  color: var(--primary-color) !important;
 }
 

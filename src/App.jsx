@@ -13,6 +13,7 @@ import addPresetIcon from '../assets/addPreset.svg';
 import deleteIcon from '../assets/delete.svg';
 import PresetSelector from './components/PresetSelector';
 import logo from '../assets/ScoBroMail_icon.png';
+import InfoButton from './components/InfoButton';
 
 function App() {
   const [store, setStore] = useState(null);
@@ -1789,7 +1790,8 @@ function App() {
   };
 
   return (
-    <div className="container">
+    <div className="App">
+      <InfoButton />
       {renderStyleControls()}
       <div className={`main-content ${sidebarHidden ? 'sidebar-hidden' : ''}`}>
         <div className="theme-toggle-container">
