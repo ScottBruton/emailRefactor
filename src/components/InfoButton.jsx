@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Typography, Box } from '@mui/material';
+import { check } from '@tauri-apps/plugin-updater';
 import infoIcon from '../../assets/info.svg';
 
 const InfoButton = () => {
   const [open, setOpen] = useState(false);
   const isDarkTheme = document.body.classList.contains('dark-theme');
+  const [isUpdating, setIsUpdating] = useState(false);
+  const [updateStatus, setUpdateStatus] = useState('');
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -14,9 +17,25 @@ const InfoButton = () => {
     setOpen(false);
   };
 
-  const handleUpdate = () => {
-    // TODO: Implement update functionality
-    handleClose();
+  const handleUpdate = async () => {
+    if (isUpdating) return; // Prevent multiple simultaneous update checks
+    setIsUpdating(true);
+    setUpdateStatus('Checking for updates...');
+    try {
+        const update = await check();
+        if (update.isAvailable) {
+            setUpdateStatus('Update available. Installing...');
+            await update.downloadAndInstall();
+            setUpdateStatus('Update installed. Restarting...');
+        } else {
+            setUpdateStatus('You have the latest version installed.');
+        }
+    } catch (error) {
+        console.error('Update error:', error);
+        setUpdateStatus('Failed to check for updates. Please check your internet connection and try again.');
+    } finally {
+        setIsUpdating(false);
+    }
   };
 
   return (

@@ -25,6 +25,17 @@
       "csp": null
     }
   },
+  "plugins": {
+    "updater": {
+      "active": true,
+      "github": {
+        "owner": "ScottBruton",
+        "repo": "emailRefactor"
+      },
+      "dialog": true,
+      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IDhFRDRDRjgyNDRDQTI1OTkKUldTWkpjcEVncy9VamdXUktpaUNXWDM5NXdYMHFpcEZuVU8yQXdkbUZLS1AweEs4MmdPTzJKNGcK"
+    }
+  },
   "bundle": {
     "active": true,
     "targets": "all",

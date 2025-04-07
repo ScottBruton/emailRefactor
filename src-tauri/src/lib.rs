@@ -14,6 +14,7 @@ use tauri::{
 };
 use tauri_plugin_dialog::{MessageDialogButtons, DialogExt};
 use tauri_plugin_store::StoreBuilder;
+use tauri_plugin_updater::Builder;
 use log::info;
 use std::fs;
 
@@ -343,6 +344,7 @@ pub fn run() {
         .plugin(tauri_plugin_store::Builder::default().build())
         .plugin(tauri_plugin_dialog::init())
         .plugin(tauri_plugin_opener::init())
+        .plugin(Builder::new().build())
         .invoke_handler(tauri::generate_handler![refactor_email])
         .setup(|app| {
             info!("Setting up application...");
