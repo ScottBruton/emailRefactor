@@ -100,6 +100,12 @@ struct ResponseMessage {
     content: Option<String>,
 }
 
+#[derive(Debug, Serialize)]
+struct UpdateResponse {
+    message: String,
+    details: Option<String>,
+}
+
 fn log_error(error: &str) {
     let log_dir = PathBuf::from("logs");
     std::fs::create_dir_all(&log_dir).unwrap_or_else(|e| eprintln!("Failed to create logs directory: {}", e));
@@ -340,7 +346,7 @@ async fn refactor_email(app: tauri::AppHandle, text: String, original_email: Str
 }
 
 #[tauri::command]
-async fn check_update(app: tauri::AppHandle) -> Result<String, String> {
+async fn check_update(app: tauri::AppHandle) -> Result<UpdateResponse, String> {
     match app.updater() {
         Ok(updater) => {
             match updater.check().await {
@@ -348,12 +354,38 @@ async fn check_update(app: tauri::AppHandle) -> Result<String, String> {
                     match update.download_and_install(|progress: usize, total: Option<u64>| {}, || {}).await {
                         Ok(_) => {
                             app.restart();
+                            Ok(UpdateResponse {
+                                message: "Update downloaded and installed successfully. The application will restart.".to_string(),
+                                details: None
+                            })
                         }
                         Err(e) => Err(format!("Failed to install update: {}", e))
                     }
                 }
-                Ok(None) => Ok("You have the latest version installed.".to_string()),
-                Err(e) => Err(format!("Failed to check for updates: {}", e))
+                Ok(None) => Ok(UpdateResponse {
+                    message: "You have the latest version installed.".to_string(),
+                    details: None
+                }),
+                Err(e) => {
+                    let error_msg = e.to_string();
+                    let (message, details) = match error_msg.as_str() {
+                        msg if msg.contains("update endpoint did not respond with a successful status code") => 
+                            ("Update check failed: This is likely because you're running in development mode.", Some(msg)),
+                        msg if msg.contains("network") => 
+                            ("Network connection error. Please check your internet connection.", Some(msg)),
+                        msg if msg.contains("404") => 
+                            ("Update endpoint not found. Please verify the update URL configuration.", Some(msg)),
+                        msg if msg.contains("403") => 
+                            ("Access denied to update server. This could be due to rate limiting.", Some(msg)),
+                        msg if msg.contains("Could not fetch a valid release JSON") => 
+                            ("No valid release found. Please check if there are any releases available.", Some(msg)),
+                        _ => ("Failed to check for updates.", Some(error_msg.as_str()))
+                    };
+                    Ok(UpdateResponse {
+                        message: message.to_string(),
+                        details: details.map(|s| s.to_string())
+                    })
+                }
             }
         }
         Err(e) => Err(format!("Failed to get updater: {}", e))

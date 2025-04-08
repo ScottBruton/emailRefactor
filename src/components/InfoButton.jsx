@@ -1,13 +1,17 @@
 import React, { useState } from 'react';
-import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Typography, Box } from '@mui/material';
+import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Typography, Box, Collapse, IconButton } from '@mui/material';
 import { invoke } from '@tauri-apps/api/core';
 import infoIcon from '../../assets/info.svg';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 
 const InfoButton = () => {
   const [open, setOpen] = useState(false);
   const isDarkTheme = document.body.classList.contains('dark-theme');
   const [isUpdating, setIsUpdating] = useState(false);
   const [updateStatus, setUpdateStatus] = useState('');
+  const [showDetails, setShowDetails] = useState(false);
+  const [errorDetails, setErrorDetails] = useState('');
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -15,18 +19,21 @@ const InfoButton = () => {
 
   const handleClose = () => {
     setOpen(false);
+    setShowDetails(false);
   };
 
   const handleUpdate = async () => {
-    if (isUpdating) return; // Prevent multiple simultaneous update checks
+    if (isUpdating) return;
     setIsUpdating(true);
     setUpdateStatus('Checking for updates...');
     try {
         const result = await invoke('check_update');
-        setUpdateStatus(result);
+        setUpdateStatus(result.message);
+        setErrorDetails(result.details || '');
     } catch (error) {
         console.error('Update error:', error);
-        setUpdateStatus('Failed to check for updates. Please check your internet connection and try again.');
+        setUpdateStatus('Failed to check for updates');
+        setErrorDetails(error);
     } finally {
         setIsUpdating(false);
     }
@@ -92,9 +99,28 @@ const InfoButton = () => {
             <strong>Version:</strong> 1.0.0
           </Typography>
           {updateStatus && (
-            <Typography variant="body1" gutterBottom style={{ color: 'var(--text-color)' }}>
-              <strong>Update Status:</strong> {updateStatus}
-            </Typography>
+            <Box>
+              <Typography variant="body1" gutterBottom style={{ color: 'var(--text-color)' }}>
+                <strong>Update Status:</strong> {updateStatus}
+              </Typography>
+              {errorDetails && (
+                <>
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                    <Typography variant="body2" style={{ color: 'var(--text-color)' }}>
+                      <strong>Error Details:</strong>
+                    </Typography>
+                    <IconButton size="small" onClick={() => setShowDetails(!showDetails)}>
+                      {showDetails ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+                    </IconButton>
+                  </Box>
+                  <Collapse in={showDetails}>
+                    <Typography variant="body2" style={{ color: 'var(--text-color)', marginTop: 8 }}>
+                      {errorDetails}
+                    </Typography>
+                  </Collapse>
+                </>
+              )}
+            </Box>
           )}
         </DialogContent>
         <DialogActions style={{ backgroundColor: 'var(--background-color)' }}>
