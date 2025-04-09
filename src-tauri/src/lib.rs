@@ -347,30 +347,58 @@ async fn refactor_email(app: tauri::AppHandle, text: String, original_email: Str
 
 #[tauri::command]
 async fn check_update(app: tauri::AppHandle) -> Result<UpdateResponse, String> {
+    log_error("Starting update check...");
     match app.updater() {
         Ok(updater) => {
+            log_error("Updater initialized successfully");
             match updater.check().await {
                 Ok(Some(update)) => {
-                    match update.download_and_install(|progress: usize, total: Option<u64>| {}, || {}).await {
+                    log_error(&format!("Update found: version {}", update.version));
+                    match update.download_and_install(|progress: usize, total: Option<u64>| {
+                        log_error(&format!("Download progress: {}/{}", progress, total.unwrap_or(0)));
+                    }, || {
+                        log_error("Installation started");
+                    }).await {
                         Ok(_) => {
+                            log_error("Update installed successfully");
                             app.restart();
                             Ok(UpdateResponse {
                                 message: "Update downloaded and installed successfully. The application will restart.".to_string(),
                                 details: None
                             })
                         }
-                        Err(e) => Err(format!("Failed to install update: {}", e))
+                        Err(e) => {
+                            log_error(&format!("Failed to install update: {}", e));
+                            Err(format!("Failed to install update: {}", e))
+                        }
                     }
                 }
-                Ok(None) => Ok(UpdateResponse {
-                    message: "You have the latest version installed.".to_string(),
-                    details: None
-                }),
+                Ok(None) => {
+                    log_error("No updates available");
+                    Ok(UpdateResponse {
+                        message: "You have the latest version installed.".to_string(),
+                        details: None
+                    })
+                },
                 Err(e) => {
                     let error_msg = e.to_string();
+                    log_error(&format!("Update check error: {}", error_msg));
+                    
+                    // Log update endpoint information
+                    log_error(&format!("Current version: {}", app.package_info().version));
+                    log_error("Update endpoint configuration issue detected");
+                    
+                    // For GitHub releases, we can't directly list releases
+                    // The updater will check against the configured endpoint
+                    log_error("Using GitHub releases endpoint for updates");
+                    
                     let (message, details) = match error_msg.as_str() {
-                        msg if msg.contains("update endpoint did not respond with a successful status code") => 
-                            ("Update check failed: This is likely because you're running in development mode.", Some(msg)),
+                        msg if msg.contains("update endpoint did not respond with a successful status code") => {
+                            log_error("Update endpoint failed - checking configuration");
+                            log_error(&format!("Current version: {}", app.package_info().version));
+                            log_error("Update endpoint configuration issue detected");
+                            ("Update check failed: This is likely because you're running in development mode.", Some(msg))
+                        },
                         msg if msg.contains("network") => 
                             ("Network connection error. Please check your internet connection.", Some(msg)),
                         msg if msg.contains("404") => 
@@ -388,7 +416,10 @@ async fn check_update(app: tauri::AppHandle) -> Result<UpdateResponse, String> {
                 }
             }
         }
-        Err(e) => Err(format!("Failed to get updater: {}", e))
+        Err(e) => {
+            log_error(&format!("Failed to get updater: {}", e));
+            Err(format!("Failed to get updater: {}", e))
+        }
     }
 }
 
