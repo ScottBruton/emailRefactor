@@ -1,0 +1,12 @@
+{
+    "version": "1.0.0",
+    "notes": "Initial release with auto-updater support.",
+    "pub_date": "2025-04-12T04:30:00Z",
+    "platforms": {
+      "windows-x86_64": {
+        "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVTeHY3UHJHa1lrTXV2QVVabStxbWZHa2lpcXhDMGIwTEVMdHVacXhiTzk0RCtKelFvZU45V0tNeDQvRlpXeHZKZS9VY0hZdUNObDF6MFF2dmd5ZGpIUHNTQUc3NlBra2dzPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzQ0NDM5ODUwCWZpbGU6U2NvQnJvTWFpbC1SZWZhY3Rvcl8xLjAuMF94NjQtc2V0dXAuZXhlCk9ZeXNhcWY5NVBPZkVUWmhaNW5LN3FZTFE4TkMxQ2Z6UHYrWDdzZWR2RFVxdmNMdVRnN1NYTUUxN2MxMTJVWlEzWVdVN3lOYWlDdVhGQk9XQmVBK0RnPT0K==",
+        "url": "https://github.com/ScottBruton/emailRefactor/releases/download/v1.0.0/ScoBroMail-Refactor_1.0.0_x64-setup.exe"
+      }
+    }
+  }
+  

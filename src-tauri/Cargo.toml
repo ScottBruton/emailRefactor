@@ -1,6 +1,6 @@
 [package]
 name = "emailrefactor"
-version = "0.1.0"
+version = "0.9.0"
 description = "A Tauri App"
 authors = ["you"]
 edition = "2021"
@@ -13,6 +13,10 @@ edition = "2021"
 # This seems to be only an issue on Windows, see https://github.com/rust-lang/cargo/issues/8519
 name = "emailrefactor_lib"
 crate-type = ["staticlib", "cdylib", "rlib"]
+
+[[bin]]
+name = "emailrefactor"
+path = "src/main.rs"
 
 [build-dependencies]
 tauri-build = { version = "2.0.0-beta.9", features = [] }
@@ -28,7 +32,9 @@ async-openai = "0.14.2"
 dotenv = "0.15.0"
 chrono = "0.4"
 tauri-plugin-store = { git = "https://github.com/tauri-apps/plugins-workspace", branch = "v2" }
-tauri-plugin-dialog = { git = "https://github.com/tauri-apps/plugins-workspace", branch = "v2" }
 log = "0.4.20"
 simple_logger = "4.3.3"
+simplelog = "0.12.2"
+tauri-plugin-updater = { version = "2.0.0-beta.7", features = ["rustls-tls"] }
+tauri-plugin-dialog = "2.0.0-beta"
 

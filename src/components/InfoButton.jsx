@@ -1,10 +1,25 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Typography, Box } from '@mui/material';
 import infoIcon from '../../assets/info.svg';
+import { check } from '@tauri-apps/plugin-updater';
+import { ask, message } from '@tauri-apps/plugin-dialog';
+import { invoke } from '@tauri-apps/api/core';
+import { getVersion } from '@tauri-apps/api/app';
 
 const InfoButton = () => {
   const [open, setOpen] = useState(false);
+  const [appVersion, setAppVersion] = useState('');
   const isDarkTheme = document.body.classList.contains('dark-theme');
+
+  useEffect(() => {
+    // Get the current app version
+    getVersion().then(version => {
+      setAppVersion(version);
+    }).catch(err => {
+      console.error('Failed to get app version:', err);
+      setAppVersion('Unknown');
+    });
+  }, []);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -14,10 +29,44 @@ const InfoButton = () => {
     setOpen(false);
   };
 
-  const handleUpdate = () => {
-    // TODO: Implement update functionality
-    handleClose();
-  };
+  async function handleUpdate() {
+    try {
+      const update = await check();
+      if (update === null) {
+        await message('Failed to check for updates.', {
+          title: 'Error',
+          kind: 'error'
+        });
+        return;
+      }
+  
+      if (update.available) {
+        const confirm = await ask(
+          `A new version (${update.version}) is available.\n\n${update.body || ''}\n\nDownload and install now?`,
+          {
+            title: 'Update Available',
+            kind: 'info',
+            okLabel: 'Yes',
+            cancelLabel: 'No'
+          }
+        );
+        if (!confirm) return;
+  
+        await update.downloadAndInstall();
+        await invoke('graceful_restart');
+      } else {
+        await message('You are already on the latest version.', {
+          title: 'Up to Date',
+          kind: 'info'
+        });
+      }
+    } catch (err) {
+      await message(`Error checking updates: ${err}`, {
+        title: 'Update Failed',
+        kind: 'error'
+      });
+    }
+  }
 
   return (
     <>
@@ -76,7 +125,7 @@ const InfoButton = () => {
             <strong>Author:</strong> Scott Bruton
           </Typography>
           <Typography variant="body1" gutterBottom style={{ color: 'var(--text-color)' }}>
-            <strong>Version:</strong> 1.0.0
+            <strong>Version:</strong> {appVersion}
           </Typography>
         </DialogContent>
         <DialogActions style={{ backgroundColor: 'var(--background-color)' }}>
