@@ -48,6 +48,16 @@
       },
       "digestAlgorithm": "sha256",
       "timestampUrl": ""
+    },
+    "createUpdaterArtifacts": true
+  },
+  "plugins": {
+    "updater": {
+      "active": true,
+      "endpoints": [
+        "https://github.com/ScottBruton/emailRefactor/releases/latest/download/latest.json"
+      ],
+      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IDRFMzY4MzM0QUYzQUM1QjcKUldTM3hUcXZOSU0yVGpVbXpVVEY4V0JJeFpjMnF5ZmVQSDhTbFk3MEUrTW85U0w1cjNCeUo0eGgK"
     }
   }
 }
