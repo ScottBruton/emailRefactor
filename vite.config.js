@@ -1,5 +1,6 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
+import path from 'path';
 
 const host = process.env.TAURI_DEV_HOST;
 
@@ -28,4 +29,36 @@ export default defineConfig(async () => ({
       ignored: ["**/src-tauri/**"],
     },
   },
+  build: {
+    // Tauri supports es2021
+    target: ['es2021', 'chrome100', 'safari13'],
+    // don't minify for debug builds
+    minify: !process.env.TAURI_DEBUG ? 'esbuild' : false,
+    // produce sourcemaps for debug builds
+    sourcemap: !!process.env.TAURI_DEBUG,
+    outDir: 'dist',
+    assetsDir: 'assets',
+    rollupOptions: {
+      external: [
+        '@tauri-apps/api',
+        '@tauri-apps/api/app',
+        '@tauri-apps/api/tauri',
+        '@tauri-apps/plugin-updater',
+        '@tauri-apps/plugin-dialog'
+      ],
+      input: {
+        main: path.resolve(__dirname, 'index.html')
+      },
+      output: {
+        entryFileNames: 'assets/[name].[hash].js',
+        chunkFileNames: 'assets/[name].[hash].js',
+        assetFileNames: 'assets/[name].[hash].[ext]'
+      }
+    }
+  },
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, 'src')
+    }
+  }
 }));

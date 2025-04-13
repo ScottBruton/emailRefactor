@@ -1,0 +1,242 @@
+﻿**********************
+Windows PowerShell transcript start
+Start time: 20250413164957
+Username: SCOTT-LAPTOP\bruto
+RunAs User: SCOTT-LAPTOP\bruto
+Configuration Name: 
+Machine: SCOTT-LAPTOP (Microsoft Windows NT 10.0.26100.0)
+Host Application: C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe
+Process ID: 15416
+PSVersion: 5.1.26100.3624
+PSEdition: Desktop
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1.26100.3624
+BuildVersion: 10.0.26100.3624
+CLRVersion: 4.0.30319.42000
+WSManStackVersion: 3.0
+PSRemotingProtocolVersion: 2.3
+SerializationVersion: 1.1.0.1
+**********************
+Transcript started, output file is release-log-1.0.0.txt
+
+=== ScoBroMail Automated Release v1.0.0 ===
+â†’ Checking for existing release/tag...
+v1.0.0
+ScottBruton released this about 29 minutes ago
+
+  initial release
+
+
+
+Assets
+latest.json                                  739 B
+ScoBroMail-Refactor_1.0.0_x64-setup.exe      3.37 MiB
+ScoBroMail-Refactor_1.0.0_x64-setup.exe.sig  432 B
+
+View on GitHub: https://github.com/ScottBruton/emailRefactor/releases/tag/v1.0.0
+â†’ Deleting existing release v1.0.0...
+â†’ Updating version numbers...
+â†’ Installing dependencies...
+
+removed 5 packages, and audited 131 packages in 2s
+
+24 packages are looking for funding
+  run `npm fund` for details
+
+1 moderate severity vulnerability
+
+To address all issues, run:
+  npm audit fix
+
+Run `npm audit` for details.
+â†’ Committing version changes...
+
+
+Enumerating objects: 11, done.
+Counting objects: 100% (11/11), done.
+Delta compression using up to 20 threads
+Compressing objects: 100% (6/6), done.
+Writing objects: 100% (6/6), 831 bytes | 831.00 KiB/s, done.
+Total 6 (delta 5), reused 0 (delta 0), pack-reused 0 (from 0)
+remote: Resolving deltas: 100% (5/5), completed with 5 local objects.
+To https://github.com/ScottBruton/emailRefactor.git
+ * [new tag]         v1.0.0 -> v1.0.0
+â†’ Building the app...
+
+> emailrefactor@1.0.0 tauri
+> tauri build
+
+    Running beforeBuildCommand `npm run build`
+
+> emailrefactor@1.0.0 build
+> vite build
+
+vite v6.2.2 building for production...
+✓ 26 modules transformed.
+✗ Build failed in 159ms
+error during build:
+[vite]: Rollup failed to resolve import "@tauri-apps/plugin-updater" from "C:/Programming/emailRefactor/emailRefactor/sr
+c/components/InfoButton.jsx".
+This is most likely unintended because it can break your application at runtime.
+If you do want to externalize this module explicitly add it to
+`build.rollupOptions.external`
+    at viteLog (file:///C:/Programming/emailRefactor/emailRefactor/node_modules/vite/dist/node/chunks/dep-B0fRCRkQ.js:51
+602:15)
+    at file:///C:/Programming/emailRefactor/emailRefactor/node_modules/vite/dist/node/chunks/dep-B0fRCRkQ.js:51660:18
+    at onwarn (file:///C:/Programming/emailRefactor/emailRefactor/node_modules/@vitejs/plugin-react/dist/index.mjs:282:9
+)
+    at file:///C:/Programming/emailRefactor/emailRefactor/node_modules/vite/dist/node/chunks/dep-B0fRCRkQ.js:51658:7
+    at onRollupLog (file:///C:/Programming/emailRefactor/emailRefactor/node_modules/vite/dist/node/chunks/dep-B0fRCRkQ.j
+s:51650:5)
+    at onLog (file:///C:/Programming/emailRefactor/emailRefactor/node_modules/vite/dist/node/chunks/dep-B0fRCRkQ.js:5130
+0:7)
+    at file:///C:/Programming/emailRefactor/emailRefactor/node_modules/rollup/dist/es/shared/node-entry.js:20619:32
+    at Object.logger [as onLog] (file:///C:/Programming/emailRefactor/emailRefactor/node_modules/rollup/dist/es/shared/n
+ode-entry.js:22362:9)
+    at ModuleLoader.handleInvalidResolvedId (file:///C:/Programming/emailRefactor/emailRefactor/node_modules/rollup/dist
+/es/shared/node-entry.js:21245:26)
+    at file:///C:/Programming/emailRefactor/emailRefactor/node_modules/rollup/dist/es/shared/node-entry.js:21203:26
+beforeBuildCommand `npm run build` failed with exit code 1
+    Error beforeBuildCommand `npm run build` failed with exit code 1
+C:\Programming\emailRefactor\emailRefactor\release.ps1 : âŒ Build failed. Check the console above.
+At line:1 char:1
++ .\release.ps1
++ ~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (:) [Write-Error], WriteErrorException
+    + FullyQualifiedErrorId : Microsoft.PowerShell.Commands.WriteErrorException,release.ps1
+C:\Programming\emailRefactor\emailRefactor\release.ps1 : âŒ Build failed. Check the console above.
+At line:1 char:1
++ .\release.ps1
++ ~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (:) [Write-Error], WriteErrorException
+    + FullyQualifiedErrorId : Microsoft.PowerShell.Commands.WriteErrorException,release.ps1
+
+**********************
+Windows PowerShell transcript end
+End time: 20250413165017
+**********************
+**********************
+Windows PowerShell transcript start
+Start time: 20250413191502
+Username: SCOTT-LAPTOP\bruto
+RunAs User: SCOTT-LAPTOP\bruto
+Configuration Name: 
+Machine: SCOTT-LAPTOP (Microsoft Windows NT 10.0.26100.0)
+Host Application: C:\WINDOWS\System32\WindowsPowerShell\v1.0\powershell.exe -noexit -command try { . "c:\Users\bruto\AppData\Local\Programs\cursor\resources\app\out\vs\workbench\contrib\terminal\common\scripts\shellIntegration.ps1" } catch {}
+Process ID: 27632
+PSVersion: 5.1.26100.3624
+PSEdition: Desktop
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1.26100.3624
+BuildVersion: 10.0.26100.3624
+CLRVersion: 4.0.30319.42000
+WSManStackVersion: 3.0
+PSRemotingProtocolVersion: 2.3
+SerializationVersion: 1.1.0.1
+**********************
+Transcript started, output file is release-log-1.0.0.txt
+
+=== ScoBroMail Automated Release v1.0.0 ===
+â†’ Checking for existing release/tag...
+gh : release not found
+At C:\Programming\emailRefactor\emailRefactor\release.ps1:62 char:1
++ gh release view $ReleaseTag 2>$null
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (release not found:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+
+â†’ Updating version numbers...
+â†’ Installing dependencies...
+
+â†’ Committing version changes...
+
+
+
+â†’ Building the app...
+
+C:\Programming\emailRefactor\emailRefactor\release.ps1 : âŒ Build failed. Check the console above.
+At line:1 char:1
++ .\release.ps1
++ ~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (:) [Write-Error], WriteErrorException
+    + FullyQualifiedErrorId : Microsoft.PowerShell.Commands.WriteErrorException,release.ps1
+C:\Programming\emailRefactor\emailRefactor\release.ps1 : âŒ Build failed.
+Check the console above.
+At line:1 char:1
++ .\release.ps1
++ ~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (:) [Write-Error], WriteErrorE
+   xception
+    + FullyQualifiedErrorId : Microsoft.PowerShell.Commands.WriteErrorExce
+   ption,release.ps1
+
+**********************
+Windows PowerShell transcript end
+End time: 20250413191514
+**********************
+**********************
+Windows PowerShell transcript start
+Start time: 20250413191656
+Username: SCOTT-LAPTOP\bruto
+RunAs User: SCOTT-LAPTOP\bruto
+Configuration Name: 
+Machine: SCOTT-LAPTOP (Microsoft Windows NT 10.0.26100.0)
+Host Application: C:\WINDOWS\System32\WindowsPowerShell\v1.0\powershell.exe -noexit -command try { . "c:\Users\bruto\AppData\Local\Programs\cursor\resources\app\out\vs\workbench\contrib\terminal\common\scripts\shellIntegration.ps1" } catch {}
+Process ID: 30000
+PSVersion: 5.1.26100.3624
+PSEdition: Desktop
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1.26100.3624
+BuildVersion: 10.0.26100.3624
+CLRVersion: 4.0.30319.42000
+WSManStackVersion: 3.0
+PSRemotingProtocolVersion: 2.3
+SerializationVersion: 1.1.0.1
+**********************
+Transcript started, output file is release-log-1.0.0.txt
+
+=== ScoBroMail Automated Release v1.0.0 ===
+â†’ Checking for existing release/tag...
+gh : release not found
+At C:\Programming\emailRefactor\emailRefactor\release.ps1:62 char:1
++ gh release view $ReleaseTag 2>$null
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (release not found:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+
+â†’ Updating version numbers...
+â†’ Installing dependencies...
+
+To address all issues, run:
+  npm audit fix
+
+Run `npm audit` for details.
+â†’ Committing version changes...
+
+
+
+â†’ Building the app...
+        C:\Programming\emailRefactor\emailRefactor\src-tauri\target\release\bundle\nsis\ScoBro Mail - Refactor_
+1.0.0_x64-setup.exe
+
+    Warn The updater secret key from `TAURI_SIGNING_PRIVATE_KEY` does not match the public key from `plugins >
+updater > pubkey`. If you are not rotating keys, this means your configuration is wrong and won't be accepted a
+t runtime when performing update.
+    Warn The updater secret key from `TAURI_SIGNING_PRIVATE_KEY` does not match the public key from `plugins >
+updater > pubkey`. If you are not rotating keys, this means your configuration is wrong and won't be accepted a
+t runtime when performing update.
+    Finished 2 updater signatures at:
+        C:\Programming\emailRefactor\emailRefactor\src-tauri\target\release\bundle\msi\ScoBro Mail - Refactor_1
+.0.0_x64_en-US.msi.sig
+        C:\Programming\emailRefactor\emailRefactor\src-tauri\target\release\bundle\nsis\ScoBro Mail - Refactor_
+1.0.0_x64-setup.exe.sig
+â†’ Verifying signature file...
+âœ… Signature file verified.
+â†’ Generating latest.json...
+âœ… Clean latest.json written to latest.json
+âœ… JSON validation successful
+â†’ Uploading to GitHub release...
+
+âœ… Release v1.0.0 completed and published!
+â†’ Release URL: https://github.com/ScottBruton/emailRefactor/releases/tag/v1.0.0
+**********************
+Windows PowerShell transcript end
+End time: 20250413191911
+**********************

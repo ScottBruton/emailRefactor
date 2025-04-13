@@ -1,6 +1,6 @@
 [package]
 name = "emailrefactor"
-version = "1.0.0"
+version = "0.0.0"
 description = "A Tauri App"
 authors = ["you"]
 edition = "2021"
@@ -31,5 +31,6 @@ tauri-plugin-store = { git = "https://github.com/tauri-apps/plugins-workspace", 
 tauri-plugin-dialog = { git = "https://github.com/tauri-apps/plugins-workspace", branch = "v2" }
 tauri-plugin-updater = { git = "https://github.com/tauri-apps/plugins-workspace", branch = "v2" }
 log = "0.4.20"
-simple_logger = "4.3.3"
+simplelog = "0.12"
+dirs = "5.0"
 
