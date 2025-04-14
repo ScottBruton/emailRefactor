@@ -22,17 +22,33 @@ if (-not (Test-Path ".tauri-key.private")) {
     $env:TAURI_KEY_PASSWORD = "mypass123"
     $keyOutput = tauri signer generate 2>&1
     $lines = $keyOutput -split "`n"
-    $rawKey = $lines | Where-Object { $_ -notmatch "^untrusted comment:" -and $_ -match "^[a-zA-Z0-9+/=]+$" }
-    if (-not $rawKey) {
-      Write-Error "❌ Failed to extract valid private key."
+    
+    # Extract both private and public keys
+    $privateKey = $lines | Where-Object { $_ -notmatch "^untrusted comment:" -and $_ -match "^[a-zA-Z0-9+/=]+$" } | Select-Object -First 1
+    $publicKey = $lines | Where-Object { $_ -match "^[a-zA-Z0-9+/=]+$" } | Select-Object -Last 1
+    
+    if (-not $privateKey -or -not $publicKey) {
+      Write-Error "❌ Failed to extract valid keys."
       exit 1
     }
-    $rawKey | Out-File -Encoding ascii ".tauri-key.private"
+    
+    # Save private key
+    $privateKey | Out-File -Encoding ascii ".tauri-key.private"
     Write-Host "✅ .tauri-key.private generated successfully."
+    
+    # Update tauri.conf.json with the new public key
+    Write-Host "→ Updating public key in tauri.conf.json..."
+    $tauriConfig = Get-Content "src-tauri\tauri.conf.json" | ConvertFrom-Json
+    $tauriConfig.plugins.updater.pubkey = $publicKey
+    $tauriConfig | ConvertTo-Json -Depth 10 | Set-Content "src-tauri\tauri.conf.json"
+    Write-Host "✅ Public key updated in tauri.conf.json"
+    
   } catch {
-    Write-Error "❌ Failed to generate or write private key: $_"
+    Write-Error "❌ Failed to generate or write keys: $_"
     exit 1
   }
+} else {
+  Write-Host "✅ Found existing .tauri-key.private"
 }
 
 Write-Host "→ Verifying GitHub authentication..."
@@ -101,17 +117,30 @@ if ($LASTEXITCODE -ne 0) {
 
 # Step 3: Commit and push changes
 try {
-  Write-Host "→ Committing version changes..."
-  git add src-tauri\tauri.conf.json src-tauri\Cargo.toml package.json
-  & git commit -m "Release v$Version" | Out-Null
-  Start-Sleep -Seconds 1
-  git tag $ReleaseTag
-  & git push origin main --tags
-  Start-Sleep -Seconds 2
+    Write-Host "→ Syncing with remote repository..."
+    git fetch origin
+    git pull origin new_Update --rebase
+    
+    Write-Host "→ Committing version changes..."
+    git add src-tauri\tauri.conf.json src-tauri\Cargo.toml package.json
+    git commit -m "Release v$Version" | Out-Null
+    
+    Write-Host "→ Pushing changes..."
+    git push origin new_Update
+    
+    Write-Host "→ Creating and pushing tag..."
+    git tag -f $ReleaseTag
+    git push -f origin $ReleaseTag
+    
+    Start-Sleep -Seconds 2
 } catch {
-  Write-Error "❌ Git commit or push failed: $_"
-  Stop-Transcript
-  exit 1
+    Write-Error "❌ Git operations failed: $_"
+    Write-Host "Try running these commands manually:"
+    Write-Host "git fetch origin"
+    Write-Host "git pull origin new_Update --rebase"
+    Write-Host "git push origin new_Update"
+    Stop-Transcript
+    exit 1
 }
 
 # Step 4: Build the app
