@@ -83,7 +83,7 @@
                                     "endpoints":  [
                                                       "https://github.com/ScottBruton/emailRefactor/releases/latest/download/latest.json"
                                                   ],
-                                    "pubkey":  "Deriving a key from the password in order to encrypt the secret key... done"
+                                    "pubkey":  "Please enter a password to protect the secret key."
                                 }
                 }
 }
