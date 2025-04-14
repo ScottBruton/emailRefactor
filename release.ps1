@@ -148,6 +148,14 @@ try {
   }
 
   $SignatureValue = Get-Content "$SigPath" -Raw
+  Write-Host "→ Signature value from file:"
+  Write-Host $SignatureValue
+  
+  # Get public key from tauri.conf.json for verification
+  $TauriConfig = Get-Content "src-tauri\tauri.conf.json" | ConvertFrom-Json
+  Write-Host "→ Public key from tauri.conf.json:"
+  Write-Host $TauriConfig.plugins.updater.pubkey
+  
   $Date = (Get-Date).ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ssZ")
 
   # Create JSON object and convert to string
@@ -203,6 +211,40 @@ try {
   exit 1
 }
 
-Write-Host "`n✅ Release v$Version completed and published!"
-Write-Host "→ Release URL: https://github.com/$GitHubUser/$Repo/releases/tag/$ReleaseTag"
+# Verification section
+Write-Host "`n=== Verification Checklist ===" -ForegroundColor Cyan
+Write-Host "Checking release artifacts..." -ForegroundColor Yellow
+
+$installerPath = $ExePath
+$sigPath = $SigPath
+
+# Check installer exists
+if (Test-Path $installerPath) {
+    Write-Host "✅ Installer found at: $installerPath" -ForegroundColor Green
+} else {
+    Write-Host "❌ Installer not found at: $installerPath" -ForegroundColor Red
+    exit 1
+}
+
+# Check signature exists
+if (Test-Path $sigPath) {
+    Write-Host "✅ Signature found at: $sigPath" -ForegroundColor Green
+} else {
+    Write-Host "❌ Signature not found at: $sigPath" -ForegroundColor Red
+    exit 1
+}
+
+# Check latest.json
+if (Test-Path $LatestJsonPath) {
+    Write-Host "✅ latest.json found and contains:" -ForegroundColor Green
+    Write-Host "   - Version: $Version" -ForegroundColor Gray
+    Write-Host "   - Download URL: $DownloadURL" -ForegroundColor Gray
+} else {
+    Write-Host "❌ latest.json not found at: $LatestJsonPath" -ForegroundColor Red
+    exit 1
+}
+
+Write-Host "`n✅ Release v$Version completed and published!" -ForegroundColor Green
+Write-Host "→ Release URL: https://github.com/$GitHubUser/$Repo/releases/tag/$ReleaseTag`n" -ForegroundColor Cyan
+
 Stop-Transcript

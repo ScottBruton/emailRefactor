@@ -32,14 +32,16 @@ const InfoButton = () => {
   async function handleUpdate() {
     try {
       const update = await check();
-      if (update === null) {
+      console.log('📦 Update check response:', update);
+      
+      if (!update) {
         await message('Failed to check for updates.', {
           title: 'Error',
           kind: 'error'
         });
         return;
       }
-  
+
       if (update.available) {
         const confirm = await ask(
           `A new version (${update.version}) is available.\n\n${update.body || ''}\n\nDownload and install now?`,
@@ -52,8 +54,20 @@ const InfoButton = () => {
         );
         if (!confirm) return;
   
-        await update.downloadAndInstall();
-        await invoke('graceful_restart');
+        try {
+          await update.downloadAndInstall();
+          await message('Update downloaded. The application will restart now.', {
+            title: 'Update Ready',
+            kind: 'info'
+          });
+          await invoke('graceful_restart');
+        } catch (err) {
+          console.error('Download/Install error:', err);
+          await message(`Failed to download/install update: ${err}`, {
+            title: 'Update Failed',
+            kind: 'error'
+          });
+        }
       } else {
         await message('You are already on the latest version.', {
           title: 'Up to Date',
@@ -61,6 +75,7 @@ const InfoButton = () => {
         });
       }
     } catch (err) {
+      console.error('Update check error:', err);
       await message(`Error checking updates: ${err}`, {
         title: 'Update Failed',
         kind: 'error'
