@@ -1,11 +1,11 @@
 {
     "platforms":  {
                       "windows-x86_64":  {
-                                             "signature":  "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVTeHY3UHJHa1lrTWtwNmtlYTFZYmx6V09NMGN0WWtXSTh0MnQ4cm9aOUJVUVkxM2ltOVBHanBlZzF6TXYwdnFHTlY4dzF1L0ZKWU5jTDhUOStIKzhlN1NiNHlVbmVsQVFvPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzQ0NTI1MjUwCWZpbGU6U2NvQnJvTWFpbC1SZWZhY3Rvcl8xLjAuMF94NjQtc2V0dXAuZXhlCnlzdkZBaDFJZjBRMnBLNUMvbVhGc1NMTzBrT2U3TUJqc1J3WXRmOVdqd0VId2svalBXWDdZQ3pnV2JOdHV6TURkOS9SeVhERUwwOVpIR3d2OXZLSkNRPT0K",
+                                             "signature":  "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVTeHY3UHJHa1lrTW5DYjFWWG9KdzV6c2dnSVJaSnhaMnpqU2pmWXdpQlRqOWVWNEdPQjUxZlJ1RHdic2dLSHJBRnJnU3E4Z2RxNDlScDBsS3E1TlpaZmV1RzUyZkxDZlFrPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzQ0NjE4MDY4CWZpbGU6U2NvQnJvTWFpbC1SZWZhY3Rvcl8xLjAuMF94NjQtc2V0dXAuZXhlCkJnSW0vZklaS3NodzNrRWFXVk5PdGNoVTUrejY3T2FwUnVoNjRZV3EwSmszbHJ2V25Ma2RvSGFQQjgwcGJVcE83WlIyNGtNOVo4SUU2aXR4b2F4QkJRPT0K",
                                              "url":  "https://github.com/ScottBruton/emailRefactor/releases/download/v1.0.0/ScoBroMail-Refactor_1.0.0_x64-setup.exe"
                                          }
                   },
-    "pub_date":  "2025-04-13T09:19:03Z",
+    "pub_date":  "2025-04-14T08:07:50Z",
     "version":  "1.0.0",
-    "notes":  "ini"
+    "notes":  "a"
 }

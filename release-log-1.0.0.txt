@@ -240,3 +240,112 @@ t runtime when performing update.
 Windows PowerShell transcript end
 End time: 20250413191911
 **********************
+**********************
+Windows PowerShell transcript start
+Start time: 20250414180126
+Username: SCOTT-LAPTOP\bruto
+RunAs User: SCOTT-LAPTOP\bruto
+Configuration Name: 
+Machine: SCOTT-LAPTOP (Microsoft Windows NT 10.0.26100.0)
+Host Application: C:\WINDOWS\System32\WindowsPowerShell\v1.0\powershell.exe -noexit -command try { . "c:\Users\bruto\AppData\Local\Programs\cursor\resources\app\out\vs\workbench\contrib\terminal\common\scripts\shellIntegration.ps1" } catch {}
+Process ID: 21320
+PSVersion: 5.1.26100.3624
+PSEdition: Desktop
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1.26100.3624
+BuildVersion: 10.0.26100.3624
+CLRVersion: 4.0.30319.42000
+WSManStackVersion: 3.0
+PSRemotingProtocolVersion: 2.3
+SerializationVersion: 1.1.0.1
+**********************
+Transcript started, output file is release-log-1.0.0.txt
+
+=== ScoBroMail Automated Release v1.0.0 ===
+â†’ Checking for existing release/tag...
+gh : release not found
+At C:\Programming\emailRefactor\emailRefactor\release.ps1:62 char:1
++ gh release view $ReleaseTag 2>$null
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (release not found:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+
+â†’ Updating version numbers...
+â†’ Installing dependencies...
+
+â†’ Committing version changes...
+
+
+
+â†’ Building the app...
+
+C:\Programming\emailRefactor\emailRefactor\release.ps1 : âŒ Installer not found at expected path: 
+src-tauri\target\release\bundle\nsis\ScoBroMail-Refactor_1.0.0_x64-setup.exe
+At line:1 char:1
++ .\release.ps1
++ ~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (:) [Write-Error], WriteErrorException
+    + FullyQualifiedErrorId : Microsoft.PowerShell.Commands.WriteErrorException,release.ps1
+C:\Programming\emailRefactor\emailRefactor\release.ps1 : âŒ Installer not found at expected path:
+src-tauri\target\release\bundle\nsis\ScoBroMail-Refactor_1.0.0_x64-setup.exe
+At line:1 char:1
++ .\release.ps1
++ ~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (:) [Write-Error], WriteErrorException
+    + FullyQualifiedErrorId : Microsoft.PowerShell.Commands.WriteErrorException,release.ps1
+
+**********************
+Windows PowerShell transcript end
+End time: 20250414180315
+**********************
+**********************
+Windows PowerShell transcript start
+Start time: 20250414180610
+Username: SCOTT-LAPTOP\bruto
+RunAs User: SCOTT-LAPTOP\bruto
+Configuration Name: 
+Machine: SCOTT-LAPTOP (Microsoft Windows NT 10.0.26100.0)
+Host Application: C:\WINDOWS\System32\WindowsPowerShell\v1.0\powershell.exe -noexit -command try { . "c:\Users\bruto\AppData\Local\Programs\cursor\resources\app\out\vs\workbench\contrib\terminal\common\scripts\shellIntegration.ps1" } catch {}
+Process ID: 21320
+PSVersion: 5.1.26100.3624
+PSEdition: Desktop
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1.26100.3624
+BuildVersion: 10.0.26100.3624
+CLRVersion: 4.0.30319.42000
+WSManStackVersion: 3.0
+PSRemotingProtocolVersion: 2.3
+SerializationVersion: 1.1.0.1
+**********************
+Transcript started, output file is release-log-1.0.0.txt
+
+=== ScoBroMail Automated Release v1.0.0 ===
+â†’ Checking for existing release/tag...
+gh : release not found
+At C:\Programming\emailRefactor\emailRefactor\release.ps1:62 char:1
++ gh release view $ReleaseTag 2>$null
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (release not found:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+
+â†’ Updating version numbers...
+â†’ Installing dependencies...
+
+â†’ Committing version changes...
+
+
+
+â†’ Building the app...
+
+â†’ Verifying signature file...
+âœ… Signature file verified.
+â†’ Generating latest.json...
+â†’ Backed up existing latest.json to latest.json.backup
+âœ… Clean latest.json written to latest.json
+âœ… JSON validation successful
+â†’ Uploading to GitHub release...
+
+âœ… Release v1.0.0 completed and published!
+â†’ Release URL: https://github.com/ScottBruton/emailRefactor/releases/tag/v1.0.0
+**********************
+Windows PowerShell transcript end
+End time: 20250414180758
+**********************
