@@ -240,3 +240,375 @@ t runtime when performing update.
 Windows PowerShell transcript end
 End time: 20250413191911
 **********************
+**********************
+Windows PowerShell transcript start
+Start time: 20250414180126
+Username: SCOTT-LAPTOP\bruto
+RunAs User: SCOTT-LAPTOP\bruto
+Configuration Name: 
+Machine: SCOTT-LAPTOP (Microsoft Windows NT 10.0.26100.0)
+Host Application: C:\WINDOWS\System32\WindowsPowerShell\v1.0\powershell.exe -noexit -command try { . "c:\Users\bruto\AppData\Local\Programs\cursor\resources\app\out\vs\workbench\contrib\terminal\common\scripts\shellIntegration.ps1" } catch {}
+Process ID: 21320
+PSVersion: 5.1.26100.3624
+PSEdition: Desktop
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1.26100.3624
+BuildVersion: 10.0.26100.3624
+CLRVersion: 4.0.30319.42000
+WSManStackVersion: 3.0
+PSRemotingProtocolVersion: 2.3
+SerializationVersion: 1.1.0.1
+**********************
+Transcript started, output file is release-log-1.0.0.txt
+
+=== ScoBroMail Automated Release v1.0.0 ===
+â†’ Checking for existing release/tag...
+gh : release not found
+At C:\Programming\emailRefactor\emailRefactor\release.ps1:62 char:1
++ gh release view $ReleaseTag 2>$null
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (release not found:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+
+â†’ Updating version numbers...
+â†’ Installing dependencies...
+
+â†’ Committing version changes...
+
+
+
+â†’ Building the app...
+
+C:\Programming\emailRefactor\emailRefactor\release.ps1 : âŒ Installer not found at expected path: 
+src-tauri\target\release\bundle\nsis\ScoBroMail-Refactor_1.0.0_x64-setup.exe
+At line:1 char:1
++ .\release.ps1
++ ~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (:) [Write-Error], WriteErrorException
+    + FullyQualifiedErrorId : Microsoft.PowerShell.Commands.WriteErrorException,release.ps1
+C:\Programming\emailRefactor\emailRefactor\release.ps1 : âŒ Installer not found at expected path:
+src-tauri\target\release\bundle\nsis\ScoBroMail-Refactor_1.0.0_x64-setup.exe
+At line:1 char:1
++ .\release.ps1
++ ~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (:) [Write-Error], WriteErrorException
+    + FullyQualifiedErrorId : Microsoft.PowerShell.Commands.WriteErrorException,release.ps1
+
+**********************
+Windows PowerShell transcript end
+End time: 20250414180315
+**********************
+**********************
+Windows PowerShell transcript start
+Start time: 20250414180610
+Username: SCOTT-LAPTOP\bruto
+RunAs User: SCOTT-LAPTOP\bruto
+Configuration Name: 
+Machine: SCOTT-LAPTOP (Microsoft Windows NT 10.0.26100.0)
+Host Application: C:\WINDOWS\System32\WindowsPowerShell\v1.0\powershell.exe -noexit -command try { . "c:\Users\bruto\AppData\Local\Programs\cursor\resources\app\out\vs\workbench\contrib\terminal\common\scripts\shellIntegration.ps1" } catch {}
+Process ID: 21320
+PSVersion: 5.1.26100.3624
+PSEdition: Desktop
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1.26100.3624
+BuildVersion: 10.0.26100.3624
+CLRVersion: 4.0.30319.42000
+WSManStackVersion: 3.0
+PSRemotingProtocolVersion: 2.3
+SerializationVersion: 1.1.0.1
+**********************
+Transcript started, output file is release-log-1.0.0.txt
+
+=== ScoBroMail Automated Release v1.0.0 ===
+â†’ Checking for existing release/tag...
+gh : release not found
+At C:\Programming\emailRefactor\emailRefactor\release.ps1:62 char:1
++ gh release view $ReleaseTag 2>$null
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (release not found:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+
+â†’ Updating version numbers...
+â†’ Installing dependencies...
+
+â†’ Committing version changes...
+
+
+
+â†’ Building the app...
+
+â†’ Verifying signature file...
+âœ… Signature file verified.
+â†’ Generating latest.json...
+â†’ Backed up existing latest.json to latest.json.backup
+âœ… Clean latest.json written to latest.json
+âœ… JSON validation successful
+â†’ Uploading to GitHub release...
+
+âœ… Release v1.0.0 completed and published!
+â†’ Release URL: https://github.com/ScottBruton/emailRefactor/releases/tag/v1.0.0
+**********************
+Windows PowerShell transcript end
+End time: 20250414180758
+**********************
+**********************
+Windows PowerShell transcript start
+Start time: 20250414194616
+Username: SCOTT-LAPTOP\bruto
+RunAs User: SCOTT-LAPTOP\bruto
+Configuration Name: 
+Machine: SCOTT-LAPTOP (Microsoft Windows NT 10.0.26100.0)
+Host Application: C:\WINDOWS\System32\WindowsPowerShell\v1.0\powershell.exe -noexit -command try { . "c:\Users\bruto\AppData\Local\Programs\cursor\resources\app\out\vs\workbench\contrib\terminal\common\scripts\shellIntegration.ps1" } catch {}
+Process ID: 21320
+PSVersion: 5.1.26100.3624
+PSEdition: Desktop
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1.26100.3624
+BuildVersion: 10.0.26100.3624
+CLRVersion: 4.0.30319.42000
+WSManStackVersion: 3.0
+PSRemotingProtocolVersion: 2.3
+SerializationVersion: 1.1.0.1
+**********************
+Transcript started, output file is release-log-1.0.0.txt
+
+=== ScoBroMail Automated Release v1.0.0 ===
+â†’ Checking for existing release/tag...
+
+â†’ Deleting existing release v1.0.0...
+â†’ Updating version numbers...
+â†’ Installing dependencies...
+
+â†’ Committing version changes...
+
+
+
+â†’ Building the app...
+
+â†’ Verifying signature file...
+âœ… Signature file verified.
+â†’ Generating latest.json...
+â†’ Backed up existing latest.json to latest.json.backup
+â†’ Signature value from file:
+dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVTeHY3UHJHa1lrTW9XM3dUOHcvbE5aY3hPMStMdFdmd25pcWNiZGdRQ00zVHhRVVpaeGpOeVN1NHJxMGZ4NWVwUWVLN29NTFRVTWY5bmhzeVFEN0gybHhRUnRMZEtzWXdJPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzQ0NjI0MDc2CWZpbGU6U2NvQnJvTWFpbC1SZWZhY3Rvcl8xLjAuMF94NjQtc2V0dXAuZXhlCmsxTGt2R3BPRWF4aWtRYUFKa1daMktIUTZDbkVjbk1IZ09IdGhyUThwWVE1Q0FWelNSR2NHK3p3dGV1T2o2M1ozSlBXSHZVUzZyRUxYcGNEcjNhbkNBPT0K
+â†’ Public key from tauri.conf.json:
+dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IDRFMzY4MzM0QUYzQUM1QjcKUldTM3hUcXZOSU0yVGpVbXpVVEY4V0JJeFpjMnF5ZmVQSDhTbFk3MEUrTW85U0w1cjNCeUo0eGgK
+âœ… Clean latest.json written to latest.json
+âœ… JSON validation successful
+â†’ Uploading to GitHub release...
+
+=== Verification Checklist ===
+Checking release artifacts...
+âŒ Installer not found at: src-tauri\target\release\bundle\nsis\ScoBroMail-Refactor_1.0.0_x64-setup.exe\ScoBroMail-Refactor_1.0.0_x64-setup.exe
+]633;D;1]633;A]633;P;Cwd=C:\x5cProgramming\x5cemailRefactor\x5cemailRefactorPS C:\Programming\emailRefactor\emailRefactor> ]633;B
+PS>.\release.ps1
+â†’ Checking prerequisites...
+â†’ Verifying GitHub authentication...
+
+Transcript started, output file is release-log-1.0.0.txt
+
+=== ScoBroMail Automated Release v1.0.0 ===
+â†’ Checking for existing release/tag...
+
+â†’ Deleting existing release v1.0.0...
+â†’ Updating version numbers...
+â†’ Installing dependencies...
+
+â†’ Committing version changes...
+
+
+
+â†’ Building the app...
+
+â†’ Verifying signature file...
+âœ… Signature file verified.
+â†’ Generating latest.json...
+â†’ Backed up existing latest.json to latest.json.backup
+â†’ Signature value from file:
+dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVTeHY3UHJHa1lrTXNzb3BqQmNrakpnbW1zQzdqOVdVeXZ4TFVMMU5kK1FsTVYreDg2VXpaS1JUUnFIak1FVUM4QWQxOHdFdS9vdU8rblJoZkNNRmI1TVE1eXkzcWNLVVFVPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzQ0NjI0Mjk0CWZpbGU6U2NvQnJvTWFpbC1SZWZhY3Rvcl8xLjAuMF94NjQtc2V0dXAuZXhlCmkwTXU4NUsxaHUraHdDL3RPK2tSY1NuQWE0SEs2YUFlQkRhYWY5YWlmQ05TbmZyd1g3ZEQzcjJYWWU4SERqaXg1UVJrOWpuRENyU1ZMNjkxQzFNMkFRPT0K
+â†’ Public key from tauri.conf.json:
+dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IDRFMzY4MzM0QUYzQUM1QjcKUldTM3hUcXZOSU0yVGpVbXpVVEY4V0JJeFpjMnF5ZmVQSDhTbFk3MEUrTW85U0w1cjNCeUo0eGgK
+âœ… Clean latest.json written to latest.json
+âœ… JSON validation successful
+â†’ Uploading to GitHub release...
+
+=== Verification Checklist ===
+Checking release artifacts...
+âœ… Installer found at: src-tauri\target\release\bundle\nsis\ScoBroMail-Refactor_1.0.0_x64-setup.exe
+âœ… Signature found at: src-tauri\target\release\bundle\nsis\ScoBroMail-Refactor_1.0.0_x64-setup.exe.sig
+âœ… latest.json found and contains:
+   - Version: 1.0.0
+   - Download URL: https://github.com/ScottBruton/emailRefactor/releases/download/v1.0.0/ScoBroMail-Refactor_1.0.0_x64-setup.exe
+
+âœ… Release v1.0.0 completed and published!
+â†’ Release URL: https://github.com/ScottBruton/emailRefactor/releases/tag/v1.0.0
+Transcript stopped, output file is C:\Programming\emailRefactor\emailRefactor\release-log-1.0.0.txt
+]633;D;0]633;A]633;P;Cwd=C:\x5cProgramming\x5cemailRefactor\x5cemailRefactorPS C:\Programming\emailRefactor\emailRefactor> ]633;B
+PS>npm run tauri build
+
+]633;D;0]633;A]633;P;Cwd=C:\x5cProgramming\x5cemailRefactor\x5cemailRefactorPS C:\Programming\emailRefactor\emailRefactor> ]633;B
+PS>npm run tauri build
+
+]633;D;0]633;A]633;P;Cwd=C:\x5cProgramming\x5cemailRefactor\x5cemailRefactorPS C:\Programming\emailRefactor\emailRefactor> ]633;B
+PS>git add .
+
+]633;D;0]633;A]633;P;Cwd=C:\x5cProgramming\x5cemailRefactor\x5cemailRefactorPS C:\Programming\emailRefactor\emailRefactor> ]633;B
+PS>git commit -m "nearly"
+
+]633;D;0]633;A]633;P;Cwd=C:\x5cProgramming\x5cemailRefactor\x5cemailRefactorPS C:\Programming\emailRefactor\emailRefactor> ]633;B
+PS>git push
+
+]633;D;0]633;A]633;P;Cwd=C:\x5cProgramming\x5cemailRefactor\x5cemailRefactorPS C:\Programming\emailRefactor\emailRefactor> ]633;B
+PS>rm .tauri-key.private
+]633;D;0]633;A]633;P;Cwd=C:\x5cProgramming\x5cemailRefactor\x5cemailRefactorPS C:\Programming\emailRefactor\emailRefactor> ]633;B
+PS>gh release delete v1.0.0 --yes
+
+]633;D;0]633;A]633;P;Cwd=C:\x5cProgramming\x5cemailRefactor\x5cemailRefactorPS C:\Programming\emailRefactor\emailRefactor> ]633;B
+PS>git tag -d v1.0.0
+
+]633;D;0]633;A]633;P;Cwd=C:\x5cProgramming\x5cemailRefactor\x5cemailRefactorPS C:\Programming\emailRefactor\emailRefactor> ]633;B
+PS>git push --delete origin v1.0.0
+
+]633;D;0]633;A]633;P;Cwd=C:\x5cProgramming\x5cemailRefactor\x5cemailRefactorPS C:\Programming\emailRefactor\emailRefactor> ]633;B
+PS>.\release.ps1
+PS>TerminatingError(): "The pipeline has been stopped."
+>> TerminatingError(): "The pipeline has been stopped."
+>> TerminatingError(): "The pipeline has been stopped."
+]633;D;1]633;A]633;P;Cwd=C:\x5cProgramming\x5cemailRefactor\x5cemailRefactorPS C:\Programming\emailRefactor\emailRefactor> ]633;B
+PS>.\release.ps1
+â†’ Checking prerequisites...
+âš ï¸  Private key file not found. Generating one...
+âœ… .tauri-key.private generated successfully.
+â†’ Updating public key in tauri.conf.json...
+âœ… Public key updated in tauri.conf.json
+â†’ Verifying GitHub authentication...
+
+Transcript started, output file is release-log-1.0.0.txt
+
+=== ScoBroMail Automated Release v1.0.0 ===
+â†’ Checking for existing release/tag...
+gh : release not found
+At C:\Programming\emailRefactor\emailRefactor\release.ps1:78 char:1
++ gh release view $ReleaseTag 2>$null
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (release not found:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+
+â†’ Updating version numbers...
+â†’ Installing dependencies...
+
+â†’ Committing version changes...
+
+
+
+â†’ Building the app...
+
+â†’ Verifying signature file...
+âœ… Signature file verified.
+â†’ Generating latest.json...
+â†’ Backed up existing latest.json to latest.json.backup
+â†’ Signature value from file:
+dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVTeHY3UHJHa1lrTWxod0F2ZWVkZ0VMekEvMmN6UUcrZkJkOUo0S2lTdHFtMGFlOTQvK3VQUklFL2NvOHFMb0xWWWVBZUhBd0VkWHJTczZubS9yYUlWYWdYekNTdTFHN3dzPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzQ0NjI1MTkxCWZpbGU6U2NvQnJvTWFpbC1SZWZhY3Rvcl8xLjAuMF94NjQtc2V0dXAuZXhlCkpXL3JiK1A1eDd3SmpZWnI3V3lVb3lYTG1QSUNSNDlyNEI3b0hlL0ZuWWV1YlFtbWNpZjdBWWJwZVpLNmE0L3Q3Z1NhSFZwOWtEcHdnWnBMVXlnY0F3PT0K
+â†’ Public key from tauri.conf.json:
+dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IDFENDFBOTcwRENDRTUxM0MKUldROFVjN2NjS2xCSGNRdjFOVlJzdjNjSGhvKy9MbHowMkhYcVZ6N1V1eFdUWEtXcjR2c0pUN0EK
+âœ… Clean latest.json written to latest.json
+âœ… JSON validation successful
+â†’ Uploading to GitHub release...
+
+=== Verification Checklist ===
+Checking release artifacts...
+âœ… Installer found at: src-tauri\target\release\bundle\nsis\ScoBroMail-Refactor_1.0.0_x64-setup.exe
+âœ… Signature found at: src-tauri\target\release\bundle\nsis\ScoBroMail-Refactor_1.0.0_x64-setup.exe.sig
+âœ… latest.json found and contains:
+   - Version: 1.0.0
+   - Download URL: https://github.com/ScottBruton/emailRefactor/releases/download/v1.0.0/ScoBroMail-Refactor_1.0.0_x64-setup.exe
+
+âœ… Release v1.0.0 completed and published!
+â†’ Release URL: https://github.com/ScottBruton/emailRefactor/releases/tag/v1.0.0
+Transcript stopped, output file is C:\Programming\emailRefactor\emailRefactor\release-log-1.0.0.txt
+]633;D;0]633;A]633;P;Cwd=C:\x5cProgramming\x5cemailRefactor\x5cemailRefactorPS C:\Programming\emailRefactor\emailRefactor> ]633;B
+PS>.\set-test-version.ps1
+
+=== Setting ScoBroMail to version 0.0.0 for updater testing ===
+â†’ Updating version numbers to 0.0.0...
+âœ… Updated tauri.conf.json
+âœ… Updated Cargo.toml
+âœ… Updated package.json
+
+â†’ Building the app with version 0.0.0...
+
+
+âœ… Successfully set version to 0.0.0 and built the app
+â†’ You can now run the app to test the updater
+â†’ The updater should detect version 1.0.0 as available for download
+]633;D;0]633;A]633;P;Cwd=C:\x5cProgramming\x5cemailRefactor\x5cemailRefactorPS C:\Programming\emailRefactor\emailRefactor> ]633;B
+PS>gh release delete v1.0.0 --yes
+
+]633;D;0]633;A]633;P;Cwd=C:\x5cProgramming\x5cemailRefactor\x5cemailRefactorPS C:\Programming\emailRefactor\emailRefactor> ]633;B
+PS>git tag -d v1.0.0
+
+]633;D;0]633;A]633;P;Cwd=C:\x5cProgramming\x5cemailRefactor\x5cemailRefactorPS C:\Programming\emailRefactor\emailRefactor> ]633;B
+PS>git push --delete origin v1.0.0
+
+]633;D;0]633;A]633;P;Cwd=C:\x5cProgramming\x5cemailRefactor\x5cemailRefactorPS C:\Programming\emailRefactor\emailRefactor> ]633;B
+PS>.\release.ps1
+â†’ Checking prerequisites...
+âœ… Found existing .tauri-key.private
+â†’ Verifying GitHub authentication...
+
+Transcript started, output file is release-log-1.0.0.txt
+
+=== ScoBroMail Automated Release v1.0.0 ===
+â†’ Checking for existing release/tag...
+gh : release not found
+At C:\Programming\emailRefactor\emailRefactor\release.ps1:78 char:1
++ gh release view $ReleaseTag 2>$null
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (release not found:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+
+â†’ Updating version numbers...
+â†’ Installing dependencies...
+
+â†’ Syncing with remote repository...
+
+
+â†’ Committing version changes...
+
+â†’ Pushing changes...
+
+â†’ Creating and pushing tag...
+
+
+â†’ Building the app...
+
+â†’ Verifying signature file...
+âœ… Signature file verified.
+â†’ Generating latest.json...
+â†’ Backed up existing latest.json to latest.json.backup
+â†’ Signature value from file:
+dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVTeHY3UHJHa1lrTXFmV0RRTjJqV2I4aXlWR2lRMkMrbWR0bDV4WFhDd1o1c0pUYjFyTHJYOFgrajY1MEp5WjJzOEZTVlQ4aGZjZUhYTWoxbzJvM0lnaXNYTDY0a1pRNFFBPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzQ0NjI1NTMxCWZpbGU6U2NvQnJvTWFpbC1SZWZhY3Rvcl8xLjAuMF94NjQtc2V0dXAuZXhlCmVLOEZHWEI3SVM1MTR4N1Z2b0ovSGNCVVVGaVhnWGNXNTVWYVdLTEIwRkpjeVNkSXlvcmVWMDNwRm1rd0UwWHhhMitHNHFIbndpTmhNdUx5UFRROUFnPT0K
+â†’ Public key from tauri.conf.json:
+dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IDFENDFBOTcwRENDRTUxM0MKUldROFVjN2NjS2xCSGNRdjFOVlJzdjNjSGhvKy9MbHowMkhYcVZ6N1V1eFdUWEtXcjR2c0pUN0EK
+âœ… Clean latest.json written to latest.json
+âœ… JSON validation successful
+â†’ Uploading to GitHub release...
+
+=== Verification Checklist ===
+Checking release artifacts...
+âœ… Installer found at: src-tauri\target\release\bundle\nsis\ScoBroMail-Refactor_1.0.0_x64-setup.exe
+âœ… Signature found at: src-tauri\target\release\bundle\nsis\ScoBroMail-Refactor_1.0.0_x64-setup.exe.sig
+âœ… latest.json found and contains:
+   - Version: 1.0.0
+   - Download URL: https://github.com/ScottBruton/emailRefactor/releases/download/v1.0.0/ScoBroMail-Refactor_1.0.0_x64-setup.exe
+
+âœ… Release v1.0.0 completed and published!
+â†’ Release URL: https://github.com/ScottBruton/emailRefactor/releases/tag/v1.0.0
+Transcript stopped, output file is C:\Programming\emailRefactor\emailRefactor\release-log-1.0.0.txt
+]633;D;0]633;A]633;P;Cwd=C:\x5cProgramming\x5cemailRefactor\x5cemailRefactorPS C:\Programming\emailRefactor\emailRefactor> ]633;B
+PS>.\set-test-version.ps1
+
+=== Setting ScoBroMail to version 0.0.0 for updater testing ===
+â†’ Updating version numbers to 0.0.0...
+âœ… Updated tauri.conf.json
+âœ… Updated Cargo.toml
+âœ… Updated package.json
+
+â†’ Building the app with version 0.0.0...

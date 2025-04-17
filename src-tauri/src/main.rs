@@ -61,6 +61,8 @@ fn main() {
         .plugin(tauri_plugin_store::Builder::default().build())
         .setup(|app| {
             info!("App version: {}", app.package_info().version.to_string());
+            let window = app.get_webview_window("main").unwrap();
+            window.open_devtools();
             Ok(())
         });
 

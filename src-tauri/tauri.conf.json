@@ -1,7 +1,12 @@
 {
     "$schema":  "https://schema.tauri.app/config/2",
+<<<<<<< HEAD
     "productName":  "ScoBro Mail - Refactor",
     "version": "1.0.0",
+=======
+    "productName":  "ScoBroMail-Refactor",
+    "version": "0.0.0",
+>>>>>>> 979da9323034f9408326a75233b7ad395c0e31d8
     "identifier":  "com.emailrefactor.app",
     "build":  {
                   "beforeDevCommand":  "npm run dev",
@@ -10,6 +15,7 @@
                   "frontendDist":  "../dist"
               },
     "app":  {
+<<<<<<< HEAD
                 "windows":  [
                                 {
                                     "title":  "ScoBro Mail - Refactor",
@@ -23,6 +29,8 @@
                                     "visible":  true
                                 }
                             ],
+=======
+>>>>>>> 979da9323034f9408326a75233b7ad395c0e31d8
                 "security":  {
                                  "csp":  {
                                              "default-src":  [
@@ -46,10 +54,34 @@
                                                                  "\u0027self\u0027",
                                                                  "https://github.com",
                                                                  "https://*.githubusercontent.com",
+<<<<<<< HEAD
                                                                  "https://api.github.com"
                                                              ]
                                          }
                              }
+=======
+                                                                 "https://api.github.com",
+                                                                 "ipc:",
+                                                                 "http://ipc.localhost",
+                                                                 "http://localhost:*"
+                                                             ]
+                                         }
+                             },
+                "windows":  [
+                                {
+                                    "title":  "ScoBro Mail - Refactor",
+                                    "width":  1200,
+                                    "height":  800,
+                                    "minWidth":  800,
+                                    "minHeight":  600,
+                                    "center":  true,
+                                    "resizable":  true,
+                                    "fullscreen":  false,
+                                    "visible":  true,
+                                    "devtools":  true
+                                }
+                            ]
+>>>>>>> 979da9323034f9408326a75233b7ad395c0e31d8
             },
     "bundle":  {
                    "active":  true,
@@ -83,7 +115,11 @@
                                     "endpoints":  [
                                                       "https://github.com/ScottBruton/emailRefactor/releases/latest/download/latest.json"
                                                   ],
+<<<<<<< HEAD
                                     "pubkey":  "Please enter a password to protect the secret key."
+=======
+                                    "pubkey":  "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IDFENDFBOTcwRENDRTUxM0MKUldROFVjN2NjS2xCSGNRdjFOVlJzdjNjSGhvKy9MbHowMkhYcVZ6N1V1eFdUWEtXcjR2c0pUN0EK"
+>>>>>>> 979da9323034f9408326a75233b7ad395c0e31d8
                                 }
                 }
 }

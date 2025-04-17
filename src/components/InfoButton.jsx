@@ -3,43 +3,23 @@ import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Typography, 
 import infoIcon from '../../assets/info.svg';
 import { check } from '@tauri-apps/plugin-updater';
 import { ask, message } from '@tauri-apps/plugin-dialog';
+import { invoke } from '@tauri-apps/api/core';
 import { getVersion } from '@tauri-apps/api/app';
-import { invoke } from '@tauri-apps/api/tauri';
 
 const InfoButton = () => {
   const [open, setOpen] = useState(false);
-  const [appVersion, setAppVersion] = useState('1.0.0');
+  const [appVersion, setAppVersion] = useState('');
   const isDarkTheme = document.body.classList.contains('dark-theme');
 
   useEffect(() => {
+    // Get the current app version
     getVersion().then(version => {
-      console.log('Current app version:', version);
       setAppVersion(version);
     }).catch(err => {
       console.error('Failed to get app version:', err);
-      logError('getVersion', err);
+      setAppVersion('Unknown');
     });
   }, []);
-
-  const logError = async (context, error) => {
-    const errorDetails = {
-      context,
-      message: error.message,
-      stack: error.stack,
-      cause: error.cause,
-      timestamp: new Date().toISOString()
-    };
-    console.error('Error details:', errorDetails);
-    try {
-      // Log to Rust side
-      await invoke('plugin:log|error', { 
-        message: `Frontend error in ${context}: ${error.message}`,
-        details: JSON.stringify(errorDetails, null, 2)
-      });
-    } catch (e) {
-      console.error('Failed to log to backend:', e);
-    }
-  };
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -49,78 +29,59 @@ const InfoButton = () => {
     setOpen(false);
   };
 
-  const handleUpdate = async () => {
+  async function handleUpdate() {
     try {
-      console.log('Starting update check...');
-      console.log('Current version:', appVersion);
-
       const update = await check();
-      console.log('Update check response:', update);
-
+      console.log('📦 Update check response:', update);
+      
       if (!update) {
-        console.log('Update check returned null/undefined');
-        await message('Unable to check for updates.', { 
+        await message('Failed to check for updates.', {
           title: 'Error',
-          type: 'error'
+          kind: 'error'
         });
         return;
       }
 
       if (update.available) {
-        console.log('Update available:', {
-          currentVersion: appVersion,
-          newVersion: update.version,
-          downloadUrl: update.url,
-          releaseNotes: update.notes
-        });
-
-        const shouldUpdate = await ask(
-          `Version ${update.version} is available.\n\nRelease Notes:\n${update.notes || 'No release notes available'}\n\nWould you like to update now?`,
-          { 
+        const confirm = await ask(
+          `A new version (${update.version}) is available.\n\n${update.body || ''}\n\nDownload and install now?`,
+          {
             title: 'Update Available',
-            type: 'info'
+            kind: 'info',
+            okLabel: 'Yes',
+            cancelLabel: 'No'
           }
         );
-
-        if (shouldUpdate) {
-          console.log('Starting update installation...');
+        if (!confirm) return;
+  
+        try {
           await update.downloadAndInstall();
-          console.log('Update downloaded and installed');
-          await message('Update installed. The application will restart.', {
-            title: 'Success',
-            type: 'info'
+          await message('Update downloaded. The application will restart now.', {
+            title: 'Update Ready',
+            kind: 'info'
           });
-        } else {
-          console.log('User declined update');
+          await invoke('graceful_restart');
+        } catch (err) {
+          console.error('Download/Install error:', err);
+          await message(`Failed to download/install update: ${err}`, {
+            title: 'Update Failed',
+            kind: 'error'
+          });
         }
       } else {
-        console.log('No update available');
-        await message('You are on the latest version.', {
+        await message('You are already on the latest version.', {
           title: 'Up to Date',
-          type: 'info'
+          kind: 'info'
         });
       }
-    } catch (error) {
-      console.error('Update error:', error);
-      await logError('handleUpdate', error);
-
-      let errorMessage = 'Failed to check for updates. ';
-      if (error.message.includes('network')) {
-        errorMessage += 'Please check your internet connection.';
-      } else if (error.message.includes('signature')) {
-        errorMessage += 'Update signature verification failed.';
-      } else if (error.message.includes('download')) {
-        errorMessage += 'Failed to download the update.';
-      } else {
-        errorMessage += error.message || 'Unknown error occurred.';
-      }
-
-      await message(errorMessage, { 
-        title: 'Update Error',
-        type: 'error'
+    } catch (err) {
+      console.error('Update check error:', err);
+      await message(`Error checking updates: ${err}`, {
+        title: 'Update Failed',
+        kind: 'error'
       });
     }
-  };
+  }
 
   return (
     <>
@@ -184,7 +145,7 @@ const InfoButton = () => {
         </DialogContent>
         <DialogActions style={{ backgroundColor: 'var(--background-color)' }}>
           <Button onClick={handleUpdate} style={{ color: 'var(--primary-color)' }}>
-            Check for Updates
+            Update
           </Button>
           <Button onClick={handleClose} style={{ color: 'var(--primary-color)' }}>
             Close
